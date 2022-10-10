@@ -74,7 +74,7 @@ main (int argc, char *argv[])
 
 	fprintf(stdout, "hw_params rate setted\n");
 
-	if ((err = snd_pcm_hw_params_set_channels (capture_handle, hw_params, 2)) < 0) {
+	if ((err = snd_pcm_hw_params_set_channels (capture_handle, hw_params, 1)) < 0) {
 		fprintf (stderr, "cannot set channel count (%s)\n",
 		         snd_strerror (err));
 		exit (1);
@@ -102,6 +102,7 @@ main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
+	// channel数が1なので、8*1
 	buffer = (char*)malloc(128 * snd_pcm_format_width(format) / 8 * 1);
 
 	fprintf(stdout, "buffer allocated\n");
