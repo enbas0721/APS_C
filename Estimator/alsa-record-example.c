@@ -102,7 +102,7 @@ main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	buffer = malloc((char)128 * snd_pcm_format_width(format) / 8 * 1);
+	buffer = (char*)malloc(128 * snd_pcm_format_width(format) / 8 * 1);
 
 	fprintf(stdout, "buffer allocated\n");
 
