@@ -114,6 +114,7 @@ main (int argc, char *argv[])
 			exit (1);
 		}
 		fprintf(stdout, "read %d done\n", i);
+		fprintf(stdout, "Read buffer was %c \n", buffer);
 	}
 
 	free(buffer);
