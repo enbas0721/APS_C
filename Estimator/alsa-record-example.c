@@ -102,6 +102,14 @@ main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
+	FILE *outputfile;
+	outputfile = fopen(argv[2], "w");
+	if (outputfile == NULL)
+	{
+		fprintf(stdout, "Couldn't open file\n");
+		exit(1);
+	}
+
 	// channel数が1なので、8*1
 	buffer = (char*)malloc(128 * snd_pcm_format_width(format) / 8 * 1);
 
@@ -114,13 +122,16 @@ main (int argc, char *argv[])
 			exit (1);
 		}
 		fprintf(stdout, "read %d done\n", i);
-		fprintf(stdout, "Read buffer was %d \n", err);
+		for (int j = 0; j < buffer_frames; j++) {
+			fputc(buffer[j], outputfile);
+		}
 	}
 
 	free(buffer);
 
 	fprintf(stdout, "buffer freed\n");
 
+	fclose(outputfile);
 	snd_pcm_close (capture_handle);
 	fprintf(stdout, "audio interface closed\n");
 
