@@ -76,6 +76,7 @@ void main (int argc, char *argv[])
 	unsigned char header[44];
 	header = make_wave_header();
 	outputfile = fopen(argv[2], "w");
+	//wavファイル用のheaderを書き出す
 	fwrite(head, sizeof(head), 1, outputfile);
 
 	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
@@ -173,9 +174,7 @@ void main (int argc, char *argv[])
 			exit (1);
 		}
 		fprintf(stdout, "read %d done\n", i);
-		for (int j = 0; j < buffer_frames; j++) {
-			fputc(buffer[j], outputfile);
-		}
+		fwrite(buffer, sizeof(buffer), 1, outputfile);
 	}
 
 	free(buffer);
