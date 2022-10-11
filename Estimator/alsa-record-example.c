@@ -13,9 +13,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <alsa/asoundlib.h>
+#include <time.h>
 
 #define SMPL 44100
-#define	BIT 8
+#define BIT 8
 
 void make_wave_header(FILE *fp, size_t size){
 	size_t filesize;
@@ -172,14 +173,17 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "buffer allocated\n");
 
-	for (i = 0; i < 1000; ++i) {
+	time_t start_time = time(NULL);
+	time_t elapsed_time = time(NULL) - start_time;
+	while (elapsed_time < 10.0f) {
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
 			exit (1);
 		}
-		fprintf(stdout, "read %d done\n", i);
+		// fprintf(stdout, "read %d done\n", i);
 		fwrite(buffer, sizeof(buffer), 1, outputfile);
+		elapsed_time = time(NULL) - start_time;
 	}
 
 	free(buffer);
