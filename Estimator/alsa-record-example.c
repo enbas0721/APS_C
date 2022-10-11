@@ -14,7 +14,11 @@
 #include <stdlib.h>
 #include <alsa/asoundlib.h>
 
-unsigned char make_wave_header(){
+#define SMPL 44100
+#define	BIT 8
+
+void make_wave_header(FILE *fp, size_t size){
+	size_t filesize;
 	unsigned char head[44];
 
 	/* RIFFヘッダ (8バイト) */
@@ -58,26 +62,27 @@ unsigned char make_wave_header(){
 	head[42] = size >> 16 & 0xff;
 	head[43] = size >> 24 & 0xff;
 
-	return head;
+	fwrite(head, sizeof(head), 1, fp);
 }
 
-void main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
 	int i;
 	int err;
 	char *buffer;
 	int buffer_frames = 128;
-	unsigned int rate = 44100;
+	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
 	FILE *outputfile;
 	unsigned char header[44];
-	header = make_wave_header();
+	//10秒間分のファイルサイズを確保
+	size_t size = 10 * (SMPL * (BIT/8));
 	outputfile = fopen(argv[2], "w");
 	//wavファイル用のheaderを書き出す
-	fwrite(head, sizeof(head), 1, outputfile);
+	make_wave_header(outputfile, size);
 
 	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stderr, "cannot open audio device %s (%s)\n",
@@ -186,4 +191,5 @@ void main (int argc, char *argv[])
 	fprintf(stdout, "audio interface closed\n");
 
 	exit (0);
+	return 0;
 }
