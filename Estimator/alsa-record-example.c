@@ -14,7 +14,54 @@
 #include <stdlib.h>
 #include <alsa/asoundlib.h>
 
-main (int argc, char *argv[])
+unsigned char make_wave_header(){
+	unsigned char head[44];
+
+	/* RIFFヘッダ (8バイト) */
+	memcpy(head, "RIFF", 4);
+	filesize = sizeof(head) + size;
+	head[4] = (filesize - 8) >> 0  & 0xff;
+	head[5] = (filesize - 8) >> 8  & 0xff;
+	head[6] = (filesize - 8) >> 16 & 0xff;
+	head[7] = (filesize - 8) >> 24 & 0xff;
+
+	/* WAVEヘッダ (4バイト) */
+	memcpy(head + 8, "WAVE", 4);
+
+	/* fmtチャンク (24バイト) */
+	memcpy(head + 12, "fmt ", 4);
+	head[16] = 16;
+	head[17] = 0;
+	head[18] = 0;
+	head[19] = 0;
+	head[20] = 1;
+	head[21] = 0;
+	head[22] = 1;
+	head[23] = 0;
+	head[24] = SMPL >> 0  & 0xff;
+	head[25] = SMPL >> 8  & 0xff;
+	head[26] = SMPL >> 16 & 0xff;
+	head[27] = SMPL >> 24 & 0xff;
+	head[28] = (SMPL * (BIT / 8)) >> 0  & 0xff;
+	head[29] = (SMPL * (BIT / 8)) >> 8  & 0xff;
+	head[30] = (SMPL * (BIT / 8)) >> 16 & 0xff;
+	head[31] = (SMPL * (BIT / 8)) >> 24 & 0xff;
+	head[32] = (BIT / 8) >> 0 & 0xff;
+	head[33] = (BIT / 8) >> 8 & 0xff;
+	head[34] = BIT >> 0 & 0xff;
+	head[35] = BIT >> 8 & 0xff;
+
+	/* dataチャンク (8 + size バイト) */
+	memcpy(head + 36, "data", 4);
+	head[40] = size >> 0  & 0xff;
+	head[41] = size >> 8  & 0xff;
+	head[42] = size >> 16 & 0xff;
+	head[43] = size >> 24 & 0xff;
+
+	return head;
+}
+
+void main (int argc, char *argv[])
 {
 	int i;
 	int err;
@@ -24,6 +71,12 @@ main (int argc, char *argv[])
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
+
+	FILE *outputfile;
+	unsigned char header[44];
+	header = make_wave_header();
+	outputfile = fopen(argv[2], "w");
+	fwrite(head, sizeof(head), 1, outputfile);
 
 	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stderr, "cannot open audio device %s (%s)\n",
@@ -102,8 +155,6 @@ main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	FILE *outputfile;
-	outputfile = fopen(argv[2], "w");
 	if (outputfile == NULL)
 	{
 		fprintf(stdout, "Couldn't open file\n");
