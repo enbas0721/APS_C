@@ -184,8 +184,8 @@ int main (int argc, char *argv[])
 		}
 		// fprintf(stdout, "size of buffer  %d\n", sizeof(buffer));
 		// for (int i = 0; i < sizeof(buffer); i++) {
-			// fprintf(outputfile, "%s", buffer[i]);
-			// fwrite(buffer, sizeof(buffer), 1, outputfile);
+		// fprintf(outputfile, "%s", buffer[i]);
+		// fwrite(buffer, sizeof(buffer), 1, outputfile);
 		// }
 		fputs(buffer, outputfile);
 		elapsed_time = time(NULL) - start_time;
