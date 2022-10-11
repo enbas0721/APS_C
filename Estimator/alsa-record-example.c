@@ -175,13 +175,13 @@ int main (int argc, char *argv[])
 
 	time_t start_time = time(NULL);
 	time_t elapsed_time = time(NULL) - start_time;
-	while (elapsed_time < 10.0f) {
+	while (elapsed_time < 5.0f) {
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
 			exit (1);
 		}
-		// fprintf(stdout, "read %d done\n", i);
+		fprintf(stdout, "elapsed  %d sec\n", elapsed_time);
 		fwrite(buffer, sizeof(buffer), 1, outputfile);
 		elapsed_time = time(NULL) - start_time;
 	}
