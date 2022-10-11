@@ -75,7 +75,7 @@ int main (int argc, char *argv[])
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
-	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
+	snd_pcm_format_t format = SND_PCM_FORMAT_S8;
 
 	FILE *outputfile;
 	unsigned char header[44];
