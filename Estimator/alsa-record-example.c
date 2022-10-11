@@ -169,7 +169,7 @@ int main (int argc, char *argv[])
 	}
 
 	// channel数が1なので、8*1
-	buffer = (char*)malloc(128 * snd_pcm_format_width(format) / 8 * 1);
+	buffer = (char*)malloc(1024 * snd_pcm_format_width(format) / 8 * 1);
 
 	fprintf(stdout, "buffer allocated\n");
 
