@@ -182,7 +182,10 @@ int main (int argc, char *argv[])
 			exit (1);
 		}
 		fprintf(stdout, "elapsed  %d sec\n", elapsed_time);
-		fwrite(buffer, sizeof(buffer), 1, outputfile);
+		for (int i = 0; i < sizeof(buffer); i++) {
+			fprintf(outputfile, "%s", buffer[i]);
+			// fwrite(buffer, sizeof(buffer), 1, outputfile);
+		}
 		elapsed_time = time(NULL) - start_time;
 	}
 
