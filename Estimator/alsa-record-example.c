@@ -16,7 +16,7 @@
 #include <time.h>
 
 #define SMPL 44100
-#define BIT 8
+#define BIT 16
 
 void make_wave_header(FILE *fp, size_t size){
 	size_t filesize;
@@ -75,7 +75,7 @@ int main (int argc, char *argv[])
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
-	snd_pcm_format_t format = SND_PCM_FORMAT_S8;
+	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
 	FILE *outputfile;
 	unsigned char header[44];
