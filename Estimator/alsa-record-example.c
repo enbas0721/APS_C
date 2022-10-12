@@ -170,6 +170,7 @@ int main (int argc, char *argv[])
 
 	// channel数が1なので、8*1
 	buffer = (char*)malloc(1024 * snd_pcm_format_width(format) / 8 * 1);
+	fprintf(stdout, "snd_pcm_format_width(format): %d",snd_pcm_format_width(format));
 
 	fprintf(stdout, "buffer allocated\n");
 
@@ -181,7 +182,7 @@ int main (int argc, char *argv[])
 			         err, snd_strerror (err));
 			exit (1);
 		}
-		fprintf(stdout, "elapsed  %d sec\n", elapsed_time);
+		// fprintf(stdout, "size of buffer  %d\n", sizeof(buffer));
 		// for (int i = 0; i < sizeof(buffer); i++) {
 			// fprintf(outputfile, "%s", buffer[i]);
 			// fwrite(buffer, sizeof(buffer), 1, outputfile);
