@@ -7,8 +7,7 @@
    From on Paul David's tutorial : http://equalarea.com/paul/alsa-audio.html
    Fixes rate and buffer problems
    sudo apt-get install libasound2-dev
-   gcc -o alsa-record-example -lasound alsa-record-example.c
-   ./alsa-record-example hw:0
+   gcc -o alsa-record-example -lasound alsa-record-example.c && ./alsa-record-example hw:0
  */
 
 #include <stdio.h>
