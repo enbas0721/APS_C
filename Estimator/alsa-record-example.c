@@ -31,7 +31,7 @@ int main (int argc, char *argv[])
 
 	// Wavファイル作成用
 	WAV_PRM prm;
-	double *captured_data;
+	double *record_data;
 	char filename[64] = "output.wav";
 
 	if (argc != 3) {
@@ -47,6 +47,8 @@ int main (int argc, char *argv[])
 	prm.fs = SMPL;
 	prm.bits = BIT;
 	prm.L =  int(prm.fs * recording_time);
+
+	fprintf(stdout, "%d\n", prm.L);
 
 	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stderr, "cannot open audio device %s (%s)\n",
@@ -125,7 +127,7 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	captured_data = calloc(prm.L, sizeof(double));
+	record_data = calloc(prm.L, sizeof(double));
 	// channel数が1なので、8*1
 	buffer = (char*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 
@@ -144,10 +146,10 @@ int main (int argc, char *argv[])
 		elapsed_time = time(NULL) - start_time;
 	}
 
-	audio_write(captured_data, &prm, filename);
+	audio_write(record_data, &prm, filename);
 
 	free(buffer);
-	free(captured_data);
+	free(record_data);
 
 	fprintf(stdout, "buffer freed\n");
 	snd_pcm_close (capture_handle);
