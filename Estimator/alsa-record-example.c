@@ -125,7 +125,7 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	captured_data = calloc(pcm.L, sizeof(double));
+	captured_data = calloc(prm.L, sizeof(double));
 	// channel数が1なので、8*1
 	buffer = (char*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 
@@ -144,7 +144,7 @@ int main (int argc, char *argv[])
 		elapsed_time = time(NULL) - start_time;
 	}
 
-	audio_write(data, &prm, filename);
+	audio_write(captured_data, &prm, filename);
 
 	free(buffer);
 	free(data);
