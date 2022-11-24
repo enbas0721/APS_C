@@ -15,6 +15,8 @@
 #include <alsa/asoundlib.h>
 #include <time.h>
 
+#include <math.h>
+
 #define SMPL 44100
 #define BIT 16
 
@@ -186,14 +188,17 @@ int main (int argc, char *argv[])
 		// fprintf(outputfile, "%s", buffer[i]);
 		// fwrite(buffer, sizeof(buffer), 1, outputfile);
 		// }
-		fputs(buffer, outputfile);
+		char* test_buffer = (char*)malloc(buffer_frames * snd_pcm_format_width(format) / 8 * 1);
+		for (int i = 0; i < sizeof(test_buffer); i++) {
+			test_buffer[i] = sin(i)
+		}
+		fputs(test_buffer, outputfile);
 		elapsed_time = time(NULL) - start_time;
 	}
 
 	free(buffer);
 
 	fprintf(stdout, "buffer freed\n");
-
 	fclose(outputfile);
 	snd_pcm_close (capture_handle);
 	fprintf(stdout, "audio interface closed\n");
