@@ -191,7 +191,7 @@ int main (int argc, char *argv[])
 		char* test_buffer = (char*)malloc(buffer_frames * snd_pcm_format_width(format) / 8 * 1);
 		for (int i = 0; i < sizeof(test_buffer); i++) {
 			test_buffer[i] = sin(i);
-			fprintf(stdout, "buffer size: %d\n test buffer size: %d\n", sizeof(test_buffer));
+			fprintf(stdout, "buffer size: %d\n test buffer size: %d\n", sizeof(buffer), sizeof(test_buffer));
 		}
 		fputs(test_buffer, outputfile);
 		elapsed_time = time(NULL) - start_time;
