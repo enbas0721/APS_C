@@ -46,7 +46,7 @@ int main (int argc, char *argv[])
 	// パラメータコピー
 	prm.fs = SMPL;
 	prm.bits = BIT;
-	prm.L =  prm.fs * recording_time;
+	prm.L =  int(prm.fs * recording_time);
 
 	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stderr, "cannot open audio device %s (%s)\n",
@@ -147,7 +147,7 @@ int main (int argc, char *argv[])
 	audio_write(captured_data, &prm, filename);
 
 	free(buffer);
-	free(data);
+	free(captured_data);
 
 	fprintf(stdout, "buffer freed\n");
 	snd_pcm_close (capture_handle);
