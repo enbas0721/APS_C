@@ -1,21 +1,15 @@
 /*
-   A Minimal Capture Program
-   This program opens an audio interface for capture, configures it for
-   stereo, 16 bit, 44.1kHz, interleaved conventional read/write
-   access. Then its reads a chunk of random data from it, and exits. It
-   isn't meant to be a real program.
    From on Paul David's tutorial : http://equalarea.com/paul/alsa-audio.html
    Fixes rate and buffer problems
    sudo apt-get install libasound2-dev
-   gcc -o alsa-record-example -lasound alsa-record-example.c && ./alsa-record-example hw:0
+   g++ -o record.out alsa-record-example.c -lasound
+   ./record.out hw:1 test.wav
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <alsa/asoundlib.h>
 #include <time.h>
-
-#include <math.h>
 
 #define SMPL 44100
 #define BIT 16
@@ -188,12 +182,7 @@ int main (int argc, char *argv[])
 		// fprintf(outputfile, "%s", buffer[i]);
 		// fwrite(buffer, sizeof(buffer), 1, outputfile);
 		// }
-		char* test_buffer = (char*)malloc(buffer_frames * snd_pcm_format_width(format) / 8 * 1);
-		for (int i = 0; i < sizeof(test_buffer); i++) {
-			test_buffer[i] = char(sin(i));
-			fprintf(stdout, "buffer size: %d\n test buffer size: %d\n", sizeof(buffer), sizeof(test_buffer));
-		}
-		fputs(test_buffer, outputfile);
+		fputs(buffer, outputfile);
 		elapsed_time = time(NULL) - start_time;
 	}
 
