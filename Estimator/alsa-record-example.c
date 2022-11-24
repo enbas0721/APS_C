@@ -171,7 +171,7 @@ int main (int argc, char *argv[])
 	}
 
 	// channel数が1なので、8*1
-	buffer = (char*)malloc(buffer_frames * snd_pcm_format_width(format) / 8 * 1);
+	buffer = (char*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 
 	fprintf(stdout, "buffer allocated\n");
 
@@ -190,7 +190,7 @@ int main (int argc, char *argv[])
 		// }
 		char* test_buffer = (char*)malloc(buffer_frames * snd_pcm_format_width(format) / 8 * 1);
 		for (int i = 0; i < sizeof(test_buffer); i++) {
-			test_buffer[i] = sin(i);
+			test_buffer[i] = char(sin(i));
 			fprintf(stdout, "buffer size: %d\n test buffer size: %d\n", sizeof(buffer), sizeof(test_buffer));
 		}
 		fputs(test_buffer, outputfile);
