@@ -190,7 +190,7 @@ int main (int argc, char *argv[])
 		// }
 		char* test_buffer = (char*)malloc(buffer_frames * snd_pcm_format_width(format) / 8 * 1);
 		for (int i = 0; i < sizeof(test_buffer); i++) {
-			test_buffer[i] = sin(i)
+			test_buffer[i] = sin(i);
 		}
 		fputs(test_buffer, outputfile);
 		elapsed_time = time(NULL) - start_time;
