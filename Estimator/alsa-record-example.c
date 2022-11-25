@@ -128,18 +128,15 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "audio interface prepared\n");
 
 	record_data = calloc(prm.L, sizeof(double));
-	// channel数が1なので、8*1
-	buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
+	// buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
+	buffer = (double*)malloc(sizeof(double)*buffer_frames);
 
 	fprintf(stdout, "buffer allocated\n");
 
 	time_t start_time = time(NULL);
 	time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
-	while (current_index < sizeof(record_data)) {
-		for (int n = 0; n < sizeof(buffer); n++) {
-			buffer[n] = sin(n);
-		}
+	while (current_index < prm.L) {
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
@@ -155,7 +152,7 @@ int main (int argc, char *argv[])
 
 	audio_write(record_data, &prm, filename);
 
-	for (int i = 0; i < sizeof(record_data); i++) {
+	for (int i = 0; i < prm.L; i++) {
 		fprintf(stdout, "%f\n", record_data[i]);
 	}
 
