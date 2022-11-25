@@ -133,6 +133,7 @@ int main (int argc, char *argv[])
 
 	time_t start_time = time(NULL);
 	time_t elapsed_time = time(NULL) - start_time;
+	int current_index = 0;
 	while (elapsed_time < recording_time) {
 		for (int n = 0; n < sizeof(buffer); n++) {
 			buffer[n] = 0;
@@ -142,7 +143,10 @@ int main (int argc, char *argv[])
 			         err, snd_strerror (err));
 			exit (1);
 		} else {
-			fprintf(stdout, "Buffered data %f\n",buffer[0]);
+			for (int i = current_index; i < current_index + err; i++) {
+				record_data[i] = buffer[i-current_index]
+			}
+			current_index = i;
 		}
 		elapsed_time = time(NULL) - start_time;
 	}
