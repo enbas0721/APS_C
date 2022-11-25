@@ -155,6 +155,10 @@ int main (int argc, char *argv[])
 
 	audio_write(record_data, &prm, filename);
 
+	for (int i = 0; i < sizeof(record_data); i++) {
+		fprintf(stdout, "%f\n", record_data[i]);
+	}
+
 	free(buffer);
 	free(record_data);
 
