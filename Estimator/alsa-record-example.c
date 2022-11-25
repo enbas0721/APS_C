@@ -134,6 +134,9 @@ int main (int argc, char *argv[])
 	time_t start_time = time(NULL);
 	time_t elapsed_time = time(NULL) - start_time;
 	while (elapsed_time < recording_time) {
+		for (int n = 0; n < sizeof(buffer); n++) {
+			buffer[n] = 0;
+		}
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
