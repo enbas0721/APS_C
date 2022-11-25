@@ -2,7 +2,7 @@
    From on Paul David's tutorial : http://equalarea.com/paul/alsa-audio.html
    Fixes rate and buffer problems
    sudo apt-get install libasound2-dev
-   g++ -o record.out alsa-record-example.c -lasound
+   gcc -o record.out alsa-record-example.c WavManager/audioio.c -lasound
    ./record.out hw:1 test.wav
  */
 
@@ -127,7 +127,7 @@ int main (int argc, char *argv[])
 
 	record_data = calloc(prm.L, sizeof(double));
 	// channel数が1なので、8*1
-	buffer = (char*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
+	buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 
 	fprintf(stdout, "buffer allocated\n");
 
