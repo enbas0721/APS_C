@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 
 	//書き込み
 	audio_write(data_out, &prm_out, filename);
+	fprintf(stdout, "%d\n", sizeof(data_out));
 
 	//メモリ解放
 	free(data_in);
