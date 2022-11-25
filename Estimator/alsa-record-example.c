@@ -129,7 +129,7 @@ int main (int argc, char *argv[])
 
 	record_data = calloc(prm.L, sizeof(double));
 	// buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
-	buffer = (double*)malloc(sizeof(double)*buffer_frames);
+	buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 
 	fprintf(stdout, "buffer allocated\n");
 
