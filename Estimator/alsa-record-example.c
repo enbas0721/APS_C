@@ -127,7 +127,7 @@ int main (int argc, char *argv[])
 
 	record_data = calloc(prm.L, sizeof(double));
 	// channel数が1なので、8*1
-	buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
+	buffer = (char*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 
 	fprintf(stdout, "buffer allocated\n");
 
@@ -139,7 +139,7 @@ int main (int argc, char *argv[])
 			         err, snd_strerror (err));
 			exit (1);
 		} else {
-			fprintf(stdout, "Captured frame number %d\n",err);
+			fprintf(stdout, "Buffered data %d\n",strtod(buffer[0]));
 		}
 		elapsed_time = time(NULL) - start_time;
 	}
