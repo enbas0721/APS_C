@@ -144,7 +144,7 @@ int main (int argc, char *argv[])
 			exit (1);
 		} else {
 			for (int i = current_index; i < current_index + err; i++) {
-				record_data[i] = buffer[i-current_index]
+				record_data[i] = buffer[i-current_index];
 			}
 			current_index = i;
 		}
