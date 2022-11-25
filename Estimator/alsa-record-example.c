@@ -3,7 +3,7 @@
    Fixes rate and buffer problems
    sudo apt-get install libasound2-dev
    gcc -o record.out alsa-record-example.c WavManager/audioio.c -lasound
-   ./record.out hw:1 test.wav
+   ./record.out hw:1
  */
 
 #include <stdio.h>
@@ -11,6 +11,8 @@
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 #include <time.h>
+
+#include <math.h>
 
 #define SMPL 44100
 #define BIT 16
@@ -34,10 +36,10 @@ int main (int argc, char *argv[])
 	double *record_data;
 	char filename[64] = "output.wav";
 
-	if (argc != 3) {
-		printf("Not enough argument(s). This needs 2 arguments.\n");
-		exit(1);
-	}
+	// if (argc != 2) {
+	// 	printf("Not enough argument(s). This needs 1 arguments.\n");
+	// 	exit(1);
+	// }
 
 	// for (i = 0; n < sizeof(argv[1]); n++) {
 	// 	filename[n] = argv[1][n];
@@ -136,7 +138,7 @@ int main (int argc, char *argv[])
 	int current_index = 0;
 	while (current_index < sizeof(record_data)) {
 		for (int n = 0; n < sizeof(buffer); n++) {
-			buffer[n] = 0;
+			buffer[n] = sin(n);
 		}
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stderr, "read from audio interface failed (%s)\n",
