@@ -143,10 +143,13 @@ int main (int argc, char *argv[])
 			         err, snd_strerror (err));
 			exit (1);
 		} else {
-			for (int i = current_index; i < current_index + err; i++) {
-				record_data[i] = buffer[i-current_index];
+			// for (int i = current_index; i < current_index + err; i++) {
+			// 	record_data[i] = buffer[i-current_index];
+			// }
+			// current_index = i;
+			for (int i = 0; i < err; i++) {
+				record_data[i] = buffer[i];
 			}
-			current_index = i;
 		}
 		elapsed_time = time(NULL) - start_time;
 	}
