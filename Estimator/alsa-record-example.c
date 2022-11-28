@@ -22,7 +22,7 @@ int main (int argc, char *argv[])
 	// バッファ系の変数
 	int i;
 	int err;
-	double *buffer;
+	char *buffer;
 	int buffer_frames = 1024;
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
@@ -33,7 +33,7 @@ int main (int argc, char *argv[])
 
 	// Wavファイル作成用
 	WAV_PRM prm;
-	double *record_data;
+	char *record_data;
 	char filename[64] = "output.wav";
 
 	// if (argc != 2) {
@@ -127,9 +127,10 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	record_data = calloc(prm.L, sizeof(double));
-	// buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
-	buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
+	// record_data = calloc(prm.L, sizeof(double));
+	// buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
+	record_data = calloc(prm.L, sizeof(char));
+	buffer = (char*)malloc(sizeof(char)*buffer_frames*snd_pcm_format_width(format));
 
 	for (int i = 0; i < 5; i++) {
 		fprintf(stdout, "%f ", buffer[i]);
