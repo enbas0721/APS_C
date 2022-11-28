@@ -131,16 +131,17 @@ int main (int argc, char *argv[])
 	// buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 	buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 
+	for (int i = 0; i < 5; i++) {
+		fprintf(stdout, "%f ", buffer[i]);
+	}
+	fprintf(stdout, "\n");
+
 	fprintf(stdout, "buffer allocated\n");
 
 	time_t start_time = time(NULL);
 	time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
 	while ((current_index + 1024) < prm.L) {
-		for (int i = 0; i < 5; i++) {
-			fprintf(stdout, "%f ", buffer[i]);
-		}
-		fprintf(stdout, "\n");
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
