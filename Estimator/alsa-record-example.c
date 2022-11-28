@@ -131,6 +131,11 @@ int main (int argc, char *argv[])
 	// buffer = (double*)malloc((buffer_frames * snd_pcm_format_width(format)) / (8 * 1));
 	buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 
+	for (int i = 0; i < 5; i++) {
+		fprintf(stdout, "%f ", record_data[i]);
+	}
+	fprintf(stdout, "\n", record_data[i]);
+
 	fprintf(stdout, "buffer allocated\n");
 
 	time_t start_time = time(NULL);
@@ -138,6 +143,10 @@ int main (int argc, char *argv[])
 	int current_index = 0;
 	while ((current_index + 1024) < prm.L) {
 		if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames) {
+			for (int i = 0; i < 5; i++) {
+				fprintf(stdout, "%f ", record_data[i]);
+			}
+			fprintf(stdout, "\n", record_data[i]);
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
 			exit (1);
@@ -152,9 +161,10 @@ int main (int argc, char *argv[])
 
 	audio_write(record_data, &prm, filename);
 
-	for (int i = 0; i < prm.L; i++) {
-		fprintf(stdout, "%f\n", record_data[i]);
+	for (int i = 0; i < 5; i++) {
+		fprintf(stdout, "%f ", record_data[i]);
 	}
+	fprintf(stdout, "\n", record_data[i]);
 
 	free(buffer);
 	free(record_data);
