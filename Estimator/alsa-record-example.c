@@ -23,7 +23,7 @@ int main (int argc, char *argv[])
 	int i;
 	int err;
 	double *buffer;
-	int buffer_frames = 1024;
+	int buffer_frames = 512;
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
