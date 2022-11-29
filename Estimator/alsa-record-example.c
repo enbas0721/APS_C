@@ -134,8 +134,8 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "buffer allocated\n");
 
-	time_t start_time = time(NULL);
-	time_t elapsed_time = time(NULL) - start_time;
+	// time_t start_time = time(NULL);
+	// time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
 	int j = 0;
 	while ((current_index + 1024) < prm.L) {
@@ -149,13 +149,12 @@ int main (int argc, char *argv[])
 			fprintf (stderr, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
 			exit (1);
-		} else {
-			for (int i = current_index; i < current_index + err; i++) {
-				record_data[i] = buffer[i-current_index];
-			}
-			current_index = current_index + err;
 		}
-		elapsed_time = time(NULL) - start_time;
+		for (int i = current_index; i < current_index + err; i++) {
+			record_data[i] = buffer[i-current_index];
+		}
+		current_index = current_index + err;
+		// elapsed_time = time(NULL) - start_time;
 	}
 
 	audio_write(record_data, &prm, filename);
