@@ -138,7 +138,7 @@ int main (int argc, char *argv[])
 	// time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
 	int j = 0;
-	while ((current_index + 1024) < prm.L) {
+	while ((current_index + 11024) < prm.L) {
 		fprintf(stdout, "%d\n", j);
 		j++;
 		if ((err = snd_pcm_readn(capture_handle, (void**)buffer, buffer_frames)) != buffer_frames) {
