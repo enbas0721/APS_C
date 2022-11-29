@@ -141,7 +141,7 @@ int main (int argc, char *argv[])
 	while ((current_index + buffer_frames) < prm.L) {
 		fprintf(stdout, "%d\n", j);
 		j++;
-		if ((err = snd_pcm_readn(capture_handle, (void**)buffer, buffer_frames)) != buffer_frames) {
+		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "buffered frame %d\n", err);
 			// fprintf (stdout, "read from audio interface failed (%s)\n",
 			//          err, snd_strerror(err));
