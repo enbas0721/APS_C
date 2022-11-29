@@ -143,7 +143,7 @@ int main (int argc, char *argv[])
 		j++;
 		if ((err = snd_pcm_readn(capture_handle, (void**)buffer, buffer_frames)) != buffer_frames) {
 			fprintf (stdout, "read from audio interface failed (%s)\n",
-			         err, snd_strerror (err));
+			         err, snd_strerror(err));
 			exit (1);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
