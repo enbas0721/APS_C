@@ -63,7 +63,7 @@ double *audio_read(WAV_PRM *prm, char *filename)
 	return data;
 }
 
-void audio_write(double  *data, WAV_PRM *prm, double *filename)
+void audio_write(double  *data, WAV_PRM *prm, char *filename)
 {
 	//変数宣言
 	FILE *fp;
