@@ -51,7 +51,7 @@ int main (int argc, char *argv[])
 	prm.L =  prm.fs * recording_time;
 
 	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
-		fprintf (stderr, "cannot open audio device %s (%s)\n",
+		fprintf (stdout, "cannot open audio device %s (%s)\n",
 		         argv[1],
 		         snd_strerror (err));
 		exit (1);
@@ -60,7 +60,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "audio interface opened\n");
 
 	if ((err = snd_pcm_hw_params_malloc (&hw_params)) < 0) {
-		fprintf (stderr, "cannot allocate hardware parameter structure (%s)\n",
+		fprintf (stdout, "cannot allocate hardware parameter structure (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -68,7 +68,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params allocated\n");
 
 	if ((err = snd_pcm_hw_params_any (capture_handle, hw_params)) < 0) {
-		fprintf (stderr, "cannot initialize hardware parameter structure (%s)\n",
+		fprintf (stdout, "cannot initialize hardware parameter structure (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -76,7 +76,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params initialized\n");
 
 	if ((err = snd_pcm_hw_params_set_access (capture_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) < 0) {
-		fprintf (stderr, "cannot set access type (%s)\n",
+		fprintf (stdout, "cannot set access type (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -84,7 +84,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params access setted\n");
 
 	if ((err = snd_pcm_hw_params_set_format (capture_handle, hw_params, format)) < 0) {
-		fprintf (stderr, "cannot set sample format (%s)\n",
+		fprintf (stdout, "cannot set sample format (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -92,7 +92,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params format setted\n");
 
 	if ((err = snd_pcm_hw_params_set_rate_near (capture_handle, hw_params, &rate, 0)) < 0) {
-		fprintf (stderr, "cannot set sample rate (%s)\n",
+		fprintf (stdout, "cannot set sample rate (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -100,7 +100,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params rate setted\n");
 
 	if ((err = snd_pcm_hw_params_set_channels (capture_handle, hw_params, 1)) < 0) {
-		fprintf (stderr, "cannot set channel count (%s)\n",
+		fprintf (stdout, "cannot set channel count (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -108,7 +108,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params channels setted\n");
 
 	if ((err = snd_pcm_hw_params (capture_handle, hw_params)) < 0) {
-		fprintf (stderr, "cannot set parameters (%s)\n",
+		fprintf (stdout, "cannot set parameters (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -120,7 +120,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "hw_params freed\n");
 
 	if ((err = snd_pcm_prepare (capture_handle)) < 0) {
-		fprintf (stderr, "cannot prepare audio interface for use (%s)\n",
+		fprintf (stdout, "cannot prepare audio interface for use (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -138,7 +138,7 @@ int main (int argc, char *argv[])
 	// time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
 	int j = 0;
-	while ((current_index + 11024) < prm.L) {
+	while ((current_index + buffer_frames) < prm.L) {
 		fprintf(stdout, "%d\n", j);
 		j++;
 		if ((err = snd_pcm_readn(capture_handle, (void**)buffer, buffer_frames)) != buffer_frames) {
@@ -146,7 +146,7 @@ int main (int argc, char *argv[])
 				fprintf(stdout, "%f ", buffer[i]);
 			}
 			fprintf(stdout, "\n");
-			fprintf (stderr, "read from audio interface failed (%s)\n",
+			fprintf (stdout, "read from audio interface failed (%s)\n",
 			         err, snd_strerror (err));
 			exit (1);
 		}
