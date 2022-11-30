@@ -30,7 +30,7 @@ int main (int argc, char *argv[])
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
-	double recording_time = 4.0f;
+	double recording_time = 10.0f;
 
 	// Wavファイル作成用
 	WAV_PRM prm;
