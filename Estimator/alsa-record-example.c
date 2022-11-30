@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 #include <time.h>
@@ -22,8 +23,8 @@ int main (int argc, char *argv[])
 	// バッファ系の変数
 	int i;
 	int err;
-	double *buffer;
-	int buffer_frames = 512;
+	int16_t *buffer;
+	int buffer_frames = 1024;
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
@@ -33,7 +34,7 @@ int main (int argc, char *argv[])
 
 	// Wavファイル作成用
 	WAV_PRM prm;
-	double *record_data;
+	int16_t *record_data;
 	char filename[64] = "output.wav";
 
 	// if (argc != 2) {
@@ -141,7 +142,7 @@ int main (int argc, char *argv[])
 	while ((current_index + buffer_frames) < prm.L) {
 		fprintf(stdout, "%d\n", j);
 		j++;
-		if ((err = snd_pcm_readi(capture_handle, buffer, buffer_frames)) != buffer_frames) {
+		if ((err = snd_pcm_readi(capture_handle, (const void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "buffered frame %d\n", err);
 			// fprintf (stdout, "read from audio interface failed (%s)\n",
 			//          err, snd_strerror(err));

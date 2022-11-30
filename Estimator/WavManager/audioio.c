@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "audioio.h"
 
 double *audio_read(WAV_PRM *prm, char *filename)
@@ -63,7 +64,7 @@ double *audio_read(WAV_PRM *prm, char *filename)
 	return data;
 }
 
-void audio_write(double  *data, WAV_PRM *prm, char *filename)
+void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 {
 	//変数宣言
 	FILE *fp;
@@ -110,7 +111,7 @@ void audio_write(double  *data, WAV_PRM *prm, char *filename)
 	fmt_channel = 1;
 	fmt_samples_per_sec = prm->fs;
 	fmt_bytes_per_sec = prm->fs * prm->bits / 8;
-	fmt_block_size = prm->bits / 8;
+	fmt_block_size = (fmt_channel * prm->bits) / 8;
 	fmt_bits_per_sample = prm->bits;
 
 	fwrite(fmt_ID, 1, 4, fp);
