@@ -136,14 +136,14 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	fp = fopen(filename, "wb");
 	for (n = 0; n < prm->L; n++) {
 		// リミッター
-		if (data[n] > 1) {
-			data_data = 32767;
-		} else if (data[n] < -1) {
-			data_data = -32767;
-		} else {
-			data_data = (short)(data[n] * 32767.0);
-		}
-		fwrite(&data_data, 2, 1, fp);
+		// if (data[n] > 1) {
+		// 	data_data = 32767;
+		// } else if (data[n] < -1) {
+		// 	data_data = -32767;
+		// } else {
+		// 	data_data = (short)(data[n] * 32767.0);
+		// }
+		fwrite(&data, 2, 1, fp);
 	}
 	fclose(fp);
 }
