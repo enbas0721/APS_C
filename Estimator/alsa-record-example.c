@@ -145,11 +145,17 @@ int main (int argc, char *argv[])
 		}
 		fprintf(stdout, "Read buffer first 5: ");
 		for(int j = 0; j < 5; j++) {
-			fprintf(stdout, "%d\n", buffer[j]);
+			fprintf(stdout, "%d ", buffer[j]);
 		}
+		printf("\n");
 		for (int i = current_index; i < current_index + err; i++) {
 			record_data[i] = buffer[i-current_index];
 		}
+		fprintf(stdout, "Record data first 5: ");
+		for(int j = current_index; j < current_index + 5; j++) {
+			fprintf(stdout, "%d ", record_data[j]);
+		}
+		printf("\n");
 		current_index = current_index + err;
 		// elapsed_time = time(NULL) - start_time;
 	}
