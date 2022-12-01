@@ -23,7 +23,7 @@ int main (int argc, char *argv[])
 	// バッファ系の変数
 	int i;
 	int err;
-	double *buffer;
+	int16_t *buffer;
 	int buffer_frames = 1024;
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
@@ -34,7 +34,7 @@ int main (int argc, char *argv[])
 
 	// Wavファイル作成用
 	WAV_PRM prm;
-	double *record_data;
+	int16_t *record_data;
 	char filename[64] = "output.wav";
 
 	// if (argc != 2) {
@@ -131,7 +131,7 @@ int main (int argc, char *argv[])
 	// record_data = calloc(prm.L, sizeof(double));
 	// buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 	record_data = calloc(prm.L, sizeof(double));
-	buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
+	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
 
 	fprintf(stdout, "buffer allocated\n");
 
