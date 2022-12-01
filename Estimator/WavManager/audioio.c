@@ -143,7 +143,7 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 		// } else {
 		// 	data_data = (short)(data[n] * 32767.0);
 		// }
-		data_data = (short)data[n]*10;
+		data_data = (short)data[n];
 		fwrite(&data_data, 2, 1, fp);
 	}
 	fclose(fp);
