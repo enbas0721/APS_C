@@ -138,13 +138,14 @@ int main (int argc, char *argv[])
 	// time_t start_time = time(NULL);
 	// time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
-	int j = 0;
 	while ((current_index + buffer_frames) < prm.L) {
-		fprintf(stdout, "%d\n", j);
-		j++;
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
+		}
+		fprintf(stdout, "Read buffer first 5: ");
+		for(int j = 0; j < 5; j++) {
+			fprintf(stdout, "%d\n", buffer[j]);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
 			record_data[i] = buffer[i-current_index];
