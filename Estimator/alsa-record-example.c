@@ -149,7 +149,7 @@ int main (int argc, char *argv[])
 			exit (1);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
-			record_data[i] = buffer[i-current_index]/1000;
+			record_data[i] = buffer[i-current_index]/10000;
 		}
 		current_index = current_index + err;
 		// elapsed_time = time(NULL) - start_time;
