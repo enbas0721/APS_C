@@ -143,12 +143,11 @@ int main (int argc, char *argv[])
 		fprintf(stdout, "%d\n", j);
 		j++;
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
-			fprintf(stdout, "buffered frame %d\n", err);
-			// fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
+			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
-			record_data[i] = buffer[i-current_index]/100;
+			record_data[i] = buffer[i-current_index];
 		}
 		current_index = current_index + err;
 		// elapsed_time = time(NULL) - start_time;
