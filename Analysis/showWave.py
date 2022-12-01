@@ -1,3 +1,8 @@
+# wavファイルを読み込んで、波形を表示する。
+# 第一引数にwavファイルのパス
+# 第二、第三引数にグラフのx軸始端、終端を指定することで一部分を切り取ってグラフ表示可能
+# 指定しない場合は、全体が表示される。
+
 import wave
 import numpy as np
 import matplotlib.pyplot as plt

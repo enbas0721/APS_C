@@ -23,7 +23,7 @@ int main (int argc, char *argv[])
 	// バッファ系の変数
 	int i;
 	int err;
-	int16_t *buffer;
+	double *buffer;
 	int buffer_frames = 1024;
 	unsigned int rate = SMPL;
 	snd_pcm_t *capture_handle;
@@ -34,7 +34,7 @@ int main (int argc, char *argv[])
 
 	// Wavファイル作成用
 	WAV_PRM prm;
-	int16_t *record_data;
+	double *record_data;
 	char filename[64] = "output.wav";
 
 	// if (argc != 2) {
@@ -131,7 +131,7 @@ int main (int argc, char *argv[])
 	// record_data = calloc(prm.L, sizeof(double));
 	// buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 	record_data = calloc(prm.L, sizeof(double));
-	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
+	buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 
 	fprintf(stdout, "buffer allocated\n");
 
@@ -144,8 +144,7 @@ int main (int argc, char *argv[])
 		j++;
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "buffered frame %d\n", err);
-			// fprintf (stdout, "read from audio interface failed (%s)\n",
-			//          err, snd_strerror(err));
+			// fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
