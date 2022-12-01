@@ -160,6 +160,11 @@ int main (int argc, char *argv[])
 		// elapsed_time = time(NULL) - start_time;
 	}
 
+	fprintf(stdout, "Record data final 5: ");
+	for(int j = current_index - 5; j < current_index; j++) {
+		fprintf(stdout, "%d ", record_data[j]);
+	}
+	printf("\n");
 	audio_write(record_data, &prm, filename);
 
 	free(buffer);
