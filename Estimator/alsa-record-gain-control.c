@@ -124,7 +124,7 @@ static int set_gain_value()
 	int err = 0;
 	int keep_handle = 0;
 	int argc = 3;
-	char argv[3] = ["Mic", "Capture", "20%"];
+	char argv[] = {"Mic", "Capture", "20%"};
 	static snd_mixer_t *handle = NULL;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
