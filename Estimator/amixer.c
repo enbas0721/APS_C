@@ -9,7 +9,6 @@
 #include <assert.h>
 #include <alsa/asoundlib.h>
 #include <sys/poll.h>
-#include "amixer.h"
 
 #define LEVEL_BASIC             (1<<0)
 #define LEVEL_INACTIVE          (1<<1)
@@ -1565,6 +1564,12 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
+	
+	fprintf(stdout, "argc: %d\n", argc);
+	for(int i=0; i<argc; i++){
+		fprintf(stdout, "%s ", argv[i]);
+	}
+	printf("\n");
 
 	if (argc < 1) {
 		fprintf(stderr, "Specify a scontrol identifier: 'name',index\n");
@@ -1948,9 +1953,6 @@ int main(int argc, char *argv[])
 		case 'n':
 			no_check = 1;
 			break;
-		case 'v':
-			printf("amixer version " SND_UTIL_VERSION_STR "\n");
-			return 1;
 		case 'a':
 			smixer_level = 1;
 			memset(&smixer_options, 0, sizeof(smixer_options));
@@ -1997,6 +1999,7 @@ int main(int argc, char *argv[])
 	} else if (!strcmp(argv[optind], "scontents")) {
 		return selems(LEVEL_BASIC | level) ? 1 : 0;
 	} else if (!strcmp(argv[optind], "sset") || !strcmp(argv[optind], "set")) {
+		fprintf(stdout, "Test sset\n");
 		return sset(argc - optind - 1, argc - optind > 1 ? argv + optind + 1 : NULL, 0, 0) ? 1 : 0;
 	} else if (!strcmp(argv[optind], "sget") || !strcmp(argv[optind], "get")) {
 		return sset(argc - optind - 1, argc - optind > 1 ? argv + optind + 1 : NULL, 1, 0) ? 1 : 0;
