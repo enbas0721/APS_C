@@ -18,14 +18,31 @@
 #define SMPL 44100
 #define BIT 16
 
-static int set_gain_value(int keep_handle)
+static int set_gain_value()
 {
 	int err = 0;
+	int keep_handle = 0;
+	int argc = 3;
+	char argv[2] = ["Mic", "Capture", "20%"];
 	static snd_mixer_t *handle = NULL;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
 	int roflag = 0;
+
+	if (argc < 1) {
+		fprintf(stderr, "Specify a full control identifier: [[iface=<iface>,][name='name',][index=<index>,][device=<device>,][subdevice=<subdevice>]]|[numid=<numid>]\n");
+		return -EINVAL;
+	}
+	if (parse_control_id(argv[0], id)) {
+		fprintf(stderr, "Wrong control identifier: %s\n", argv[0]);
+		return -EINVAL;
+	}
+	if (debugflag) {
+		printf("VERIFY ID: ");
+		show_control_id(id);
+		printf("\n");
+	}
 
 	if (handle == NULL) {
 		// snd_mixerのオープン
@@ -213,6 +230,9 @@ int main (int argc, char *argv[])
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
+		}
+		if (current_index >= (prm.L/2)) {
+			set_gain_value();
 		}
 		fprintf(stdout, "Read buffer first 5: ");
 		for(int j = 0; j < 5; j++) {
