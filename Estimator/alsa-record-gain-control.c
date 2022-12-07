@@ -18,7 +18,9 @@
 #define SMPL 44100
 #define BIT 16
 
+static int quiet = 0;
 static int debugflag = 0;
+static char card[64] = "default";
 
 static int parse_control_id(const char *str, snd_ctl_elem_id_t *id)
 {
