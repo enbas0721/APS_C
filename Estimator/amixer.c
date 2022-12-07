@@ -1160,6 +1160,7 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 			str++;
 	}
 	if (*str == '\0') {
+		printf("TEST:%s \n", *ptr);
 		snd_mixer_selem_id_set_index(sid, 0);
 		*ptr = 0;
 		goto _set;
@@ -1170,8 +1171,10 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 	str++;
 	if (!isdigit(*str))
 		return -EINVAL;
+	printf("snd_mixer_slem_id_set_index");
 	snd_mixer_selem_id_set_index(sid, atoi(str));
 _set:
+	printf("snd_mixer_selem_id_set_name\n");
 	snd_mixer_selem_id_set_name(sid, buf);
 	return 0;
 }
