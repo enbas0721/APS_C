@@ -124,7 +124,7 @@ static int set_gain_value()
 	int err = 0;
 	int keep_handle = 0;
 	int argc = 3;
-	char argv[2] = ["Mic", "Capture", "20%"];
+	char argv[3] = ["Mic", "Capture", "20%"];
 	static snd_mixer_t *handle = NULL;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
@@ -132,17 +132,16 @@ static int set_gain_value()
 	int roflag = 0;
 
 	if (argc < 1) {
-		fprintf(stderr, "Specify a full control identifier: [[iface=<iface>,][name='name',][index=<index>,][device=<device>,][subdevice=<subdevice>]]|[numid=<numid>]\n");
-		return -EINVAL;
+		fprintf(stderr, "Specify a scontrol identifier: 'name',index\n");
+		return 1;
 	}
-	if (parse_control_id(argv[0], id)) {
-		fprintf(stderr, "Wrong control identifier: %s\n", argv[0]);
-		return -EINVAL;
+	if (parse_simple_id(argv[0], sid)) {
+		fprintf(stderr, "Wrong scontrol identifier: %s\n", argv[0]);
+		return 1;
 	}
-	if (debugflag) {
-		printf("VERIFY ID: ");
-		show_control_id(id);
-		printf("\n");
+	if (!roflag && argc < 2) {
+		fprintf(stderr, "Specify what you want to set...\n");
+		return 1;
 	}
 
 	if (handle == NULL) {
