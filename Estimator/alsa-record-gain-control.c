@@ -18,124 +18,13 @@
 #define SMPL 44100
 #define BIT 16
 
-static int quiet = 0;
-static int debugflag = 0;
-static int ignore_error = 0;
-static char card[64] = "default";
-
-static int parse_control_id(const char *str, snd_ctl_elem_id_t *id)
-{
-	int c, size, numid;
-	char *ptr;
-
-	while (*str == ' ' || *str == '\t')
-		str++;
-	if (!(*str))
-		return -EINVAL;
-	snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_MIXER);    /* default */
-	while (*str) {
-		if (!strncasecmp(str, "numid=", 6)) {
-			str += 6;
-			numid = atoi(str);
-			if (numid <= 0) {
-				fprintf(stderr, "amixer: Invalid numid %d\n", numid);
-				return -EINVAL;
-			}
-			snd_ctl_elem_id_set_numid(id, atoi(str));
-			while (isdigit(*str))
-				str++;
-		} else if (!strncasecmp(str, "iface=", 6)) {
-			str += 6;
-			if (!strncasecmp(str, "card", 4)) {
-				snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_CARD);
-				str += 4;
-			} else if (!strncasecmp(str, "mixer", 5)) {
-				snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_MIXER);
-				str += 5;
-			} else if (!strncasecmp(str, "pcm", 3)) {
-				snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_PCM);
-				str += 3;
-			} else if (!strncasecmp(str, "rawmidi", 7)) {
-				snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_RAWMIDI);
-				str += 7;
-			} else if (!strncasecmp(str, "timer", 5)) {
-				snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_TIMER);
-				str += 5;
-			} else if (!strncasecmp(str, "sequencer", 9)) {
-				snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_SEQUENCER);
-				str += 9;
-			} else {
-				return -EINVAL;
-			}
-		} else if (!strncasecmp(str, "name=", 5)) {
-			char buf[64];
-			str += 5;
-			ptr = buf;
-			size = 0;
-			if (*str == '\'' || *str == '\"') {
-				c = *str++;
-				while (*str && *str != c) {
-					if (size < (int)sizeof(buf)) {
-						*ptr++ = *str;
-						size++;
-					}
-					str++;
-				}
-				if (*str == c)
-					str++;
-			} else {
-				while (*str && *str != ',') {
-					if (size < (int)sizeof(buf)) {
-						*ptr++ = *str;
-						size++;
-					}
-					str++;
-				}
-			}
-			*ptr = '\0';
-			snd_ctl_elem_id_set_name(id, buf);
-		} else if (!strncasecmp(str, "index=", 6)) {
-			str += 6;
-			snd_ctl_elem_id_set_index(id, atoi(str));
-			while (isdigit(*str))
-				str++;
-		} else if (!strncasecmp(str, "device=", 7)) {
-			str += 7;
-			snd_ctl_elem_id_set_device(id, atoi(str));
-			while (isdigit(*str))
-				str++;
-		} else if (!strncasecmp(str, "subdevice=", 10)) {
-			str += 10;
-			snd_ctl_elem_id_set_subdevice(id, atoi(str));
-			while (isdigit(*str))
-				str++;
-		}
-		if (*str == ',') {
-			str++;
-		} else {
-			if (*str)
-				return -EINVAL;
-		}
-	}
-	return 0;
-}
-
 static int set_gain_value()
 {
-	int err = 0;
-	int keep_handle = 0;
-	int argc = 3;
-	str argv[] = {"Mic", "Capture", "20%"};
 	static snd_mixer_t *handle = NULL;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
-	int roflag = 0;
 
-	if (argc < 1) {
-		fprintf(stderr, "Specify a scontrol identifier: 'name',index\n");
-		return 1;
-	}
 	if (parse_simple_id(argv[0], sid)) {
 		fprintf(stderr, "Wrong scontrol identifier: %s\n", argv[0]);
 		return 1;

@@ -1567,9 +1567,9 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
-	
+
 	fprintf(stdout, "argc: %d\n", argc);
-	for(int i=0; i<argc; i++){
+	for(int i=0; i<argc; i++) {
 		fprintf(stdout, "%s ", argv[i]);
 	}
 	printf("\n");
