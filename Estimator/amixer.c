@@ -1537,6 +1537,7 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 							check_flag = 1;
 					}
 					simple_skip_word(&ptr, "toggle");
+					// ここに入る
 				} else if (isdigit(*ptr) || *ptr == '-' || *ptr == '+') {
 					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 					if (set_volume_simple(elem, chn, &ptr, 1) >= 0)
