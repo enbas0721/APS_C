@@ -1515,11 +1515,11 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 					ptr = sptr;
 				sptr = ptr;
 				if (!strncmp(ptr, "cap", 3) && snd_mixer_selem_has_capture_switch(elem)) {
-					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 					snd_mixer_selem_get_capture_switch(elem, chn, &ival);
 					if (snd_mixer_selem_set_capture_switch(elem, chn, get_bool_simple(&ptr, "cap", 0, ival)) >= 0)
 						check_flag = 1;
 				} else if (!strncmp(ptr, "rec", 3) && snd_mixer_selem_has_capture_switch(elem)) {
+					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 					snd_mixer_selem_get_capture_switch(elem, chn, &ival);
 					if (snd_mixer_selem_set_capture_switch(elem, chn, get_bool_simple(&ptr, "rec", 0, ival)) >= 0)
 						check_flag = 1;
