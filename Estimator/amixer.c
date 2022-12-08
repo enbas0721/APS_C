@@ -1160,7 +1160,6 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 			str++;
 	}
 	if (*str == '\0') {
-		printf("TEST:%s \n", *ptr);
 		// asoundlibの関数
 		snd_mixer_selem_id_set_index(sid, 0);
 		*ptr = 0;
@@ -1173,6 +1172,7 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 	if (!isdigit(*str))
 		return -EINVAL;
 	printf("snd_mixer_slem_id_set_index");
+	printf("TEST:%d \n", atoi(str));
 	snd_mixer_selem_id_set_index(sid, atoi(str));
 _set:
 	printf("snd_mixer_selem_id_set_name\n");
@@ -1569,12 +1569,6 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
-
-	fprintf(stdout, "argc: %d\n", argc);
-	for(int i=0; i<argc; i++) {
-		fprintf(stdout, "%s ", argv[i]);
-	}
-	printf("\n");
 
 	if (argc < 1) {
 		fprintf(stderr, "Specify a scontrol identifier: 'name',index\n");
@@ -2004,7 +1998,6 @@ int main(int argc, char *argv[])
 	} else if (!strcmp(argv[optind], "scontents")) {
 		return selems(LEVEL_BASIC | level) ? 1 : 0;
 	} else if (!strcmp(argv[optind], "sset") || !strcmp(argv[optind], "set")) {
-		fprintf(stdout, "Test sset\n");
 		return sset(argc - optind - 1, argc - optind > 1 ? argv + optind + 1 : NULL, 0, 0) ? 1 : 0;
 	} else if (!strcmp(argv[optind], "sget") || !strcmp(argv[optind], "get")) {
 		return sset(argc - optind - 1, argc - optind > 1 ? argv + optind + 1 : NULL, 1, 0) ? 1 : 0;
