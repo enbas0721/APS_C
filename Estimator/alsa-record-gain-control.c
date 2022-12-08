@@ -2,7 +2,7 @@
    From on Paul David's tutorial : http://equalarea.com/paul/alsa-audio.html
    Fixes rate and buffer problems
    sudo apt-get install libasound2-dev
-   gcc -o record.out alsa-record-gain-control.c WavManager/audioio.c -lasound
+   gcc -o gain.out alsa-record-gain-control.c WavManager/audioio.c -lasound
    ./record.out hw:1
  */
 
@@ -15,6 +15,14 @@
 #define SMPL 44100
 #define BIT 16
 
+static int quiet = 0;
+static int debugflag = 0;
+static int no_check = 0;
+static int smixer_level = 0;
+static int ignore_error = 0;
+static struct snd_mixer_selem_regopt smixer_options;
+static char card[64] = "default";
+
 static int set_gain_value()
 {
 	static snd_mixer_t *handle = NULL;
@@ -24,11 +32,6 @@ static int set_gain_value()
 
 	snd_mixer_selem_id_set_index(sid, 0);
 	snd_mixer_selem_id_set_name(sid, "Mic");
-
-	if (!roflag && argc < 2) {
-		fprintf(stderr, "Specify what you want to set...\n");
-		return 1;
-	}
 
 	if (handle == NULL) {
 		// snd_mixerのオープン
