@@ -11,9 +11,6 @@
 #include <stdint.h>
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
-#include <time.h>
-
-#include <math.h>
 
 #define SMPL 44100
 #define BIT 16
@@ -115,15 +112,6 @@ int main (int argc, char *argv[])
 	int16_t *record_data;
 	char filename[64] = "output.wav";
 
-	// if (argc != 2) {
-	// 	printf("Not enough argument(s). This needs 1 arguments.\n");
-	// 	exit(1);
-	// }
-
-	// for (i = 0; n < sizeof(argv[1]); n++) {
-	// 	filename[n] = argv[1][n];
-	// }
-
 	// パラメータコピー
 	prm.fs = SMPL;
 	prm.bits = BIT;
@@ -206,13 +194,11 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	record_data = calloc(prm.L, sizeof(double));
+	record_data = calloc(prm.L, sizeof(int16_t));
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
 
 	fprintf(stdout, "buffer allocated\n");
 
-	// time_t start_time = time(NULL);
-	// time_t elapsed_time = time(NULL) - start_time;
 	int current_index = 0;
 	while ((current_index + buffer_frames) < prm.L) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
