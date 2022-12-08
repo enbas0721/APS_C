@@ -1161,6 +1161,8 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 	}
 	if (*str == '\0') {
 		// asoundlibの関数
+		printf("snd_mixer_selem_id_set_index(sid, 0)で");
+		printf("%d をidのインデックスとしてセット\n", 0);
 		snd_mixer_selem_id_set_index(sid, 0);
 		*ptr = 0;
 		goto _set;
@@ -1171,12 +1173,10 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 	str++;
 	if (!isdigit(*str))
 		return -EINVAL;
-	printf("snd_mixer_slem_id_set_index");
-	printf("TEST:%d \n", atoi(str));
 	snd_mixer_selem_id_set_index(sid, atoi(str));
 _set:
-	printf("snd_mixer_selem_id_set_name\n");
-	fprintf(stdout, "%s\n", buf);
+	printf("snd_mixer_selem_id_set_name()で");
+	printf("%s をidの名前としてセット\n", buf);
 	snd_mixer_selem_id_set_name(sid, buf);
 	return 0;
 }
