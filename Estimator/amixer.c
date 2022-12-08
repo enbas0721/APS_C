@@ -1474,7 +1474,7 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 				continue;
 
 			if ((dir & 1) && snd_mixer_selem_has_playback_channel(elem, chn)) {
-				fprintf(stdout, "snd_mixer_selem_set_playback_switch\n", );
+				fprintf(stdout, "snd_mixer_selem_set_playback_switch\n");
 				sptr = ptr;
 				if (!strncmp(ptr, "mute", 4) && snd_mixer_selem_has_playback_switch(elem)) {
 					snd_mixer_selem_get_playback_switch(elem, chn, &ival);
