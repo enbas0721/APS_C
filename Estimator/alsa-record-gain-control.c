@@ -22,10 +22,9 @@ static int set_gain_value()
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
 
-	if (parse_simple_id(argv[0], sid)) {
-		fprintf(stderr, "Wrong scontrol identifier: %s\n", argv[0]);
-		return 1;
-	}
+	snd_mixer_selem_id_set_index(sid, 0);
+	snd_mixer_selem_id_set_name(sid, "Mic");
+
 	if (!roflag && argc < 2) {
 		fprintf(stderr, "Specify what you want to set...\n");
 		return 1;
