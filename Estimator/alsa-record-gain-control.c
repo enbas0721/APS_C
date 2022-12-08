@@ -206,8 +206,6 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	// record_data = calloc(prm.L, sizeof(double));
-	// buffer = (double*)malloc(sizeof(double)*buffer_frames*snd_pcm_format_width(format));
 	record_data = calloc(prm.L, sizeof(double));
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
 
