@@ -1618,13 +1618,15 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 	}
 	if (!roflag) {
 		/* enum control */
-		if (snd_mixer_selem_is_enumerated(elem))
+		if (snd_mixer_selem_is_enumerated(elem)) {
 			for (int i = 0; i < argc; i++) {
 				fprintf(stdout, "%s\n", argv[i]);
 			}
+		}
 		err = sset_enum(elem, argc, argv);
-		else
+		else{
 			err = sset_channels(elem, argc, argv);
+		}
 
 		if (!err)
 			goto done;
