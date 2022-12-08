@@ -23,8 +23,22 @@ static int ignore_error = 0;
 static struct snd_mixer_selem_regopt smixer_options;
 static char card[64] = "default";
 
+static void error(const char *fmt,...)
+{
+	va_list va;
+
+	va_start(va, fmt);
+	fprintf(stderr, "amixer: ");
+	vfprintf(stderr, fmt, va);
+	fprintf(stderr, "\n");
+	va_end(va);
+}
+
 static int set_gain_value()
 {
+	int err;
+	int roflag = 0;
+
 	static snd_mixer_t *handle = NULL;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
@@ -71,6 +85,7 @@ static int set_gain_value()
 	}
 	if (!roflag) {
 		/* enum control */
+		// ここら辺がゲインの値のセットっぽい
 		if (snd_mixer_selem_is_enumerated(elem))
 			err = sset_enum(elem, argc, argv);
 		else
