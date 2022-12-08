@@ -1509,6 +1509,7 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 				}
 			}
 			if ((dir & 2) && snd_mixer_selem_has_capture_channel(elem, chn)) {
+				fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 				if (sptr != NULL)
 					ptr = sptr;
 				sptr = ptr;
@@ -1618,6 +1619,7 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 	}
 	if (!roflag) {
 		/* enum control */
+		// sset_channelsの方に通っている
 		if (snd_mixer_selem_is_enumerated(elem)) {
 			fprintf(stdout, "sset_enum()\n");
 			for (int i = 0; i < argc; i++) {
