@@ -1163,7 +1163,6 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 		printf("TEST:%s \n", *ptr);
 		// asoundlibの関数
 		snd_mixer_selem_id_set_index(sid, 0);
-		fprintf(stdout, "%d\n", sid->index);
 		*ptr = 0;
 		goto _set;
 	}
@@ -1177,6 +1176,7 @@ static int parse_simple_id(const char *str, snd_mixer_selem_id_t *sid)
 	snd_mixer_selem_id_set_index(sid, atoi(str));
 _set:
 	printf("snd_mixer_selem_id_set_name\n");
+	fprintf(stdout, "%s\n", buf);
 	snd_mixer_selem_id_set_name(sid, buf);
 	return 0;
 }
