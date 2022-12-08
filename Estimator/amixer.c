@@ -1509,12 +1509,13 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 					okflag &= ~1;
 				}
 			}
+			// こっちに入る
 			if ((dir & 2) && snd_mixer_selem_has_capture_channel(elem, chn)) {
-				fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 				if (sptr != NULL)
 					ptr = sptr;
 				sptr = ptr;
 				if (!strncmp(ptr, "cap", 3) && snd_mixer_selem_has_capture_switch(elem)) {
+					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 					snd_mixer_selem_get_capture_switch(elem, chn, &ival);
 					if (snd_mixer_selem_set_capture_switch(elem, chn, get_bool_simple(&ptr, "cap", 0, ival)) >= 0)
 						check_flag = 1;
