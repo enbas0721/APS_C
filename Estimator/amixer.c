@@ -1519,7 +1519,6 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 					if (snd_mixer_selem_set_capture_switch(elem, chn, get_bool_simple(&ptr, "cap", 0, ival)) >= 0)
 						check_flag = 1;
 				} else if (!strncmp(ptr, "rec", 3) && snd_mixer_selem_has_capture_switch(elem)) {
-					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 					snd_mixer_selem_get_capture_switch(elem, chn, &ival);
 					if (snd_mixer_selem_set_capture_switch(elem, chn, get_bool_simple(&ptr, "rec", 0, ival)) >= 0)
 						check_flag = 1;
@@ -1539,6 +1538,7 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 					}
 					simple_skip_word(&ptr, "toggle");
 				} else if (isdigit(*ptr) || *ptr == '-' || *ptr == '+') {
+					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
 					if (set_volume_simple(elem, chn, &ptr, 1) >= 0)
 						check_flag = 1;
 				} else if (simple_skip_word(&ptr, "mute") || simple_skip_word(&ptr, "off") ||
