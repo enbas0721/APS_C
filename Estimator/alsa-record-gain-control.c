@@ -47,7 +47,7 @@ static int set_gain_value(long value)
 	snd_mixer_selem_channel_id_t chn = SND_MIXER_SCHN_FRONT_LEFT;
 
 	snd_mixer_selem_id_set_index(sid, 0);
-	snd_mixer_selem_id_set_name(sid, 'Mic');
+	snd_mixer_selem_id_set_name(sid, "Mic");
 
 	if (handle == NULL) {
 		// snd_mixerのオープン
