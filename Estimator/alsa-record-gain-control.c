@@ -198,6 +198,8 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "buffer allocated\n");
 
+	int gain_value = 16;
+	set_gain_value(gain_value);
 	int flag = 0;
 	int current_index = 0;
 	while ((current_index + buffer_frames) < prm.L) {
@@ -205,10 +207,11 @@ int main (int argc, char *argv[])
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		if ((flag == 0) && (current_index >= (prm.L/2))) {
-			flag = 1;
+		if ((flag < 2) && (current_index >= (prm.L/2))) {
+			flag += 1;
+			gain_value -= 5;
 			printf("gain_changed\n");
-			set_gain_value(3);
+			set_gain_value(gain_value);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
 			record_data[i] = buffer[i-current_index];
