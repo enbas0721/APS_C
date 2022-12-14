@@ -34,7 +34,7 @@ static void error(const char *fmt,...)
 	va_end(va);
 }
 
-static int set_gain_value()
+static int set_gain_value(long value)
 {
 	int err;
 	int roflag = 0;
@@ -43,6 +43,8 @@ static int set_gain_value()
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_selem_id_alloca(&sid);
+
+	snd_mixer_selem_channel_id_t chn = SND_MIXER_SCHN_FRONT_LEFT;
 
 	snd_mixer_selem_id_set_index(sid, 0);
 	snd_mixer_selem_id_set_name(sid, "Mic");
@@ -75,38 +77,13 @@ static int set_gain_value()
 		}
 	}
 	elem = snd_mixer_find_selem(handle, sid);
-	if (!elem) {
-		if (ignore_error)
-			return 0;
-		error("Unable to find simple control '%s',%i\n", snd_mixer_selem_id_get_name(sid), snd_mixer_selem_id_get_index(sid));
-		snd_mixer_close(handle);
-		handle = NULL;
-		return -ENOENT;
-	}
-	if (!roflag) {
-		/* enum control */
-		// ここら辺がゲインの値のセットっぽい
-		if (snd_mixer_selem_is_enumerated(elem))
-			err = sset_enum(elem, argc, argv);
-		else
-			err = sset_channels(elem, argc, argv);
 
-		if (!err)
-			goto done;
-		if (err < 0) {
-			error("Invalid command!");
-			goto done;
-		}
-	}
-	if (!quiet) {
-		printf("Simple mixer control '%s',%i\n", snd_mixer_selem_id_get_name(sid), snd_mixer_selem_id_get_index(sid));
-		show_selem(handle, sid, "  ", 1);
-	}
-done:
-	if (!keep_handle) {
-		snd_mixer_close(handle);
-		handle = NULL;
-	}
+	err = snd_mixer_selem_set_capture_volume(elem, chn, value);
+
+	// 今後も使うかによる
+	snd_mixer_close(handle);
+	handle = NULL;
+
 	return err < 0 ? 1 : 0;
 }
 
@@ -223,7 +200,7 @@ int main (int argc, char *argv[])
 			exit (1);
 		}
 		if (current_index >= (prm.L/2)) {
-			set_gain_value();
+			set_gain_value(3);
 		}
 		fprintf(stdout, "Read buffer first 5: ");
 		for(int j = 0; j < 5; j++) {
@@ -253,7 +230,7 @@ int main (int argc, char *argv[])
 	free(record_data);
 
 	fprintf(stdout, "buffer freed\n");
-	snd_pcm_close (capture_handle);
+	snd_pcm_close(capture_handle);
 	fprintf(stdout, "audio interface closed\n");
 
 	exit (0);
