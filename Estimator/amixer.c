@@ -310,6 +310,9 @@ static const struct volume_ops_set vol_ops[2] = {
 	},
 };
 
+// char **ptrにセットする値が入っている。途中でlong型に変換する
+//　%指定で音量設定するときはconvert_prange1で設定可能範囲（今回のマイクは0-16段階でマイクゲイン設定可能）から
+// 適切な値に変換する（例えば50%なら8に設定する）
 static int set_volume_simple(snd_mixer_elem_t *elem,
                              snd_mixer_selem_channel_id_t chn,
                              char **ptr, int dir)
