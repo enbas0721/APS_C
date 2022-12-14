@@ -1,4 +1,4 @@
-# wavファイルを読み込んで、波形を表示する。
+# wavファイルを読み込んで、波形を表示する。
 # 第一引数にwavファイルのパス
 # 第二、第三引数にグラフのx軸始端、終端を指定することで一部分を切り取ってグラフ表示可能
 # 指定しない場合は、全体が表示される。
@@ -34,13 +34,11 @@ x = [i/44100 for i in range(len(data))]
 
 print(len(sys.argv))
 if len(sys.argv) == 4:
-    start_time = sys.argv[2]
-    end_time = sys.argv[3]
+    start_time = float(sys.argv[2])
+    end_time = float(sys.argv[3])
 else:
     start_time = 0
     end_time = x[-1]
-
-print(data1[44100:44200])
 
 fig = plt.figure(figsize=(14, 4))
 ax = fig.add_subplot()
