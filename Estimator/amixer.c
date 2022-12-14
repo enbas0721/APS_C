@@ -1583,13 +1583,11 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 		fprintf(stderr, "Specify a scontrol identifier: 'name',index\n");
 		return 1;
 	}
-	// if (parse_simple_id(argv[0], sid)) {
-	// 	fprintf(stderr, "Wrong scontrol identifier: %s\n", argv[0]);
-	// 	return 1;
-	// }
 
-	snd_mixer_selem_id_set_index(sid, 0);
-	snd_mixer_selem_id_set_name(sid, "Mic");
+	if (parse_simple_id(argv[0], sid)) {
+		fprintf(stderr, "Wrong scontrol identifier: %s\n", argv[0]);
+		return 1;
+	}
 
 	if (!roflag && argc < 2) {
 		fprintf(stderr, "Specify what you want to set...\n");
@@ -1621,6 +1619,7 @@ static int sset(unsigned int argc, char *argv[], int roflag, int keep_handle)
 		}
 	}
 	elem = snd_mixer_find_selem(handle, sid);
+	printf("inside of elem : %d\n", elem);
 	if (!elem) {
 		if (ignore_error)
 			return 0;
