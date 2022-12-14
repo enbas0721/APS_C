@@ -331,7 +331,7 @@ static int set_volume_simple(snd_mixer_elem_t *elem,
 		invalid = 1;
 
 	printf("In the set_volume_simple function\n");
-	printf("%s\n", *p);
+	printf("%c\n", *p);
 
 	s = p;
 	val = strtol(s, &p, 10);
