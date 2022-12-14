@@ -207,11 +207,20 @@ int main (int argc, char *argv[])
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		if ((flag < 2) && (current_index >= (prm.L/2))) {
-			flag += 1;
-			gain_value -= 5;
-			printf("gain_changed\n");
-			set_gain_value(gain_value);
+		if (flag == 0) {
+			if (current_index >= (prm.L/3)) {
+				flag += 1;
+				gain_value -= 5;
+				printf("gain_changed\n");
+				set_gain_value(gain_value);
+			}
+		}else if(flag == 1) {
+			if (current_index >= (2*prm.L/3)) {
+				flag += 1;
+				gain_value -= 5;
+				printf("gain_changed\n");
+				set_gain_value(gain_value);
+			}
 		}
 		for (int i = current_index; i < current_index + err; i++) {
 			record_data[i] = buffer[i-current_index];
