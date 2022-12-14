@@ -78,6 +78,8 @@ static int set_gain_value(long value)
 	}
 	elem = snd_mixer_find_selem(handle, sid);
 
+	printf("elemの中身どう%d\n",elem);
+
 	err = snd_mixer_selem_set_capture_volume(elem, chn, value);
 
 	// 今後も使うかによる
