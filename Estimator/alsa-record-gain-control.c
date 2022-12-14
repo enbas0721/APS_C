@@ -3,7 +3,7 @@
    Fixes rate and buffer problems
    sudo apt-get install libasound2-dev
    gcc -o gain.out alsa-record-gain-control.c WavManager/audioio.c -lasound
-   ./record.out hw:1
+   ./gain.out hw:1
  */
 
 #include <stdio.h>
@@ -193,13 +193,15 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "buffer allocated\n");
 
+	int flag = 0;
 	int current_index = 0;
 	while ((current_index + buffer_frames) < prm.L) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		if (current_index >= (prm.L/2)) {
+		if ((flag == 0) && (current_index >= (prm.L/2))) {
+			flag = 1;
 			set_gain_value(3);
 		}
 		fprintf(stdout, "Read buffer first 5: ");
