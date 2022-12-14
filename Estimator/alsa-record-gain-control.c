@@ -21,7 +21,7 @@ static int no_check = 0;
 static int smixer_level = 0;
 static int ignore_error = 0;
 static struct snd_mixer_selem_regopt smixer_options;
-static char card[64] = argv[1];
+static char card[64] = "hw:1";
 
 static void error(const char *fmt,...)
 {
