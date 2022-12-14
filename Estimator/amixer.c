@@ -330,6 +330,9 @@ static int set_volume_simple(snd_mixer_elem_t *elem,
 	    vol_ops[dir].v[VOL_RAW].get_range(elem, &pmin, &pmax) < 0)
 		invalid = 1;
 
+	printf("In the set_volume_simple function\n");
+	printf("%s\n", &p);
+
 	s = p;
 	val = strtol(s, &p, 10);
 	if (*p == '.') {
