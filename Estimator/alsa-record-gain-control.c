@@ -77,6 +77,11 @@ static int set_gain_value(long value)
 		}
 	}
 	elem = snd_mixer_find_selem(handle, sid);
+	if (!elem) {
+		printf("Unable to find simple control '%s',%i\n", snd_mixer_selem_id_get_name(sid), snd_mixer_selem_id_get_index(sid));
+		snd_mixer_close(handle);
+		handle = NULL;
+	}
 
 	printf("elemの中身どう%d\n",elem);
 
