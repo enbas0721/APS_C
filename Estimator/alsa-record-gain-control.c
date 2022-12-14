@@ -83,8 +83,6 @@ static int set_gain_value(long value)
 		handle = NULL;
 	}
 
-	printf("elemの中身どう%d\n",elem);
-
 	err = snd_mixer_selem_set_capture_volume(elem, chn, value);
 
 	// 今後も使うかによる
@@ -215,11 +213,7 @@ int main (int argc, char *argv[])
 		for (int i = current_index; i < current_index + err; i++) {
 			record_data[i] = buffer[i-current_index];
 		}
-		// fprintf(stdout, "Record data first 5: ");
-		// for(int j = current_index; j < current_index + 5; j++) {
-		// 	fprintf(stdout, "%d ", record_data[j]);
-		// }
-		// printf("\n");
+		fprintf(stdout, "Recorded: %d/%d\n",current_index, prm.L);
 		current_index = current_index + err;
 	}
 
