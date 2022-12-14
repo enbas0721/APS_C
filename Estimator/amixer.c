@@ -1471,7 +1471,6 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 		multi = (strchr(ptr, ',') != NULL);
 		optr = ptr;
 		for (chn = 0; chn <= SND_MIXER_SCHN_LAST; chn++) {
-			printf("Inside of channel id %d\n", chn);
 			char *sptr = NULL;
 			int ival;
 
@@ -1545,6 +1544,7 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 					// ここに入る
 				} else if (isdigit(*ptr) || *ptr == '-' || *ptr == '+') {
 					fprintf(stdout, "snd_mixer_selem_set_capture_switch\n");
+					printf("Inside of channel id %d\n", chn);
 					if (set_volume_simple(elem, chn, &ptr, 1) >= 0)
 						check_flag = 1;
 				} else if (simple_skip_word(&ptr, "mute") || simple_skip_word(&ptr, "off") ||
