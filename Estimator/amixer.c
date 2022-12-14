@@ -266,8 +266,7 @@ struct volume_ops {
 	int (*get_range)(snd_mixer_elem_t *elem, long *min, long *max);
 	int (*get)(snd_mixer_elem_t *elem, snd_mixer_selem_channel_id_t c,
 	           long *value);
-	int (*set)(snd_mixer_elem_t *elem, snd_mixer_selem_channel_id_t c,
-	           long value);
+	int (*set)(snd_mixer_elem_t *elem, snd_mixer_selem_channel_id_t c,long value);
 };
 
 enum { VOL_RAW, VOL_DB };
@@ -299,6 +298,8 @@ static const struct volume_ops_set vol_ops[2] = {
 			snd_mixer_selem_get_playback_dB,
 			set_playback_dB }},
 	},
+	// capture volume関連の設定はこっちを使う
+	// dB設定ならv[1]それ以外ならv[0]側の関数使う
 	{
 		.has_volume = snd_mixer_selem_has_capture_volume,
 		.v = {{ snd_mixer_selem_get_capture_volume_range,
@@ -332,9 +333,6 @@ static int set_volume_simple(snd_mixer_elem_t *elem,
 	if (!invalid &&
 	    vol_ops[dir].v[VOL_RAW].get_range(elem, &pmin, &pmax) < 0)
 		invalid = 1;
-
-	printf("In the set_volume_simple function\n");
-	printf("%c\n", *p);
 
 	s = p;
 	val = strtol(s, &p, 10);
@@ -1473,6 +1471,7 @@ static int sset_channels(snd_mixer_elem_t *elem, unsigned int argc, char **argv)
 		multi = (strchr(ptr, ',') != NULL);
 		optr = ptr;
 		for (chn = 0; chn <= SND_MIXER_SCHN_LAST; chn++) {
+			printf("Inside of channel id %d\n", chn);
 			char *sptr = NULL;
 			int ival;
 
