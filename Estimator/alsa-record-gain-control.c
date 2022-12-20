@@ -15,29 +15,12 @@
 #define SMPL 44100
 #define BIT 16
 
-static int quiet = 0;
-static int debugflag = 0;
-static int no_check = 0;
 static int smixer_level = 0;
-static int ignore_error = 0;
 static struct snd_mixer_selem_regopt smixer_options;
-static char card[64] = "hw:1";
 
-static void error(const char *fmt,...)
-{
-	va_list va;
-
-	va_start(va, fmt);
-	fprintf(stderr, "amixer: ");
-	vfprintf(stderr, fmt, va);
-	fprintf(stderr, "\n");
-	va_end(va);
-}
-
-static int set_gain_value(long value)
+static int set_gain_value(long value, char card)
 {
 	int err;
-	int roflag = 0;
 
 	static snd_mixer_t *handle = NULL;
 	snd_mixer_elem_t *elem;
@@ -52,25 +35,25 @@ static int set_gain_value(long value)
 	if (handle == NULL) {
 		// snd_mixerのオープン
 		if ((err = snd_mixer_open(&handle, 0)) < 0) {
-			error("Mixer %s open error: %s\n", card, snd_strerror(err));
+			fprintf(stderr, "Mixer %s open error\n", card);
 			return err;
 		}
 		// snd_mixer_attach
 		if (smixer_level == 0 && (err = snd_mixer_attach(handle, card)) < 0) {
-			error("Mixer attach %s error: %s", card, snd_strerror(err));
+			fprintf(stderr, "Mixer attach %s error\n", card);
 			snd_mixer_close(handle);
 			handle = NULL;
 			return err;
 		}
 		if ((err = snd_mixer_selem_register(handle, smixer_level > 0 ? &smixer_options : NULL, NULL)) < 0) {
-			error("Mixer register error: %s", snd_strerror(err));
+			fprintf(stderr, "Mixer register error\n");
 			snd_mixer_close(handle);
 			handle = NULL;
 			return err;
 		}
 		err = snd_mixer_load(handle);
 		if (err < 0) {
-			error("Mixer %s load error: %s", card, snd_strerror(err));
+			fprintf(stderr, "Mixer %s load error", card);
 			snd_mixer_close(handle);
 			handle = NULL;
 			return err;
@@ -78,12 +61,18 @@ static int set_gain_value(long value)
 	}
 	elem = snd_mixer_find_selem(handle, sid);
 	if (!elem) {
-		printf("Unable to find simple control '%s',%i\n", snd_mixer_selem_id_get_name(sid), snd_mixer_selem_id_get_index(sid));
+		fprintf(stderr, "Unable to find simple control '%s',%i\n", snd_mixer_selem_id_get_name(sid), snd_mixer_selem_id_get_index(sid));
 		snd_mixer_close(handle);
 		handle = NULL;
 	}
 
 	err = snd_mixer_selem_set_capture_volume(elem, chn, value);
+	if (err < 0) {
+		fprintf(stderr, "Setting %s capture volume error", card);
+		snd_mixer_close(handle);
+		handle = NULL;
+		return err;
+	}
 
 	// 今後も使うかによる
 	snd_mixer_close(handle);
@@ -103,6 +92,8 @@ int main (int argc, char *argv[])
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
+
+	char card[64] = argv[1];
 
 	double recording_time = 10.0f;
 
@@ -190,7 +181,6 @@ int main (int argc, char *argv[])
 		         snd_strerror (err));
 		exit (1);
 	}
-
 	fprintf(stdout, "audio interface prepared\n");
 
 	record_data = calloc(prm.L, sizeof(int16_t));
@@ -212,14 +202,14 @@ int main (int argc, char *argv[])
 				flag += 1;
 				gain_value -= 5;
 				printf("gain_changed\n");
-				set_gain_value(gain_value);
+				set_gain_value(gain_value, card);
 			}
 		}else if(flag == 1) {
 			if (current_index >= (2*prm.L/3)) {
 				flag += 1;
 				gain_value -= 5;
 				printf("gain_changed\n");
-				set_gain_value(gain_value);
+				set_gain_value(gain_value, card);
 			}
 		}
 		for (int i = current_index; i < current_index + err; i++) {
