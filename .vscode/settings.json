@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "audioio.h": "c",
+        "stdint.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

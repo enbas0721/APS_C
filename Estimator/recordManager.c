@@ -9,11 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
-#include <time.h>
-
-#include <math.h>
 
 #define SMPL 44100
 #define BIT 16
