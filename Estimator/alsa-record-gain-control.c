@@ -95,7 +95,7 @@ int main (int argc, char *argv[])
 
 	char card[8];
 	for (size_t i = 0; i < sizeof(argv[1]); i++) {
-		card[i] = argv[1][i]
+		card[i] = argv[1][i];
 	}
 
 	double recording_time = 10.0f;
