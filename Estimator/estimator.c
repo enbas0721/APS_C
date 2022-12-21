@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
 {
     sighandler_t sig = 0;
 	// Ctrl + Zを無視して，入力があればclose処理
-	signal(SIGINT, signal_handler);
+	signal(SIGTSTP, signal_handler);
     record_start(argv[1], argv[2]);
     return 0;
 }
