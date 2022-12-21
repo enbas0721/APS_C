@@ -29,7 +29,7 @@ int write_record_data(int16_t * record_data, int size, const char * filename){
 	audio_write(record_data, &prm, filename);
 }
 
-int record_start(const char *card, const char *filename)
+int record_start(record_info *info)
 {
 	// バッファ系の変数
 	int i;
@@ -43,9 +43,9 @@ int record_start(const char *card, const char *filename)
 
 	int16_t *record_data;
 
-	if ((err = snd_pcm_open (&capture_handle, card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
+	if ((err = snd_pcm_open (&capture_handle, info->card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stdout, "cannot open audio device %s (%s)\n",
-		         card,
+		         info->card,
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -134,7 +134,7 @@ int record_start(const char *card, const char *filename)
 	sig = signal(SIGINT, SIG_IGN);
 	if(SIG_ERR == sig){
 		printf("Pushed Ctrl+C\n");
-		write_record_data(record_data, current_index, filename);
+		write_record_data(record_data, current_index, info->filename);
 
 		free(buffer);
 		free(record_data);
