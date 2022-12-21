@@ -8,12 +8,12 @@
 
 int main(int argc, char const *argv[])
 {
-    struct record_info info;
+    record_info info;
     strcpy(info.card,argv[1]);
     strcpy(info.filename,argv[2]);
     pthread_t record_thread;
     int ret = 0;
 
-    ret = pthread_create(&record_thread, NULL, record_start, (void*)&info)
+    ret = pthread_create(&record_thread, NULL, record_start, (void*)&info);
     return 0;
 }
