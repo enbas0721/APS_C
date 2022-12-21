@@ -27,7 +27,7 @@ int write_record_data(int16_t * record_data, int size, char * filename){
 	audio_write(record_data, &prm, filename);
 }
 
-int record_start(char *card, char *filename)
+int record_start(const char *card, const char *filename)
 {
 	// バッファ系の変数
 	int i;
@@ -125,6 +125,8 @@ int record_start(char *card, char *filename)
 
 	fprintf(stdout, "buffer allocated\n");
 
+	int current_index = 0;
+
 	sighandler_t sig = 0;
 	// Ctrl + Zを無視して，入力があればclose処理
 	sig = signal(SIGTSTP, SIG_IGN);
@@ -140,7 +142,6 @@ int record_start(char *card, char *filename)
 		return 0;
 	}
 
-	int current_index = 0;
 	while (1) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
@@ -151,7 +152,7 @@ int record_start(char *card, char *filename)
 		}
 		current_index = current_index + err;
 		if (current_index > data_size){
-			data_size = data_size + SMPL * 30
+			data_size = data_size + SMPL * 30;
 			record_data = realloc(record_data, data_size);
 		}
 	}

@@ -8,7 +8,7 @@
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 
-int write_record_data(int16_t *record_data, int size, char * filename);
-int record_start(char *card, char *filename);
+int write_record_data(int16_t *record_data, int size, const char * filename);
+int record_start(const char *card, const char *filename);
 
 #endif
