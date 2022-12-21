@@ -14,6 +14,7 @@ int main(int argc, char const *argv[])
     pthread_t record_thread;
     int ret = 0;
 
-    ret = pthread_create(&record_thread, NULL, record_start, &info);
+    ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
+    pthread_join(record_thread,NULL);
     return 0;
 }
