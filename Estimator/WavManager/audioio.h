@@ -13,6 +13,6 @@ typedef struct
 }WAV_PRM;
 
 double *audio_read(WAV_PRM *prm, char *filename);
-void audio_write(int16_t *data, WAV_PRM *prm, char *filename);
+void audio_write(int16_t *data, WAV_PRM *prm, const char *filename);
 
 #endif
