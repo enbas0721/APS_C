@@ -19,7 +19,7 @@
 #define SMPL 44100
 #define BIT 16
 
-int write_record_data(int16_t * record_data, int size, const char * filename){
+int write_record_data(int16_t * record_data, int size, char * filename){
 	// Wavファイル作成
 	WAV_PRM prm;
 	// Wavファイル用パラメータコピー

@@ -15,7 +15,7 @@ typedef struct{
     char filename[16];
 }record_info;
 
-int write_record_data(int16_t *record_data, int size, const char * filename);
+int write_record_data(int16_t *record_data, int size, char * filename);
 int record_start(record_info info);
 
 #endif
