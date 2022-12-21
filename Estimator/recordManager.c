@@ -133,6 +133,7 @@ int record_start(const char *card, const char *filename)
 	// Ctrl + Zを無視して，入力があればclose処理
 	sig = signal(SIGTSTP, SIG_IGN);
 	if(SIG_ERR == sig){
+		printf("Pushed Ctrl+Z\n");
 		write_record_data(record_data, current_index, filename);
 
 		free(buffer);
