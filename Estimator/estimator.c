@@ -4,15 +4,15 @@
 #define _GNU_SOURCE
 #include "recordManager.h"
 
+void signal_handler(int signum){
+    printf("pushed Ctrl+Z\n");
+}
+
 int main(int argc, char const *argv[])
 {
     sighandler_t sig = 0;
 	// Ctrl + Zを無視して，入力があればclose処理
-	sig = signal(SIGTSTP, SIG_IGN);
-    printf("Before pushed Ctrl+Z\n");
-	if(SIG_ERR == sig){
-		printf("Pushed Ctrl+Z\n");
-	}
+	signal(SIGTSTP, signal_handler);
     record_start(argv[1], argv[2]);
     return 0;
 }
