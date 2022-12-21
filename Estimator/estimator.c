@@ -6,6 +6,7 @@
 
 void signal_handler(int signum){
     printf("pushed Ctrl+Z\n");
+    exit(1);
 }
 
 int main(int argc, char const *argv[])
