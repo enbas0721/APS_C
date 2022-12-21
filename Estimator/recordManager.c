@@ -6,6 +6,8 @@
    ./record.out hw:1
  */
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -13,7 +15,6 @@
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 
-#define _GNU_SOURCE
 #define SMPL 44100
 #define BIT 16
 
