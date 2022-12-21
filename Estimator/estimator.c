@@ -9,6 +9,7 @@ int main(int argc, char const *argv[])
     sighandler_t sig = 0;
 	// Ctrl + Zを無視して，入力があればclose処理
 	sig = signal(SIGTSTP, SIG_IGN);
+    printf("Before pushed Ctrl+Z\n");
 	if(SIG_ERR == sig){
 		printf("Pushed Ctrl+Z\n");
 	}
