@@ -9,14 +9,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <time.h>
+#include <signal.h>
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 
 #define SMPL 44100
 #define BIT 16
 
-int main (int argc, char *argv[])
+int write_record_data(int16_t * record_data, int size, char * filename){
+	// Wavファイル作成
+	WAV_PRM prm;
+	// Wavファイル用パラメータコピー
+	prm.fs = SMPL;
+	prm.bits = BIT;
+	prm.L = size;
+	
+	audio_write(record_data, &prm, filename);
+}
+
+int record_start(char *card, char *filename)
 {
 	// バッファ系の変数
 	int i;
@@ -28,21 +39,11 @@ int main (int argc, char *argv[])
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
-	double recording_time = 10.0f;
-
-	// Wavファイル作成用
-	WAV_PRM prm;
 	int16_t *record_data;
-	char filename[64] = "output.wav";
 
-	// パラメータコピー
-	prm.fs = SMPL;
-	prm.bits = BIT;
-	prm.L =  prm.fs * recording_time;
-
-	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
+	if ((err = snd_pcm_open (&capture_handle, card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stdout, "cannot open audio device %s (%s)\n",
-		         argv[1],
+		         card,
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -105,7 +106,7 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "hw_params setted\n");
 
-	snd_pcm_hw_params_free (hw_params);
+	snd_pcm_hw_params_free(hw_params);
 
 	fprintf(stdout, "hw_params freed\n");
 
@@ -117,48 +118,44 @@ int main (int argc, char *argv[])
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	record_data = calloc(prm.L, sizeof(int16_t));
+	int data_size = SMPL*30;
+
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
+	record_data = calloc(data_size, sizeof(int16_t));
 
 	fprintf(stdout, "buffer allocated\n");
 
+	sighandler_t sig = 0;
+	// Ctrl + Zを無視して，入力があればclose処理
+	sig = signal(SIGTSTP, SIG_IGN);
+	if(SIG_ERR == sig){
+		write_record_data(record_data, current_index, filename);
+
+		free(buffer);
+		free(record_data);
+
+		fprintf(stdout, "buffer freed\n");
+		snd_pcm_close (capture_handle);
+		fprintf(stdout, "audio interface closed\n");
+		return 0;
+	}
+
 	int current_index = 0;
-	while ((current_index + buffer_frames) < prm.L) {
+	while (1) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		fprintf(stdout, "Read buffer first 5: ");
-		for(int j = 0; j < 5; j++) {
-			fprintf(stdout, "%d ", buffer[j]);
-		}
-		printf("\n");
 		for (int i = current_index; i < current_index + err; i++) {
 			record_data[i] = buffer[i-current_index];
 		}
-		fprintf(stdout, "Record data first 5: ");
-		for(int j = current_index; j < current_index + 5; j++) {
-			fprintf(stdout, "%d ", record_data[j]);
-		}
-		printf("\n");
 		current_index = current_index + err;
-		// elapsed_time = time(NULL) - start_time;
+		if (current_index > data_size){
+			data_size = data_size + SMPL * 30
+			record_data = realloc(record_data, data_size);
+		}
 	}
 
-	fprintf(stdout, "Record data final 5: ");
-	for(int j = current_index - 5; j < current_index; j++) {
-		fprintf(stdout, "%d ", record_data[j]);
-	}
-	printf("\n");
-	audio_write(record_data, &prm, filename);
-
-	free(buffer);
-	free(record_data);
-
-	fprintf(stdout, "buffer freed\n");
-	snd_pcm_close (capture_handle);
-	fprintf(stdout, "audio interface closed\n");
-
-	exit (0);
 	return 0;
 }
+
