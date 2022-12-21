@@ -13,6 +13,7 @@
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 
+#define _GNU_SOURCE
 #define SMPL 44100
 #define BIT 16
 
