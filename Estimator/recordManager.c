@@ -14,6 +14,7 @@
 #include <signal.h>
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
+#include "recordManager.h"
 
 #define SMPL 44100
 #define BIT 16
