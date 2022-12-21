@@ -29,7 +29,7 @@ int write_record_data(int16_t * record_data, int size, const char * filename){
 	audio_write(record_data, &prm, filename);
 }
 
-int record_start(record_info *info)
+int record_start(record_info (void*)info)
 {
 	// バッファ系の変数
 	int i;
