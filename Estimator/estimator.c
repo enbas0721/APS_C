@@ -8,6 +8,7 @@
 
 int main(int argc, char const *argv[])
 {
+    char command[8];
     record_info info;
     strcpy(info.card,argv[1]);
     strcpy(info.filename,argv[2]);
@@ -16,5 +17,8 @@ int main(int argc, char const *argv[])
 
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
     pthread_join(record_thread,NULL);
+    printf("Input close to close\n");
+    scanf("%s", command);
+    printf("%s", command);
     return 0;
 }
