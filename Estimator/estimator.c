@@ -19,6 +19,7 @@ int main(int argc, char const *argv[])
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
     printf("Input close to close\n");
     scanf("%c", command);
+    printf("%c\n", command)
     if (command == "c"){
         info.flag = 0;
     }
