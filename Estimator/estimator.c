@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
     ret = pthread_detach(record_thread);
     if (ret != 0){
+	printf("error\n");
         exit(1);
     }
     printf("Input close to close\n");
