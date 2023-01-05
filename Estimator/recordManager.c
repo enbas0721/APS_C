@@ -145,7 +145,7 @@ void* record_start(record_info *info)
 		}
 	}
 	
-	write_record_data(record_data, current_index, filename);
+	write_record_data(record_data, current_index, info->filename);
 
 	free(buffer);
 	free(record_data);
