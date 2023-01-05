@@ -19,7 +19,8 @@ int main(int argc, char const *argv[])
     printf("Input close to close\n");
     scanf("%s", command);
     printf("%s\n", command);
-    ret = pthread_join(record_thread);
+    // ret = pthread_detach(record_thread);
+    ret = pthread_join(record_thread,NULL);
     if (ret != 0){
 	    printf("error\n");
         exit(1);
