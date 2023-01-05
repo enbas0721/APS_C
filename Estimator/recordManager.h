@@ -11,6 +11,7 @@
 #include "WavManager/audioio.h"
 
 typedef struct{
+    int  flag;
     char card[16];
     char filename[16];
 }record_info;

@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
 {
     char command[8];
     record_info info;
+    info.flag = 1;
     strcpy(info.card,argv[1]);
     strcpy(info.filename,argv[2]);
     pthread_t record_thread;
@@ -18,12 +19,14 @@ int main(int argc, char const *argv[])
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
     printf("Input close to close\n");
     scanf("%s", command);
-    strcpy(info.card, "change");
-    // ret = pthread_detach(record_thread);
+    if (command == "close"){
+        info.flag = 0;
+    }
     ret = pthread_join(record_thread,NULL);
     if (ret != 0){
 	    printf("error\n");
         exit(1);
     }
+    printf("All done.\n");
     return 0;
 }

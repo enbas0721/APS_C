@@ -130,27 +130,7 @@ void* record_start(record_info *info)
 
 	int current_index = 0;
 
-	// 次の課題
-	// 以下のコメントアウトを外すと，Ctrl+Cを無視してしまうので，止まらなくなる
-	// 録音の停止を何らかのキー入力で止められるようにする．
-	
-	// sighandler_t sig = 0;
-	// Ctrl + Cを無視して，入力があればclose処理
-	// sig = signal(SIGINT, SIG_IGN);
-	// if(SIG_ERR == sig){
-	// 	printf("Pushed Ctrl+C\n");
-	// 	write_record_data(record_data, current_index, info->filename);
-
-	// 	free(buffer);
-	// 	free(record_data);
-
-	// 	fprintf(stdout, "buffer freed\n");
-	// 	snd_pcm_close (capture_handle);
-	// 	fprintf(stdout, "audio interface closed\n");
-	// 	return 0;
-	// }
-
-	while (1) {
+	while (info->flag) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
@@ -163,8 +143,16 @@ void* record_start(record_info *info)
 			data_size = data_size + SMPL * 30;
 			record_data = realloc(record_data, data_size);
 		}
-		printf("%s\n",info->card);
 	}
+	
+	write_record_data(record_data, current_index, filename);
+
+	free(buffer);
+	free(record_data);
+
+	fprintf(stdout, "buffer freed\n");
+	snd_pcm_close(capture_handle);
+	fprintf(stdout, "audio interface closed\n");
 
 	return 0;
 }
