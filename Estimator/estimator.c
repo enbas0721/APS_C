@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
     printf("Input close to close\n");
     scanf("%s", command);
-    printf("%s\n", command);
+    strcpy(info.card, "change");
     // ret = pthread_detach(record_thread);
     ret = pthread_join(record_thread,NULL);
     if (ret != 0){

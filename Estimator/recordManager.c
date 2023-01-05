@@ -163,6 +163,7 @@ void* record_start(record_info *info)
 			data_size = data_size + SMPL * 30;
 			record_data = realloc(record_data, data_size);
 		}
+		printf("%s\n",info->card);
 	}
 
 	return 0;
