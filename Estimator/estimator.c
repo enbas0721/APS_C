@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
     int ret = 0;
 
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
-    ret = pthread_detach(record_thread,NULL);
+    ret = pthread_detach(record_thread);
     if (ret != 0){
         exit(1);
     }
