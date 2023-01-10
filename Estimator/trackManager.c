@@ -16,7 +16,7 @@ void* track_start(record_info *info)
     // 1:閾値決定 2:初期送信時刻決定 3:位置推定
     int mode = 2;
 
-    float initial_pos = 1.0;
+    float initial_pos = 0.5;
     
     int i = 0;
     int current_index = 0;
@@ -26,7 +26,7 @@ void* track_start(record_info *info)
     int threshold = 1000;
 
     double temperature = 20.0;
-    double v = 331.5 + 0.6 * temperature;
+    double v = 331.5 + (0.6 * temperature);
 
     double propagation_time = 0.0;
     double distance = 0.0;
@@ -54,6 +54,7 @@ void* track_start(record_info *info)
                 case 3:
                     // 位置推定処理
                     if (info->record_data[current_index] > threshold){
+                        i = (int)((current_time - start_time)/TAU);
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
