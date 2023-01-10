@@ -138,6 +138,7 @@ void* record_start(record_info *info)
 		}
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
+		printf("current_index : %d\n",current_index);
 		if (current_index > data_size - 1){
 			printf("reallocation needed\n");
 			data_size = data_size + SMPL * 30;
