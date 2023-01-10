@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "recordManager.h"
 #include "trackManager.h"
 
 #define SMPL 44100
@@ -9,7 +10,7 @@ int write_result(char * filename){
     return 0;
 }
 
-void track_start(track_info *info)
+void track_start(record_info *info)
 {
     // 3つのモード
     // 1:閾値決定 2:初期送信時刻決定 3:位置推定
