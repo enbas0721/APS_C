@@ -139,10 +139,10 @@ void* record_start(record_info *info)
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
 		printf("current_index : %d\n",current_index);
-		if (current_index + SMPL > data_size){
+		if (current_index + buffer_frames > data_size){
 			printf("reallocation needed\n");
 			data_size = data_size + SMPL * 30;
-			info->record_data = realloc(info->record_data, data_size);
+			info->record_data = realloc(info->record_data, data_size*sizeof(int16_t));
 		}
 	}
 	
