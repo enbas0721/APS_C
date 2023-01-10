@@ -23,7 +23,7 @@ void* track_start(record_info *info)
     double current_time = 0.0;
     double start_time = 0.0;
     
-    int threshold = 4000;
+    int threshold = 1000;
 
     double temperature = 20.0;
     double v = 331.5 + 0.6 * temperature;
