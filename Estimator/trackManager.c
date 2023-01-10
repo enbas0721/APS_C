@@ -43,6 +43,7 @@ void* track_start(record_info *info)
                     break;
                 case 2:
                     // 初期送信時刻決定
+                    printf("case2に入りました\n");
                     if (info->record_data[current_index] > threshold){
                         start_time = current_time - (initial_pos/v);
                         current_index = (int)(current_index + EPS/SMPL);
