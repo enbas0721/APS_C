@@ -56,7 +56,8 @@ void* track_start(record_info *info)
                     if (info->record_data[current_index] > threshold){
                         i = (int)((current_time - start_time)/TAU);
                         propagation_time = current_time - start_time - TAU * i;
-			            printf("propagation_time : %lf\n",propagation_time);
+			            printf("propagation_time : %f\n",propagation_time);
+                        printf("current_time : %lf\n",current_time);
                         distance = propagation_time * v;
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
                         current_index = (int)(current_index + (EPS * SMPL));
