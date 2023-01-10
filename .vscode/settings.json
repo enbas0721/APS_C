@@ -2,7 +2,8 @@
     "files.associations": {
         "audioio.h": "c",
         "stdint.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "trackmanager.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

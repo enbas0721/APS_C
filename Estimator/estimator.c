@@ -2,6 +2,7 @@
 // 第一引数にオーディオカード名 (例. "hw:1")
 // 第二引数に書き出したい録音ファイル名 (例. "output.wav")
 
+#include <stdio.h>
 #include <pthread.h>
 #include <string.h>
 #include "recordManager.h"

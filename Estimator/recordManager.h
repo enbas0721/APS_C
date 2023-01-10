@@ -15,7 +15,7 @@ typedef struct{
     char card[16];
     char filename[16];
     int last_index;
-    int_16_t *record_data;
+    int16_t *record_data;
 }record_info;
 
 int write_record_data(int16_t *record_data, int size, char * filename);
