@@ -136,7 +136,7 @@ void* record_start(record_info *info)
 		for (int i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = buffer[i-current_index];
 		}
-		current_index = current_index + err;
+		current_index = current_index + err + 1;
 		info->last_index = current_index - 1;
 		if (current_index > data_size){
 			data_size = data_size + SMPL * 30;

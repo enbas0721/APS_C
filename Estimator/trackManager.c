@@ -33,7 +33,6 @@ void* track_start(record_info *info)
 
     while((info->flag) || (current_index < info->last_index))
     {
-        printf("whileに入りました\n");
         if (info->last_index > current_index){
             current_time = current_index / SMPL;
             switch(mode){
@@ -43,7 +42,6 @@ void* track_start(record_info *info)
                     break;
                 case 2:
                     // 初期送信時刻決定
-                    printf("case2に入りました\n");
                     if (info->record_data[current_index] > threshold){
                         start_time = current_time - (initial_pos/v);
                         current_index = (int)(current_index + EPS/SMPL);
@@ -66,9 +64,6 @@ void* track_start(record_info *info)
                 default:
                     printf("error: Non-existent mode\n");
             }
-        }else{
-            printf("録音待ち\n");
-        }
     }
     int err;
     err = write_result(info->filename);
