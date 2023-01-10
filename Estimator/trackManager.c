@@ -53,11 +53,12 @@ void* track_start(record_info *info)
                     break;
                 case 3:
                     // 位置推定処理
+                    reallocでエラー
                     if (info->record_data[current_index] > threshold){
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
-                        current_index = (int)(current_index + (EPS * SMPL));
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
+                        current_index = (int)(current_index + (EPS * SMPL));
                     }else{
                         current_index += 1;
                     }
