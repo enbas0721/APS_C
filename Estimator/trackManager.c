@@ -11,7 +11,7 @@ void write_result(char * filename, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
     for (int n = 0; n < size; n++){
-        fprintf(fp, "%lf " distances[n]);
+        fprintf(fp, "%lf ", distances[n]);
     }
     fprintf(fp, "\n");
 }
