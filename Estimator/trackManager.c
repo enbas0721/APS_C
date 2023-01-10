@@ -34,7 +34,7 @@ void* track_start(record_info *info)
     while((info->flag) || (current_index < info->last_index))
     {
         if (info->last_index > current_index){
-            current_time = current_index / SMPL;
+            current_time = (double)(current_index / SMPL);
             switch(mode){
                 case 1:
                     // 閾値決定
