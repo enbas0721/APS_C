@@ -7,14 +7,13 @@
 #define EPS  0.8
 #define TAU  1
 
-void write_result(char * filename, double distances, int size){
+void write_result(char * filename, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
-    for (int n = 0; n < size, n++){
+    for (int n = 0; n < size; n++){
         fprintf(fp, "%lf " distances[n]);
     }
     fprintf(fp, "\n");
-    return 0;
 }
 
 void* track_start(record_info *info)
