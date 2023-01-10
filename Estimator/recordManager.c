@@ -138,7 +138,7 @@ void* record_start(record_info *info)
 		}
 		current_index = current_index + err + 1;
 		info->last_index = current_index - 1;
-		if (current_index > data_size){
+		if (current_index > data_size-1){
 			data_size = data_size + SMPL * 30;
 			info->record_data = realloc(info->record_data, data_size);
 		}
