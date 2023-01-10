@@ -10,7 +10,7 @@ int write_result(char * filename){
     return 0;
 }
 
-void track_start(record_info *info)
+void* track_start(record_info *info)
 {
     // 3つのモード
     // 1:閾値決定 2:初期送信時刻決定 3:位置推定
@@ -25,7 +25,7 @@ void track_start(record_info *info)
     
     int threshold = 1000;
 
-    double temperature 20.0;
+    double temperature = 20.0;
     double v = 331.5 + 0.6 * temperature;
 
     double propagation_time = 0.0;
@@ -44,7 +44,7 @@ void track_start(record_info *info)
                     // 初期送信時刻決定
                     if (info->record_data[current_index] > threshold){
                         start_time = current_time - (initial_pos/v);
-                        current_index = current_index + int(EPS/SMPL);
+                        current_index = (int)(current_index + EPS/SMPL);
                         mode = 3;
                     }else{
                         current_index += 1;
@@ -55,7 +55,7 @@ void track_start(record_info *info)
                     if (info->record_data[current_index] > threshold){
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
-                        current_index = current_index + int(EPS/SMPL);
+                        current_index = (int)(current_index + EPS/SMPL);
                         printf("推定距離: %lf {m}", distance);
                     }else{
                         current_index += 1;
