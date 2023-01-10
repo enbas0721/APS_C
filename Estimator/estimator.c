@@ -18,9 +18,9 @@ int main(int argc, char const *argv[])
     pthread_t record_thread;
     pthread_t track_thread;
     int ret = 0;
-    printf("test\n");
+    
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
-    ret = pthread_create(&track_thread, NULL, (void*)track_start, (void*)&info);
+    // ret = pthread_create(&track_thread, NULL, (void*)track_start, (void*)&info);
     printf("Input close to close\n");
     scanf("%c", &command);
     printf("%c\n", command);
@@ -32,11 +32,11 @@ int main(int argc, char const *argv[])
 	    printf("error\n");
         exit(1);
     }
-    ret = pthread_join(track_thread,NULL);
-    if (ret != 0){
-	    printf("error\n");
-        exit(1);
-    }
+    // ret = pthread_join(track_thread,NULL);
+    // if (ret != 0){
+	//     printf("error\n");
+    //     exit(1);
+    // }
     printf("All done.\n");
     return 0;
 }
