@@ -82,6 +82,6 @@ void* track_start(record_info *info)
     }
     char filename[64];
     strcpy(filename,info->filename);
-    strcat(filename, ".csv")
+    strcat(filename, ".csv");
     write_result(filename, distances, i);
 }
