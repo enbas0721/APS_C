@@ -66,6 +66,6 @@ void track_start(record_info *info)
             }
         }
     }
-
-    write_result(info->filename);   
+    int err;
+    err = write_result(info->filename);
 }
