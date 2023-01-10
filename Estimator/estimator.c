@@ -15,6 +15,7 @@ int main(int argc, char const *argv[])
     info.flag = 1;
     strcpy(info.card,argv[1]);
     strcpy(info.filename,argv[2]);
+    info.last_index = 0;
     pthread_t record_thread;
     pthread_t track_thread;
     int ret = 0;
