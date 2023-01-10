@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "recordManager.h"
 
-int write_result(char * filename);
+void write_result(char * filename, double distances, int size);
 void* track_start(record_info *info);
 
 #endif

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "recordManager.h"
 #include "trackManager.h"
 
@@ -6,7 +7,13 @@
 #define EPS  0.8
 #define TAU  1
 
-int write_result(char * filename){
+void write_result(char * filename, double distances, int size){
+    FILE *fp;
+    fp = fopen(filename, "w");
+    for (int n = 0; n < size, n++){
+        fprintf(fp, "%lf " distances[n]);
+    }
+    fprintf(fp, "\n");
     return 0;
 }
 
@@ -30,6 +37,8 @@ void* track_start(record_info *info)
 
     double propagation_time = 0.0;
     double distance = 0.0;
+
+    double distances[240];
 
     while((info->flag) || (current_index < info->last_index))
     {
@@ -59,6 +68,7 @@ void* track_start(record_info *info)
 			            printf("propagation_time : %f\n",propagation_time);
                         printf("current_time : %lf\n",current_time);
                         distance = propagation_time * v;
+                        distances[i] = distance;
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
                         current_index = (int)(current_index + (EPS * SMPL));
                     }else{
@@ -70,6 +80,8 @@ void* track_start(record_info *info)
             }
         }
     }
-    int err;
-    err = write_result(info->filename);
+    char filename[64];
+    strcpy(filename,info->filename);
+    strcat(filename, ".csv")
+    write_result(filename, distances, i);
 }

@@ -144,7 +144,10 @@ void* record_start(record_info *info)
 		}
 	}
 	
-	write_record_data(info->record_data, current_index, info->filename);
+	char filename[64];
+    strcpy(filename,info->filename);
+    strcat(filename, ".wav")
+	write_record_data(info->record_data, current_index, filename);
 
 	free(buffer);
 	free(info->record_data);
