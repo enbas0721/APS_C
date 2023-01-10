@@ -23,7 +23,7 @@ void* track_start(record_info *info)
     double current_time = 0.0;
     double start_time = 0.0;
     
-    int threshold = 1000;
+    int threshold = 4000;
 
     double temperature = 20.0;
     double v = 331.5 + 0.6 * temperature;
@@ -56,7 +56,7 @@ void* track_start(record_info *info)
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
                         current_index = (int)(current_index + EPS/SMPL);
-                        printf("推定距離: %lf {m}", distance);
+                        printf("推定距離: %lf {m}\n 振幅: %d {m}\n", distance, info->record_data[current_index]);
                     }else{
                         current_index += 1;
                     }
