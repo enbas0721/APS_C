@@ -53,7 +53,6 @@ void* track_start(record_info *info)
                     break;
                 case 3:
                     // 位置推定処理
-                    reallocでエラー
                     if (info->record_data[current_index] > threshold){
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
