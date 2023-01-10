@@ -12,7 +12,6 @@ int write_result(char * filename){
 
 void* track_start(record_info *info)
 {
-    printf("関数に入りました\n");
     // 3つのモード
     // 1:閾値決定 2:初期送信時刻決定 3:位置推定
     int mode = 2;
@@ -66,6 +65,8 @@ void* track_start(record_info *info)
                 default:
                     printf("error: Non-existent mode\n");
             }
+        }else{
+            printf("録音待ち\n");
         }
     }
     int err;
