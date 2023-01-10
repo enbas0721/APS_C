@@ -136,9 +136,9 @@ void* record_start(record_info *info)
 		for (int i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = buffer[i-current_index];
 		}
-		current_index = current_index + err + 1;
+		current_index = current_index + err;
 		info->last_index = current_index - 1;
-		if (current_index > data_size-1){
+		if (current_index > data_size){
 			data_size = data_size + SMPL * 30;
 			info->record_data = realloc(info->record_data, data_size);
 		}
