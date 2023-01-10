@@ -57,7 +57,8 @@ void* track_start(record_info *info)
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
                         current_index = (int)(current_index + EPS/SMPL);
-                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
+                        printf("current_index: %d\n", current_index);
+                        // printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
                     }else{
                         current_index += 1;
                     }
