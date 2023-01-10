@@ -119,7 +119,7 @@ void* record_start(record_info *info)
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	int data_size = SMPL*30;
+	int data_size = SMPL*240;
 
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
 	info->record_data = calloc(data_size, sizeof(int16_t));
@@ -138,9 +138,7 @@ void* record_start(record_info *info)
 		}
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
-		printf("current_index : %d\n",current_index);
 		if (current_index + buffer_frames > data_size){
-			printf("reallocation needed\n");
 			data_size = data_size + SMPL * 30;
 			info->record_data = realloc(info->record_data, data_size*sizeof(int16_t));
 		}
