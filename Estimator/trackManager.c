@@ -64,6 +64,7 @@ void* track_start(record_info *info)
                 default:
                     printf("error: Non-existent mode\n");
             }
+        }
     }
     int err;
     err = write_result(info->filename);
