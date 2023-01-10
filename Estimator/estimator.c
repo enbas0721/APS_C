@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <string.h>
 #include "recordManager.h"
+#include "trackManager.h"
 
 int main(int argc, char const *argv[])
 {
@@ -14,9 +15,11 @@ int main(int argc, char const *argv[])
     strcpy(info.card,argv[1]);
     strcpy(info.filename,argv[2]);
     pthread_t record_thread;
+    pthread_t track_thread;
     int ret = 0;
 
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
+    ret = pthread_create(&track_thread, NULL, (void*)track_start, (void*)&info)
     printf("Input close to close\n");
     scanf("%c", &command);
     printf("%c\n", command);
@@ -24,6 +27,11 @@ int main(int argc, char const *argv[])
         info.flag = 0;
     }
     ret = pthread_join(record_thread,NULL);
+    if (ret != 0){
+	    printf("error\n");
+        exit(1);
+    }
+    ret = pthread_join(track_thread,NULL);
     if (ret != 0){
 	    printf("error\n");
         exit(1);

@@ -5,7 +5,7 @@
 #define EPS  0.8
 #define TAU  1
 
-void write_result(char * filename){
+int write_result(char * filename){
     return 0;
 }
 

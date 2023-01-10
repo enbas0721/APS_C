@@ -2,12 +2,9 @@
 #define TRACKMANAGER_H
 
 #include <stdint.h>
+#include "recordManager.h"
 
-typedef struct{
-    int  flag;
-    char filename[16];
-    int last_index;
-    int16_t *record_data;
-}track_info;
+int write_result(char * filename)
+void* track_start(record_info *info)
 
 #endif

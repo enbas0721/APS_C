@@ -42,8 +42,6 @@ void* record_start(record_info *info)
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
-	int16_t *record_data;
-
 	if ((err = snd_pcm_open (&capture_handle, info->card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stdout, "cannot open audio device %s (%s)\n",
 		         info->card,
@@ -124,7 +122,7 @@ void* record_start(record_info *info)
 	int data_size = SMPL*30;
 
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
-	record_data = calloc(data_size, sizeof(int16_t));
+	info->record_data = calloc(data_size, sizeof(int16_t));
 
 	fprintf(stdout, "buffer allocated\n");
 
@@ -136,19 +134,20 @@ void* record_start(record_info *info)
 			exit (1);
 		}
 		for (int i = current_index; i < current_index + err; i++) {
-			record_data[i] = buffer[i-current_index];
+			info->record_data[i] = buffer[i-current_index];
 		}
 		current_index = current_index + err;
+		info->last_index = current_index - 1;
 		if (current_index > data_size){
 			data_size = data_size + SMPL * 30;
-			record_data = realloc(record_data, data_size);
+			info->record_data = realloc(info->record_data, data_size);
 		}
 	}
 	
-	write_record_data(record_data, current_index, info->filename);
+	write_record_data(info->record_data, current_index, info->filename);
 
 	free(buffer);
-	free(record_data);
+	free(info->record_data);
 
 	fprintf(stdout, "buffer freed\n");
 	snd_pcm_close(capture_handle);
