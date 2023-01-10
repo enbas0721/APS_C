@@ -43,6 +43,7 @@ void* track_start(record_info *info)
                 case 2:
                     // 初期送信時刻決定
                     if (info->record_data[current_index] > threshold){
+                        printf("初期送信時刻決定\n");
                         start_time = current_time - (initial_pos/v);
                         current_index = (int)(current_index + EPS/SMPL);
                         mode = 3;
@@ -56,7 +57,7 @@ void* track_start(record_info *info)
                         propagation_time = current_time - start_time - TAU * i;
                         distance = propagation_time * v;
                         current_index = (int)(current_index + EPS/SMPL);
-                        printf("推定距離: %lf {m}\n 振幅: %d {m}\n", distance, info->record_data[current_index]);
+                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
                     }else{
                         current_index += 1;
                     }
