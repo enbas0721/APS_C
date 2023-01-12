@@ -11,11 +11,13 @@ void write_result(char * filename, double * time, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
     for (int n = 0; n < size; n++){
-        fprintf(fp, "%lf ", time[n]);
+        fprintf(fp, "Time,");
+        fprintf(fp, "%lf,", time[n]);
     }
     fprintf(fp, "\n");
     for (int n = 0; n < size; n++){
-        fprintf(fp, "%lf ", distances[n]);
+        fprintf(fp, "Distance,");
+        fprintf(fp, "%lf,", distances[n]);
     }
     fprintf(fp, "\n");
 }
