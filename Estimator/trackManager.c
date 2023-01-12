@@ -7,9 +7,13 @@
 #define EPS  0.8
 #define TAU  1
 
-void write_result(char * filename, double * distances, int size){
+void write_result(char * filename, double * time, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
+    for (int n = 0; n < size; n++){
+        fprintf(fp, "%lf ", time[n]);
+    }
+    fprintf(fp, "\n");
     for (int n = 0; n < size; n++){
         fprintf(fp, "%lf ", distances[n]);
     }
@@ -86,5 +90,5 @@ void* track_start(record_info *info)
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
-    write_result(filename, distances, log_index-1);
+    write_result(filename, received_time, distances, log_index-1);
 }
