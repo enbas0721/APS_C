@@ -24,7 +24,7 @@ void* track_start(record_info *info)
 
     float initial_pos = 0.5;
     
-    int i = 0;
+    int received_num = 0;
     int current_index = 0;
     double current_time = 0.0;
     double start_time = 0.0;
@@ -37,7 +37,9 @@ void* track_start(record_info *info)
     double propagation_time = 0.0;
     double distance = 0.0;
 
-    double distances[240];
+    int log_index = 0;
+    double distances[10000];
+    double received_time[10000];
 
     while((info->flag) || (current_index < info->last_index))
     {
@@ -62,12 +64,14 @@ void* track_start(record_info *info)
                 case 3:
                     // 位置推定処理
                     if (info->record_data[current_index] > threshold){
-                        i = (int)((current_time - start_time)/TAU);
-                        propagation_time = current_time - start_time - TAU * i;
+                        received_num = (int)((current_time - start_time)/TAU);
+                        propagation_time = current_time - start_time - TAU * received_num;
 			            printf("propagation_time : %f\n",propagation_time);
                         printf("current_time : %lf\n",current_time);
                         distance = propagation_time * v;
-                        distances[i] = distance;
+                        distances[log_index] = distance;
+                        received_time[log_index] = current_time;
+                        log_index += 1;
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
                         current_index = (int)(current_index + (EPS * SMPL));
                     }else{
