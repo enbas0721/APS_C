@@ -79,7 +79,7 @@ void* track_start(record_info *info)
                     }
                     break;
                 default:
-                    printf("error: Non-existent mode\n");
+                    printf("Error: Non-existent mode\n");
             }
         }
     }
