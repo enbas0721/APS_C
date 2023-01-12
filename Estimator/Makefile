@@ -7,7 +7,7 @@ LIBS	=	-lasound -lpthread
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
-	$(CC) $(OBJS) $(LIBS) -o $(NAME)
+	$(CC) $(SRCS) $(LIBS) -o $(NAME)
 
 clean:
 	rm -f *.o *~$(NAME)
