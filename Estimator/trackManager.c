@@ -42,8 +42,10 @@ void* track_start(record_info *info)
     
     int threshold = 1000;
 
+    printf("in the track\n");
     double temperature = 20.0;
     double v = sound_speed(temperature);
+    printf("after sound_speed\n");
 
     double propagation_time = 0.0;
     double distance = 0.0;
