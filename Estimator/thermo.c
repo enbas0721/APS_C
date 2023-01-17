@@ -113,8 +113,9 @@ int am2321(float *out_temperature, float *out_humidity)
 
 double temp_measure(double temperature) {
   float temp, humi;
-
+  printf("in temp_measure\n");
   int ret = am2321(&temp, &humi);
+  printf("got temp return\n");
   if (ret) {
     printf("Err=%d\n", ret);
     return temperature;
