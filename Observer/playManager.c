@@ -1,34 +1,13 @@
-/*
-   sudo apt-get install libasound2-dev
-   gcc -o record.out alsa-record-example.c WavManager/audioio.c -lasound
-   ./record.out hw:1
- */
-
-#define _GNU_SOURCE
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <signal.h>
 #include <alsa/asoundlib.h>
-#include "WavManager/audioio.h"
-#include "recordManager.h"
 
 #define SMPL 44100
-#define BIT 16
+#define BIT  16
 
-int write_record_data(int16_t * record_data, int size, char * filename){
-	// Wavファイル作成
-	WAV_PRM prm;
-	// Wavファイル用パラメータコピー
-	prm.fs = SMPL;
-	prm.bits = BIT;
-	prm.L = size;
-	
-	audio_write(record_data, &prm, filename);
-}
-
-void* record_start(record_info *info)
+int main(void)
 {
 	// バッファ系の変数
 	int i;
@@ -40,9 +19,9 @@ void* record_start(record_info *info)
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
-	if ((err = snd_pcm_open (&capture_handle, info->card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
+	if ((err = snd_pcm_open (&capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stdout, "cannot open audio device %s (%s)\n",
-		         info->card,
+		         argv[1],
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -117,38 +96,20 @@ void* record_start(record_info *info)
 
 	fprintf(stdout, "audio interface prepared\n");
 
-	int data_size = SMPL*240;
-
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
-	info->record_data = calloc(data_size, sizeof(int16_t));
 
 	fprintf(stdout, "buffer allocated\n");
 
 	int current_index = 0;
 
-	while (info->flag) {
-		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
+	for (int n = 0; n < 5; n++) {
+		if ((err = snd_pcm_writei(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		for (int i = current_index; i < current_index + err; i++) {
-			info->record_data[i] = buffer[i-current_index];
-		}
-		current_index = current_index + err;
-		info->last_index = current_index - 1;
-		if (current_index + buffer_frames > data_size){
-			data_size = data_size + SMPL * 30;
-			info->record_data = realloc(info->record_data, data_size*sizeof(int16_t));
-		}
 	}
 	
-	char filename[64];
-    strcpy(filename,info->filename);
-    strcat(filename, ".wav");
-	write_record_data(info->record_data, current_index, filename);
-
 	free(buffer);
-	free(info->record_data);
 
 	fprintf(stdout, "buffer freed\n");
 	snd_pcm_close(capture_handle);
@@ -156,4 +117,3 @@ void* record_start(record_info *info)
 
 	return 0;
 }
-
