@@ -10,8 +10,7 @@
 #define AM2321_ADDR 0x5C
 
 
-static uint16_t 
-_calc_crc16(const uint8_t *buf, size_t len) {
+static uint16_t _calc_crc16(const uint8_t *buf, size_t len) {
   uint16_t crc = 0xFFFF;
   
   while(len--) {
@@ -29,14 +28,12 @@ _calc_crc16(const uint8_t *buf, size_t len) {
   return crc;
 }
 
-static uint16_t
-_combine_bytes(uint8_t msb, uint8_t lsb)
+static uint16_t _combine_bytes(uint8_t msb, uint8_t lsb)
 {
   return ((uint16_t)msb << 8) | (uint16_t)lsb;
 }
 
-int 
-am2321(float *out_temperature, float *out_humidity) 
+int am2321(float *out_temperature, float *out_humidity) 
 {
   int fd;
   uint8_t data[8];
@@ -114,17 +111,16 @@ am2321(float *out_temperature, float *out_humidity)
   return 0;
 }
 
-int main(void) {
+double temp_measure(double temperature) {
   float temp, humi;
 
   int ret = am2321(&temp, &humi);
   if (ret) {
     printf("Err=%d\n", ret);
-    return ret;
+    return temperature;
   }
 
-  printf( "Temperature %.1f [C]\n", temp);
-  printf( "Humidity    %.1f [%%]\n", humi);
+  temperature = temp;
   
-  return 0;
+  return temperature;
 }

@@ -2,6 +2,7 @@
 #include <string.h>
 #include "recordManager.h"
 #include "trackManager.h"
+#include "thermo.h"
 
 #define SMPL 44100
 #define EPS  0.8
@@ -22,6 +23,10 @@ void write_result(char * filename, double * time, double * distances, int size){
     fprintf(fp, "\n");
 }
 
+double sound_speed(double temperature){
+    return (331.5 + (0.61 * temperature));
+}
+
 void* track_start(record_info *info)
 {
     // 3つのモード
@@ -38,7 +43,7 @@ void* track_start(record_info *info)
     int threshold = 1000;
 
     double temperature = 20.0;
-    double v = 331.5 + (0.6 * temperature);
+    double v = sound_speed(temperature);
 
     double propagation_time = 0.0;
     double distance = 0.0;
@@ -74,6 +79,8 @@ void* track_start(record_info *info)
                         propagation_time = current_time - start_time - TAU * received_num;
 			            printf("propagation_time : %f\n",propagation_time);
                         printf("current_time : %lf\n",current_time);
+                        temperature = temp_measure(temperature);
+                        v = sound_speed(temperature);
                         distance = propagation_time * v;
                         distances[log_index] = distance;
                         received_time[log_index] = current_time;

@@ -3,7 +3,8 @@
         "audioio.h": "c",
         "stdint.h": "c",
         "pthread.h": "c",
-        "trackmanager.h": "c"
+        "trackmanager.h": "c",
+        "recordmanager.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
