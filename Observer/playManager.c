@@ -7,7 +7,7 @@
 #define SMPL 44100
 #define BIT  16
 
-int main(void)
+int main(int argc, char const *argv[])
 {
 	// バッファ系の変数
 	int i;
