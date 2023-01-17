@@ -42,10 +42,8 @@ void* track_start(record_info *info)
     
     int threshold = 1000;
 
-    printf("in the track\n");
     double temperature = 20.0;
     double v = sound_speed(temperature);
-    printf("after sound_speed\n");
 
     double propagation_time = 0.0;
     double distance = 0.0;
@@ -82,6 +80,7 @@ void* track_start(record_info *info)
 			            printf("propagation_time : %f\n",propagation_time);
                         printf("current_time : %lf\n",current_time);
                         temperature = temp_measure(temperature);
+                        printf("温度：%lf\n",temperature);
                         v = sound_speed(temperature);
                         distance = propagation_time * v;
                         distances[log_index] = distance;
