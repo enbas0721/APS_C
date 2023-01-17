@@ -115,7 +115,6 @@ double temp_measure(double temperature) {
   float temp, humi;
   int ret = am2321(&temp, &humi);
   if (ret) {
-    printf("Err=%d\n", ret);
     return temperature;
   }
 
