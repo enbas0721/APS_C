@@ -165,7 +165,7 @@ void* record_start(record_info *info)
 
 	err = snd_mixer_selem_set_capture_volume(elem, chn, gain_value);
 	if (err < 0) {
-		fprintf(stderr, "Setting %s capture volume error", card);
+		fprintf(stderr, "Setting %s capture volume error", info->card);
 		snd_mixer_close(mixer_handle);
 		mixer_handle = NULL;
 		exit (1);
