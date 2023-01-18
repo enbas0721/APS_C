@@ -192,7 +192,7 @@ int main (int argc, char *argv[])
 	fprintf(stdout, "buffer allocated\n");
 
 	int gain_value = 16;
-	set_gain_value(gain_value);
+	set_gain_value(gain_value, card);
 	int flag = 0;
 	int current_index = 0;
 	while ((current_index + buffer_frames) < prm.L) {
