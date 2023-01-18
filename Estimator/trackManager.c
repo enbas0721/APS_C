@@ -5,7 +5,7 @@
 #include "thermo.h"
 
 #define SMPL 44100
-#define EPS  0.8
+#define EPS  0.9
 #define TAU  1
 
 void write_result(char * filename, double * time, double * distances, int size){
@@ -16,7 +16,7 @@ void write_result(char * filename, double * time, double * distances, int size){
         fprintf(fp, "%lf,", time[n]);
     }
     fprintf(fp, "\n");
-    
+
     fprintf(fp, "Distance,");
     for (int n = 0; n < size; n++){
         fprintf(fp, "%lf,", distances[n]);
@@ -30,9 +30,7 @@ double sound_speed(double temperature){
 
 void* track_start(record_info *info)
 {
-    // 3つのモード
-    // 1:閾値決定 2:初期送信時刻決定 3:位置推定
-    int mode = 2;
+    int phase = 2;
 
     float initial_pos = 0.5;
     
@@ -57,7 +55,7 @@ void* track_start(record_info *info)
     {
         if (info->last_index > current_index){
             current_time = (double)current_index / (double)SMPL;
-            switch(mode){
+            switch(phase){
                 case 1:
                     // 閾値決定
                     current_index += 1;
@@ -66,9 +64,11 @@ void* track_start(record_info *info)
                     // 初期送信時刻決定
                     if (info->record_data[current_index] > threshold){
                         printf("初期送信時刻決定\n");
+                        temperature = temp_measure(temperature);
+                        v = sound_speed(temperature);
                         start_time = current_time - (initial_pos/v);
                         current_index = (int)(current_index + (EPS * SMPL));
-                        mode = 3;
+                        phase = 3;
                     }else{
                         current_index += 1;
                     }
@@ -76,30 +76,37 @@ void* track_start(record_info *info)
                 case 3:
                     // 位置推定処理
                     if (info->record_data[current_index] > threshold){
+                        
                         received_num = (int)((current_time - start_time)/TAU);
                         propagation_time = current_time - start_time - TAU * received_num;
-			            printf("propagation_time : %f\n",propagation_time);
+                        printf("propagation_time : %f\n",propagation_time);
                         printf("current_time : %lf\n",current_time);
+
                         temperature = temp_measure(temperature);
                         printf("温度：%lf\n",temperature);
+
                         v = sound_speed(temperature);
                         distance = propagation_time * v;
+                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
+                        
                         distances[log_index] = distance;
                         received_time[log_index] = current_time;
                         log_index += 1;
-                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
+
                         current_index = (int)(current_index + (EPS * SMPL));
                     }else{
                         current_index += 1;
                     }
                     break;
                 default:
-                    printf("Error: Non-existent mode\n");
+                    printf("Error: Non-existent phase\n");
             }
         }
     }
+
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
-    write_result(filename, received_time, distances, log_index-1);
+    write_result(filename, received_time, distances, log_index);
+
 }
