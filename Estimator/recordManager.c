@@ -117,6 +117,8 @@ void* record_start(record_info *info)
 	fprintf(stdout, "audio interface prepared\n");
 
 	// Setting sound mixer
+	static int smixer_level = 0;
+	static struct snd_mixer_selem_regopt smixer_options;
 	static snd_mixer_t *mixer_handle = NULL;
 	snd_mixer_elem_t *elem;
 	snd_mixer_selem_id_t *sid;
@@ -148,7 +150,7 @@ void* record_start(record_info *info)
 		}
 		err = snd_mixer_load(mixer_handle);
 		if (err < 0) {
-			fprintf(stderr, "Mixer %s load error", card);
+			fprintf(stderr, "Mixer %s load error", info->card);
 			snd_mixer_close(mixer_handle);
 			mixer_handle = NULL;
 			exit (1);
