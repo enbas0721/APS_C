@@ -199,7 +199,7 @@ void* record_start(record_info *info)
     strcat(filename, ".wav");
 	write_record_data(info->record_data, current_index, filename);
 
-	printf("Buffered Frame %d\n",current_index);
+	printf("Buffered Frame %d\n",rate);
 
 	free(buffer);
 	free(info->record_data);
