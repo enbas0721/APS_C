@@ -94,6 +94,7 @@ void* record_start(record_info *info)
 	}
 
 	fprintf(stdout, "hw_params format setted\n");
+	printf("sample rate Before snd_pcm_hw_params_set_rate_near %d\n",rate);
 
 	if ((err = snd_pcm_hw_params_set_rate_near (capture_handle, hw_params, &rate, 0)) < 0) {
 		fprintf (stdout, "cannot set sample rate (%s)\n",
