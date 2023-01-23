@@ -181,7 +181,6 @@ void* record_start(record_info *info)
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		printf("Buffered Frame %d\n",err);
 		for (int i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = buffer[i-current_index];
 		}
@@ -199,6 +198,8 @@ void* record_start(record_info *info)
     strcpy(filename,info->filename);
     strcat(filename, ".wav");
 	write_record_data(info->record_data, current_index, filename);
+
+	printf("Buffered Frame %d\n",current_index);
 
 	free(buffer);
 	free(info->record_data);
