@@ -10,6 +10,10 @@
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 
+#define SMPL 44100
+#define BIT 16
+#define TAU 1
+
 typedef struct{
     int  flag;
     char card[16];

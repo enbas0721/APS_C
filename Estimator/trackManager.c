@@ -4,10 +4,6 @@
 #include "trackManager.h"
 #include "thermo.h"
 
-#define SMPL 88200
-#define EPS  0.9
-#define TAU  1
-
 void write_result(char * filename, double * time, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
@@ -39,7 +35,7 @@ void* track_start(record_info *info)
     double current_time = 0.0;
     double start_time = 0.0;
     
-    int threshold = 1000;
+    int threshold = 800;
 
     double temperature = 20.0;
     double v = sound_speed(temperature);
