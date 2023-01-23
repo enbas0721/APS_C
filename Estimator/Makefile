@@ -10,5 +10,8 @@ cc:
 	rm $(NAME)
 	$(CC) $(SRCS) $(LIBS) -o $(NAME)
 
+ccc:
+	$(CC) $(SRCS) $(LIBS) -o $(NAME)
+
 clean:
 	rm -f *.o *~$(NAME)
