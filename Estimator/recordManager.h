@@ -10,7 +10,7 @@
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 
-#define SMPL 22000
+#define SMPL 88200
 #define BIT 16
 #define EPS 0.9
 #define TAU 1
