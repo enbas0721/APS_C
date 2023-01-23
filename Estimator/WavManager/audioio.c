@@ -128,8 +128,7 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	data_ID[1] = 'a';
 	data_ID[2] = 't';
 	data_ID[3] = 'a';
-	// data_size = prm->L * 2;
-	data_size = prm->L;
+	data_size = prm->L * 2;
 	fwrite(data_ID, 1, 4, fp);
 	fwrite(&data_size, 4, 1, fp);
 
