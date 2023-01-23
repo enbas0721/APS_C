@@ -14,7 +14,7 @@
 #include "WavManager/audioio.h"
 #include "recordManager.h"
 
-#define SMPL 44100
+#define SMPL 88200
 #define BIT 16
 
 int write_record_data(int16_t * record_data, int size, char * filename){
@@ -37,10 +37,23 @@ void* record_start(record_info *info)
 	int buffer_frames = 1024;
 	unsigned int rate = SMPL;
 
-	// Setting sound pcm
+	int gain_value = 8;
+
+	// For sound pcm setting
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
+
+	// For sound mixer setting
+	static int smixer_level = 0;
+	static struct snd_mixer_selem_regopt smixer_options;
+	static snd_mixer_t *mixer_handle = NULL;
+	snd_mixer_elem_t *elem;
+	snd_mixer_selem_id_t *sid;
+	snd_mixer_selem_id_alloca(&sid);
+	snd_mixer_selem_channel_id_t chn = SND_MIXER_SCHN_FRONT_LEFT;
+	snd_mixer_selem_id_set_index(sid, 0);
+	snd_mixer_selem_id_set_name(sid, "Mic");
 
 	if ((err = snd_pcm_open (&capture_handle, info->card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stdout, "cannot open audio device %s (%s)\n",
@@ -117,20 +130,6 @@ void* record_start(record_info *info)
 	fprintf(stdout, "audio interface prepared\n");
 
 	// Setting sound mixer
-	static int smixer_level = 0;
-	static struct snd_mixer_selem_regopt smixer_options;
-	static snd_mixer_t *mixer_handle = NULL;
-	snd_mixer_elem_t *elem;
-	snd_mixer_selem_id_t *sid;
-	snd_mixer_selem_id_alloca(&sid);
-
-	snd_mixer_selem_channel_id_t chn = SND_MIXER_SCHN_FRONT_LEFT;
-
-	snd_mixer_selem_id_set_index(sid, 0);
-	snd_mixer_selem_id_set_name(sid, "Mic");
-
-	int gain_value = 8;
-
 	if (mixer_handle == NULL) {
 		if ((err = snd_mixer_open(&mixer_handle, 0)) < 0) {
 			fprintf(stderr, "Mixer %s open error\n", info->card);
@@ -180,8 +179,6 @@ void* record_start(record_info *info)
 
 	int current_index = 0;
 
-	// For the test
-	int test = 1;
 	while (info->flag) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
@@ -190,16 +187,14 @@ void* record_start(record_info *info)
 		for (int i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = buffer[i-current_index];
 		}
-		// For the test
-		if (test && (current_index > SMPL * 3)){
-			snd_mixer_selem_set_capture_volume(elem, chn, 16);
-		}
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
 		if (current_index + buffer_frames > data_size){
 			data_size = data_size + SMPL * 30;
 			info->record_data = realloc(info->record_data, data_size*sizeof(int16_t));
 		}
+		// 以下でゲイン調整可能
+		// snd_mixer_selem_set_capture_volume(elem, chn, gain_value);
 	}
 	
 	char filename[64];

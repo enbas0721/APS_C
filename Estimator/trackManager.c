@@ -4,7 +4,7 @@
 #include "trackManager.h"
 #include "thermo.h"
 
-#define SMPL 44100
+#define SMPL 88200
 #define EPS  0.9
 #define TAU  1
 
