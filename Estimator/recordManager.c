@@ -18,8 +18,7 @@ int write_record_data(int16_t * record_data, int size, char * filename){
 	// Wavファイル作成
 	WAV_PRM prm;
 	// Wavファイル用パラメータコピー
-	// prm.fs = SMPL;
-	prm.fs = 44100;
+	prm.fs = SMPL;
 	prm.bits = BIT;
 	prm.L = size;
 	
