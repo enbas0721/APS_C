@@ -14,11 +14,11 @@
 #include "WavManager/audioio.h"
 #include "recordManager.h"
 
-int write_record_data(int16_t * record_data, int size, char * filename){
+int write_record_data(int16_t * record_data, unsigned int rate, int size, char * filename){
 	// Wavファイル作成
 	WAV_PRM prm;
 	// Wavファイル用パラメータコピー
-	prm.fs = SMPL;
+	prm.fs = rate;
 	prm.bits = BIT;
 	prm.L = size;
 	
@@ -167,7 +167,7 @@ void* record_start(record_info *info)
 		exit (1);
 	}
 
-	int data_size = SMPL*240;
+	int data_size = rate*240;
 
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
 	info->record_data = calloc(data_size, sizeof(int16_t));
@@ -187,7 +187,7 @@ void* record_start(record_info *info)
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
 		if (current_index + buffer_frames > data_size){
-			data_size = data_size + SMPL * 30;
+			data_size = data_size + rate * 30;
 			info->record_data = realloc(info->record_data, data_size*sizeof(int16_t));
 		}
 		// 以下でゲイン調整可能
@@ -197,7 +197,7 @@ void* record_start(record_info *info)
 	char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".wav");
-	write_record_data(info->record_data, current_index, filename);
+	write_record_data(info->record_data, rate, current_index, filename);
 
 	free(buffer);
 	free(info->record_data);
