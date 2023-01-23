@@ -36,6 +36,8 @@ void* record_start(record_info *info)
 
 	int gain_value = 8;
 
+	printf("sample rate first: %d", rate);
+
 	// For sound pcm setting
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
@@ -98,6 +100,7 @@ void* record_start(record_info *info)
 		         snd_strerror (err));
 		exit (1);
 	}
+	printf("sample rate %d\n",rate);
 
 	fprintf(stdout, "hw_params rate setted\n");
 
@@ -198,8 +201,6 @@ void* record_start(record_info *info)
     strcpy(filename,info->filename);
     strcat(filename, ".wav");
 	write_record_data(info->record_data, current_index, filename);
-
-	printf("Buffered Frame %d\n",rate);
 
 	free(buffer);
 	free(info->record_data);
