@@ -36,8 +36,6 @@ void* record_start(record_info *info)
 
 	int gain_value = 8;
 
-	printf("sample rate first: %d", rate);
-
 	// For sound pcm setting
 	snd_pcm_t *capture_handle;
 	snd_pcm_hw_params_t *hw_params;
@@ -94,14 +92,12 @@ void* record_start(record_info *info)
 	}
 
 	fprintf(stdout, "hw_params format setted\n");
-	printf("sample rate Before snd_pcm_hw_params_set_rate_near %d\n",rate);
 
 	if ((err = snd_pcm_hw_params_set_rate_near (capture_handle, hw_params, &rate, 0)) < 0) {
 		fprintf (stdout, "cannot set sample rate (%s)\n",
 		         snd_strerror (err));
 		exit (1);
 	}
-	printf("sample rate %d\n",rate);
 
 	fprintf(stdout, "hw_params rate setted\n");
 
