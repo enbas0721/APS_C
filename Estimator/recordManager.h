@@ -12,7 +12,7 @@
 
 #define SMPL 48000
 #define BIT 16
-#define EPS 0.9
+#define EPS 0.8
 #define TAU 1
 
 typedef struct{
