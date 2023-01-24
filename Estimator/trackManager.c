@@ -35,7 +35,7 @@ void* track_start(record_info *info)
     double current_time = 0.0;
     double start_time = 0.0;
     
-    int threshold = 1000;
+    int threshold = 1500;
 
     double temperature = 20.0;
     double v = sound_speed(temperature);
@@ -81,6 +81,7 @@ void* track_start(record_info *info)
                         v = sound_speed(temperature);
                         printf("音速: %lf {m}\n", v);
                         distance = propagation_time * v;
+                        printf("受信時刻: %lf {m}\n", current_time);
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
                         
                         distances[log_index] = distance;
