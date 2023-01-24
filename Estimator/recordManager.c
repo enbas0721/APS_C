@@ -167,6 +167,8 @@ void* record_start(record_info *info)
 		exit (1);
 	}
 
+	printf("Sampling rate: %d",rate);
+
 	int data_size = rate*240;
 
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
