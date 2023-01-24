@@ -42,6 +42,6 @@ class Sender:
 
 if __name__ == '__main__':
     amp = float(sys.argv[1])
-    sender = Sender(amp=amp, duration=0.1)
+    sender = Sender(amp=amp, duration=0.05)
     sender.startSending()
     time.sleep(100)
