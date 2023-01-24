@@ -59,10 +59,10 @@ void* track_start(record_info *info)
                 case 2:
                     // 初期送信時刻決定
                     if (info->record_data[current_index] > threshold){
-                        printf("初期送信時刻決定\n");
                         temperature = temp_measure(temperature);
                         v = sound_speed(temperature);
                         start_time = current_time - (initial_pos/v);
+                        printf("初期送信時刻 : %lf\n", start_time);
                         current_index = (int)(current_index + (EPS * SMPL));
                         phase = 3;
                     }else{
