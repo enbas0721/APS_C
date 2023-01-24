@@ -16,7 +16,7 @@ class Sender:
 
     def makeWave(self):
         samples = np.linspace(0,0,int((0.2*self.rate - self.duration*self.rate)/2))
-        samples = samples + self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
+        samples = samples + (self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate))
         samples = samples + np.linspace(0,0,int((0.2*self.rate - self.duration*self.rate)/2))
         print(samples)
 
