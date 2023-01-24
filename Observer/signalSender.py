@@ -5,7 +5,7 @@ import time
 import sys
 
 class Sender:
-    def __init__(self, amp=0.3, freq=1760, duration=0.2, rate=44100, send_cycle=1):
+    def __init__(self, amp=0.3, freq=1760, duration=0.05, rate=44100, send_cycle=1):
         self.amp = amp
         self.freq = freq
         self.duration = duration
