@@ -167,7 +167,7 @@ void* record_start(record_info *info)
 		exit (1);
 	}
 
-	printf("Sampling rate: %d",rate);
+	printf("Sampling rate: %d\n",rate);
 
 	int data_size = rate*240;
 

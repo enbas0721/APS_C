@@ -77,7 +77,7 @@ void* track_start(record_info *info)
                         propagation_time = current_time - start_time - TAU * received_num;
 
                         temperature = temp_measure(temperature);
-
+                        
                         v = sound_speed(temperature);
                         distance = propagation_time * v;
                         printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
