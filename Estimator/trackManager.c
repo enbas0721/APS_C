@@ -8,16 +8,16 @@ void write_result(char * filename, double * time, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
     fprintf(fp, "Time,");
-    for (int n = 0; n < size; n++){
+    for (int n = 0; n < size-1; n++){
         fprintf(fp, "%lf,", time[n]);
     }
-    fprintf(fp, "\n");
+    fprintf(fp, "%lf\n", time[n+1]);
 
     fprintf(fp, "Distance,");
-    for (int n = 0; n < size; n++){
+    for (int n = 0; n < size-1; n++){
         fprintf(fp, "%lf,", distances[n]);
     }
-    fprintf(fp, "\n");
+    fprintf(fp, "%lf\n", distances[n+1]);
 }
 
 double sound_speed(double temperature){
