@@ -15,9 +15,9 @@ class Sender:
         self.send_cycle = send_cycle
 
     def makeWave(self):
-        samples = np.zeros(int((0.2*self.rate-self.duration*self.rate)/2))
+        samples = np.zeros(int(0.2*self.rate-self.duration*self.rate))
         samples_t = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
-        samples = np.concatenate([samples,samples_t,samples])
+        samples = np.concatenate([samples_t,samples])
         # samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
 
         return samples
