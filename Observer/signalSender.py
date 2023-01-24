@@ -16,6 +16,7 @@ class Sender:
 
     def makeWave(self):
         samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
+        print(samples)
 
         return samples
 
