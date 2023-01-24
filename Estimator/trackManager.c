@@ -28,14 +28,14 @@ void* track_start(record_info *info)
 {
     int phase = 2;
 
-    float initial_pos = 0.5;
+    float initial_pos = 1;
     
     int received_num = 0;
     int current_index = 0;
     double current_time = 0.0;
     double start_time = 0.0;
     
-    int threshold = 800;
+    int threshold = 1000;
 
     double temperature = 20.0;
     double v = sound_speed(temperature);
