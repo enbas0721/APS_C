@@ -28,7 +28,7 @@ void* track_start(record_info *info)
 {
     int phase = 2;
 
-    float initial_pos = 1;
+    float initial_pos = 1.0;
     
     int received_num = 0;
     int current_index = 0;
@@ -75,11 +75,8 @@ void* track_start(record_info *info)
                         
                         received_num = (int)((current_time - start_time)/TAU);
                         propagation_time = current_time - start_time - TAU * received_num;
-                        printf("propagation_time : %f\n",propagation_time);
-                        printf("current_time : %lf\n",current_time);
 
                         temperature = temp_measure(temperature);
-                        printf("温度：%lf\n",temperature);
 
                         v = sound_speed(temperature);
                         distance = propagation_time * v;
