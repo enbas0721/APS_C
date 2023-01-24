@@ -39,12 +39,12 @@ class Sender:
         if self.amp == 2:
             time.sleep(10)
         else:
-            time.sleep(5)
+            time.sleep(3)
         signal.signal(signal.SIGALRM, self.sendSignal)
         signal.setitimer(signal.ITIMER_REAL, self.send_cycle, self.send_cycle)
 
 if __name__ == '__main__':
     amp = float(sys.argv[1])
-    sender = Sender(amp=amp, duration=0.05)
+    sender = Sender(amp=amp, duration=0.01)
     sender.startSending()
     time.sleep(100)
