@@ -1,4 +1,2 @@
 # APS
 Acoustical Beacon-based Long-range Localization for Sewer Pipe Inspection
-
-This is a test.
