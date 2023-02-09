@@ -31,7 +31,7 @@ void* track_start(record_info *info)
     double initial_pos = 1.0;
     
     int received_num = 0;
-    int current_index = 0;
+    int checking_index = 0;
     double current_time = 0.0;
     double start_time = 0.0;
     
@@ -47,31 +47,31 @@ void* track_start(record_info *info)
     double distances[10000];
     double received_time[10000];
 
-    while((info->flag) || (current_index < info->last_index))
+    while((info->flag) || (checking_index < info->last_index))
     {
-        if (info->last_index > current_index){
-            current_time = (double)current_index / (double)SMPL;
+        if (info->last_index > checking_index){
+            current_time = (double)checking_index / (double)SMPL;
             switch(phase){
                 case 1:
                     // 閾値決定
-                    current_index += 1;
+                    checking_index += 1;
                     break;
                 case 2:
                     // 初期送信時刻決定
-                    if (info->record_data[current_index] > threshold){
+                    if (info->record_data[checking_index] > threshold){
                         temperature = temp_measure(temperature);
                         v = sound_speed(temperature);
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
-                        current_index = (int)(current_index + (EPS * SMPL));
+                        checking_index = (int)(checking_index + (EPS * SMPL));
                         phase = 3;
                     }else{
-                        current_index += 1;
+                        checking_index += 1;
                     }
                     break;
                 case 3:
                     // 位置推定処理
-                    if (info->record_data[current_index] > threshold){
+                    if (info->record_data[checking_index] > threshold){
                         
                         received_num = (int)((current_time - start_time)/TAU);
                         propagation_time = current_time - start_time - TAU * received_num;
@@ -82,15 +82,15 @@ void* track_start(record_info *info)
                         printf("音速: %lf {m}\n", v);
                         distance = propagation_time * v;
                         printf("受信時刻: %lf {m}\n", current_time);
-                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[current_index]);
+                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
                         
                         distances[log_index] = distance;
                         received_time[log_index] = current_time;
                         log_index += 1;
 
-                        current_index = (int)(current_index + (EPS * SMPL));
+                        checking_index = (int)(checking_index + (EPS * SMPL));
                     }else{
-                        current_index += 1;
+                        checking_index += 1;
                     }
                     break;
                 default:
