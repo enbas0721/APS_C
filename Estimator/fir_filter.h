@@ -14,7 +14,7 @@ double sinc(double x)
   return y;
 }
 
-void Hanning_window(int16_t w[], int N)
+void Hanning_window(double w[], int N)
 {
   int n;
   
@@ -35,7 +35,7 @@ void Hanning_window(int16_t w[], int N)
 }
 
 
-void FIR_LPF(double fe, int J, int16_t b[], int16_t w[])
+void FIR_LPF(double fe, int J, double b[], double w[])
 {
   int m;
   int offset;
