@@ -206,7 +206,7 @@ void* record_start(record_info *info)
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		for (n = 0; n < buffer_frames + delayer_num, n++){
+		for (n = 0; n < buffer_frames + delayer_num; n++){
 			if (current_index - delayer_num + n < 0){
 				x[n] = 0.0;
 			}else{

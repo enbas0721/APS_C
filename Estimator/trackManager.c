@@ -7,8 +7,9 @@
 void write_result(char * filename, double * time, double * distances, int size){
     FILE *fp;
     fp = fopen(filename, "w");
+    int n;
     fprintf(fp, "Time,");
-    for (int n = 0; n < size-1; n++){
+    for (n = 0; n < size-1; n++){
         fprintf(fp, "%lf,", time[n]);
     }
     fprintf(fp, "%lf\n", time[n+1]);
