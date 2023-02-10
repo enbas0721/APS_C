@@ -209,6 +209,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames + delayer_num; n++){
 			if (n > delayer_num){
 				x[n] = buffer[n - delayer_num];
+				printf("x[n]:%lf\n",x[n]);
 			}else if (current_index - delayer_num + n < 0){
 				x[n] = 0.0;
 			}else{
@@ -220,7 +221,6 @@ void* record_start(record_info *info)
 			for (m = 0; m <= delayer_num; m++){
 				y[n] += (b[m] * x[delayer_num + n - m]);				
 			}
-			printf("x[n]:%lf\n",x[delayer_num + n - m]);
 		}
 		
 		for (i = current_index; i < current_index + err; i++) {
