@@ -124,6 +124,4 @@ void filtering(int16_t *data, int16_t* buffer, double* b, int16_t* x, int16_t* y
             y[n] += b[m] * x[J + n - m];
         }
     }
-
-    return &y;
 }
