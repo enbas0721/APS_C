@@ -40,7 +40,6 @@ void* record_start(record_info *info)
 
 	// ローパスフィルタ用変数
 	double fe, fe1, fe2, delta, *b, *w;
-	int16_t *x, *y;
 	int delayer_num;
 
 	// For sound pcm setting
@@ -198,33 +197,15 @@ void* record_start(record_info *info)
 	// FIR_LPF(fe, delayer_num, b, w);
 	FIR_BPF(fe1, fe2, delayer_num, b, w);
 
-	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
-	y = calloc(buffer_frames, sizeof(int16_t));
-
 	int current_index = 0;
+	double *y;
 
 	while (info->flag) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		// 直前のフレームを追加。
-		for (n = 0; n < buffer_frames + delayer_num; n++){
-			if (n > delayer_num){
-				x[n] = buffer[n - delayer_num];
-			}else if (current_index - delayer_num + n < 0){
-				x[n] = 0.0;
-			}else{
-				x[n] = info->record_data[current_index - delayer_num + n];
-			}
-		}
-		for (n = 0; n < buffer_frames; n++) y[n] = 0.0; 
-		for (n = 0; n < buffer_frames; n++){
-			for (m = 0; m <= delayer_num; m++){
-				y[n] += b[m] * x[delayer_num + n - m];
-			}
-		}
-		
+		y = filtering(info->record_data, buffer, b, current_index, buffer_frames, delayer_num);
 		for (i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = y[i-current_index];
 		}
