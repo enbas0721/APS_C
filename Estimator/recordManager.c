@@ -43,8 +43,8 @@ void* record_start(record_info *info)
 	int16_t *x, *y;
 	int delayer_num;
 	
-	fe = 3000.0 / rate;
-	delta = 500.0 / rate;
+	fe = 3500.0 / rate;
+	delta = 1000.0 / rate;
 	
 	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
 	if (delayer_num % 2 == 1){
@@ -204,6 +204,7 @@ void* record_start(record_info *info)
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
+		// 直前のフレームを追加。
 		for (n = 0; n < buffer_frames + delayer_num; n++){
 			if (n > delayer_num){
 				x[n] = buffer[n - delayer_num];
