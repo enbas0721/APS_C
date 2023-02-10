@@ -185,6 +185,8 @@ void* record_start(record_info *info)
 	fe1 = 500 / rate;
 	fe2 = 2000 / rate;
 	delta = 500.0 / rate;
+
+	printf("fe1:%f, fe2:%f, rate:%d\n",fe1,fe2,rate);
 	
 	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
 	if (delayer_num % 2 == 1){
