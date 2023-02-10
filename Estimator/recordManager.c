@@ -10,9 +10,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <signal.h>
+#include <math.h>
 #include <alsa/asoundlib.h>
 #include "WavManager/audioio.h"
 #include "recordManager.h"
+#include "fir_filter.h"
 
 int write_record_data(int16_t * record_data, unsigned int rate, int size, char * filename){
 	// Wavファイル作成
@@ -27,14 +29,35 @@ int write_record_data(int16_t * record_data, unsigned int rate, int size, char *
 
 void* record_start(record_info *info)
 {
-	// バッファ系の変数
-	int i;
+	int i,n,m;
+	// バッファ用の変数
 	int err;
 	int16_t *buffer;
-	int buffer_frames = 4096;
+	int buffer_frames = 2048;
 	unsigned int rate = SMPL;
 
 	int gain_value = 8;
+
+	// ローパスフィルタ用変数
+	double fe, dalta 
+	int16_t *b, *w, *x, *y;
+	int delayer_num;
+	
+	fe = 3000.0 / rate;
+	delta = 500.0 / rate;
+	
+	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
+	if (delayer_num % 2 == 1){
+		delayer_num++;
+	}
+	b = calloc((delayer_num + 1), sizeof(int16_t));
+	w = calloc((delayer_num + 1), sizeof(int16_t));
+
+	Hanning_window(w, (delayer_num + 1));
+	FIR_LPF(fe, delayer_num, b, w);
+
+	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
+	y = calloc(buffer_frames, sizeof(int16_t));
 
 	// For sound pcm setting
 	snd_pcm_t *capture_handle;
@@ -183,8 +206,22 @@ void* record_start(record_info *info)
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		for (int i = current_index; i < current_index + err; i++) {
-			info->record_data[i] = buffer[i-current_index];
+		for (n = 0; n < buffer_frames + delayer_num, n++){
+			if (current_index - delayer_num + n < 0){
+				x[n] = 0.0;
+			}else{
+				x[n] = info->record_data[current_index - delayer_num + n];
+			}
+		}
+		for (n = 0; n < buffer_frames; n++) y[n] = 0.0; 
+		for (n = 0; n < buffer_frames; n++){
+			for (m = 0; m <= delayer_num; m++){
+				y[n] += b[m] * x[delayer_num + n - m];
+			}
+		}
+		
+		for (i = current_index; i < current_index + err; i++) {
+			info->record_data[i] = y[i-current_index];
 		}
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
