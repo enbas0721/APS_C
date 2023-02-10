@@ -106,7 +106,7 @@ void FIR_BEF(double fe1, double fe2, int J, double b[], double w[])
   }
 }
 
-void filtering(int16_t *data, int16_t* buffer, double* b, int16_t* x, int16_t* y, int index, int frame, int J){
+void filtering(int16_t *data, int16_t* buffer, double* b, int16_t* x, int index, int frame, int J){
     int n, m;
     // バッファに遅延器の数分の直前のデータを追加
     for (n = 0; n < frame + J; n++){
