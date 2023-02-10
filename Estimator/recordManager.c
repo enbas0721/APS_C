@@ -216,8 +216,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames; n++) y[n] = 0.0; 
 		for (n = 0; n < buffer_frames; n++){
 			for (m = 0; m <= delayer_num; m++){
-				y[n] += b[m] * x[delayer_num + n - m];				
-				printf("b[m]:%lf\n", b[m]);
+				y[n] += (int16_t)(b[m] * x[delayer_num + n - m]);				
 			}
 		}
 		
