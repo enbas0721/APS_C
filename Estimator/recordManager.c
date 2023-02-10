@@ -34,8 +34,7 @@ void* record_start(record_info *info)
 	int err;
 	int16_t *buffer;
 	int buffer_frames = 2048;
-	// unsigned int rate = SMPL;
-	unsigned int rate = 44100;
+	unsigned int rate = SMPL;
 
 	int gain_value = 8;
 
