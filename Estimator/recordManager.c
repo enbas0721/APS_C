@@ -56,8 +56,8 @@ void* record_start(record_info *info)
 	w = calloc((delayer_num + 1), sizeof(double));
 
 	Hanning_window(w, (delayer_num + 1));
-	FIR_LPF(fe, delayer_num, b, w);
-	// FIR_BPF(fe1, fe2, delayer_num, b, w);
+	// FIR_LPF(fe, delayer_num, b, w);
+	FIR_BPF(fe1, fe2, delayer_num, b, w);
 
 	for (n = 0; n < 5; n++)
 	{
