@@ -39,7 +39,7 @@ void* record_start(record_info *info)
 	int gain_value = 8;
 
 	// ローパスフィルタ用変数
-	double fe, dalta 
+	double fe, dalta;
 	int16_t *b, *w, *x, *y;
 	int delayer_num;
 	
