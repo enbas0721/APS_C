@@ -118,10 +118,10 @@ void filtering(int16_t *data, int16_t* buffer, double* b, int16_t* x, int16_t* y
             x[n] = data[index - J + n];
         }
 	}
-    for (n = 0; n < frame; n++) y[n] = 0; 
+    for (n = 0; n < frame; n++) buffer[n] = 0; 
     for (n = 0; n < frame; n++){
         for (m = 0; m <= J; m++){
-            y[n] += b[m] * x[J + n - m];
+            buffer[n] += b[m] * x[J + n - m];
         }
     }
 }

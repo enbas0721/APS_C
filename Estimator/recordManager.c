@@ -209,7 +209,7 @@ void* record_start(record_info *info)
 		}
 		filtering(info->record_data, buffer, b, x, y, current_index, buffer_frames, delayer_num);
 		for (i = current_index; i < current_index + err; i++) {
-			info->record_data[i] = y[i-current_index];
+			info->record_data[i] = buffer[i-current_index];
 		}
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
