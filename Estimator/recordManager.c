@@ -46,7 +46,7 @@ void* record_start(record_info *info)
 	// fe = 3500.0 / rate;
 	fe1 = 2000 / rate;
 	fe2 = 8000 / rate;
-	delta = 1000.0 / rate;
+	delta = 500.0 / rate;
 	
 	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
 	if (delayer_num % 2 == 1){
@@ -59,7 +59,7 @@ void* record_start(record_info *info)
 	// FIR_LPF(fe, delayer_num, b, w);
 	FIR_BPF(fe1, fe2, delayer_num, b, w);
 
-	for (n = 0; n < 5; n++)
+	for (n = 0; n < 100; n++)
 	{
 		printf("b:%d\n",b[n]);
 	}
