@@ -34,7 +34,8 @@ void* record_start(record_info *info)
 	int err;
 	int16_t *buffer;
 	int buffer_frames = 2048;
-	unsigned int rate = SMPL;
+	// unsigned int rate = SMPL;
+	unsigned int rate = 44100;
 
 	int gain_value = 8;
 
@@ -42,29 +43,6 @@ void* record_start(record_info *info)
 	double fe, fe1, fe2, delta, *b, *w;
 	int16_t *x, *y;
 	int delayer_num;
-	
-	// fe = 3500.0 / rate;
-	fe1 = 500 / rate;
-	fe2 = 2000 / rate;
-	delta = 500.0 / rate;
-	
-	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
-	if (delayer_num % 2 == 1){
-		delayer_num++;
-	}
-	b = calloc((delayer_num + 1), sizeof(double));
-	w = calloc((delayer_num + 1), sizeof(double));
-
-	Hanning_window(w, (delayer_num + 1));
-	for (n = 0; n < 50; n++)
-	{
-		printf("w:%f\n",w[n]);
-	}
-	// FIR_LPF(fe, delayer_num, b, w);
-	FIR_BPF(fe1, fe2, delayer_num, b, w);
-
-	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
-	y = calloc(buffer_frames, sizeof(int16_t));
 
 	// For sound pcm setting
 	snd_pcm_t *capture_handle;
@@ -203,6 +181,31 @@ void* record_start(record_info *info)
 	info->record_data = calloc(data_size, sizeof(int16_t));
 
 	fprintf(stdout, "buffer allocated\n");
+
+	// fe = 3500.0 / rate;
+	fe1 = 500 / rate;
+	fe2 = 2000 / rate;
+	delta = 500.0 / rate;
+	
+	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
+	if (delayer_num % 2 == 1){
+		delayer_num++;
+	}
+	b = calloc((delayer_num + 1), sizeof(double));
+	w = calloc((delayer_num + 1), sizeof(double));
+
+	Hanning_window(w, (delayer_num + 1));
+	
+	// FIR_LPF(fe, delayer_num, b, w);
+	FIR_BPF(fe1, fe2, delayer_num, b, w);
+
+	for (n = 0; n < 50; n++)
+	{
+		printf("b:%f\n",b[n]);
+	}
+
+	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
+	y = calloc(buffer_frames, sizeof(int16_t));
 
 	int current_index = 0;
 
