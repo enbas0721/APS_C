@@ -73,13 +73,13 @@ void FIR_BPF(double fe1, double fe2, int J, double *b, double *w)
 {
   int m;
   int offset;
+  printf("fe1:%f, fe2:%f, J:%d\n",fe1,fe2,J);
   
   offset = J / 2;
   for (m = -J / 2; m <= J / 2; m++)
   {
     b[offset + m] = 2.0 * fe2 * sinc(2.0 * M_PI * fe2 * m)
                   - 2.0 * fe1 * sinc(2.0 * M_PI * fe1 * m);
-    printf("b:%f\n",b[offset + m]);
   }
   
   for (m = 0; m < J + 1; m++)
