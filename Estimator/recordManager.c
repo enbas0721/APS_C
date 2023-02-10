@@ -39,12 +39,14 @@ void* record_start(record_info *info)
 	int gain_value = 8;
 
 	// ローパスフィルタ用変数
-	double fe, delta, *b, *w;
+	double fe, fe1, fe2, delta, *b, *w;
 	int16_t *x, *y;
 	int delayer_num;
 	
-	fe = 3500.0 / rate;
-	delta = 1000.0 / rate;
+	// fe = 3500.0 / rate;
+	fe1 = 3500 / rate;
+	fe2 = 500/ rate;
+	delta = 500.0 / rate;
 	
 	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
 	if (delayer_num % 2 == 1){
@@ -54,7 +56,8 @@ void* record_start(record_info *info)
 	w = calloc((delayer_num + 1), sizeof(double));
 
 	Hanning_window(w, (delayer_num + 1));
-	FIR_LPF(fe, delayer_num, b, w);
+	// FIR_LPF(fe, delayer_num, b, w);
+	FIR_BPF(fe1, fe2, delayer_num, b, w);
 
 	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
 	y = calloc(buffer_frames, sizeof(int16_t));
