@@ -42,8 +42,6 @@ void* record_start(record_info *info)
 	double fe, delta;
 	int16_t *b, *w, *x, *y;
 	int delayer_num;
-
-	printf("test");
 	
 	fe = 3000.0 / rate;
 	delta = 500.0 / rate;
@@ -219,6 +217,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames; n++){
 			for (m = 0; m <= delayer_num; m++){
 				y[n] += b[m] * x[delayer_num + n - m];
+				printf("y:%d¥n", y[n]);
 			}
 		}
 		
