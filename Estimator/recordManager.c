@@ -44,7 +44,7 @@ void* record_start(record_info *info)
 	int delayer_num;
 	
 	// fe = 3500.0 / rate;
-	fe1 = 2000 / rate;
+	fe1 = 1000 / rate;
 	fe2 = 8000 / rate;
 	delta = 500.0 / rate;
 	
@@ -225,7 +225,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames; n++) y[n] = 0.0; 
 		for (n = 0; n < buffer_frames; n++){
 			for (m = 0; m <= delayer_num; m++){
-				y[n] += (int16_t)(b[m] * x[delayer_num + n - m]);
+				y[n] += b[m] * x[delayer_num + n - m];
 			}
 		}
 		
