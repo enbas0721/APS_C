@@ -198,14 +198,16 @@ void* record_start(record_info *info)
 	FIR_BPF(fe1, fe2, delayer_num, b, w);
 
 	int current_index = 0;
-	double *y;
+	int16_t *x, *y;
+	x = calloc((frame + J), sizeof(int16_t));
+	y = calloc(frame, sizeof(int16_t));
 
 	while (info->flag) {
 		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		y = filtering(info->record_data, buffer, b, current_index, buffer_frames, delayer_num);
+		y = filtering(info->record_data, buffer, b, x, y, current_index, buffer_frames, delayer_num);
 		for (i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = y[i-current_index];
 		}
@@ -228,7 +230,7 @@ void* record_start(record_info *info)
 	free(info->record_data);
 	free(b); /* メモリの解放 */
   	free(w); /* メモリの解放 */
-  	free(x); /* メモリの解放 */
+	free(x); /* メモリの解放 */
   	free(y); /* メモリの解放 */
 
 	mixer_handle = NULL;

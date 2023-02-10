@@ -106,11 +106,8 @@ void FIR_BEF(double fe1, double fe2, int J, double b[], double w[])
   }
 }
 
-int16_t* filtering(int16_t *data, int16_t* buffer, double* b, int index, int frame, int J){
-    int16_t *x, *y;
+void filtering(int16_t *data, int16_t* buffer, double* b, int16_t* x, int16_t* y, int index, int frame, int J){
     int n, m;
-    x = calloc((frame + J), sizeof(int16_t));
-	y = calloc(frame, sizeof(int16_t));
     // バッファに遅延器の数分の直前のデータを追加
     for (n = 0; n < frame + J; n++){
         if (n > J){
