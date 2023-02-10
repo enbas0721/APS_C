@@ -59,10 +59,10 @@ void* record_start(record_info *info)
 	// FIR_LPF(fe, delayer_num, b, w);
 	FIR_BPF(fe1, fe2, delayer_num, b, w);
 
-	for (n = 0; n < 100; n++)
-	{
-		printf("b:%d\n",b[n]);
-	}
+	// for (n = 0; n < 100; n++)
+	// {
+	// 	printf("b:%d\n",b[n]);
+	// }
 
 	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
 	y = calloc(buffer_frames, sizeof(int16_t));
@@ -226,6 +226,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames; n++){
 			for (m = 0; m <= delayer_num; m++){
 				y[n] += b[m] * x[delayer_num + n - m];
+				printf("b:%lf\n",(b[m] * x[delayer_num + n - m]));
 			}
 		}
 		
