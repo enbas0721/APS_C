@@ -207,7 +207,9 @@ void* record_start(record_info *info)
 			exit (1);
 		}
 		for (n = 0; n < buffer_frames + delayer_num; n++){
-			if (current_index - delayer_num + n < 0){
+			if (n > delayer_num){
+				x[n] = buffer[n - delayer_num];
+			}else if (current_index - delayer_num + n < 0){
 				x[n] = 0.0;
 			}else{
 				x[n] = info->record_data[current_index - delayer_num + n];
