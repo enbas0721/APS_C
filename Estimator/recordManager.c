@@ -44,8 +44,8 @@ void* record_start(record_info *info)
 	int delayer_num;
 	
 	// fe = 3500.0 / rate;
-	fe1 = 1000 / rate;
-	fe2 = 8000 / rate;
+	fe1 = 500 / rate;
+	fe2 = 2000 / rate;
 	delta = 500.0 / rate;
 	
 	delayer_num = (int)(3.1 / delta + 0.5) - 1; /*遅延器の数*/
