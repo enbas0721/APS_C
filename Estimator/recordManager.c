@@ -204,10 +204,7 @@ void* record_start(record_info *info)
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		for (int j = 0; j < 5; j++)
-		{
-			printf("buffer:%d\n",buffer[j]);
-		}
+		printf("err:%d\n",err);
 		for (n = 0; n < buffer_frames + delayer_num; n++){
 			if (n > delayer_num){
 				x[n] = buffer[n - delayer_num];
