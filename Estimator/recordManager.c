@@ -42,6 +42,8 @@ void* record_start(record_info *info)
 	double fe, delta;
 	int16_t *b, *w, *x, *y;
 	int delayer_num;
+
+	printf("test");
 	
 	fe = 3000.0 / rate;
 	delta = 500.0 / rate;
