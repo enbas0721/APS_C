@@ -61,7 +61,7 @@ void* record_start(record_info *info)
 
 	for (n = 0; n < 100; n++)
 	{
-		printf("b:%d\n",b[n]);
+		printf("b:%l\n",b[n]);
 	}
 
 	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
