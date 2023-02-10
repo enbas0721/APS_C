@@ -209,7 +209,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames + delayer_num; n++){
 			if (n > delayer_num){
 				x[n] = buffer[n - delayer_num];
-				printf("x[n]:%lf\n",x[n]);
+				printf("buffer[n]:%lf\n",buffer[n-delayer_num]);
 			}else if (current_index - delayer_num + n < 0){
 				x[n] = 0.0;
 			}else{
