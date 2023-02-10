@@ -218,7 +218,7 @@ void* record_start(record_info *info)
 			for (m = 0; m <= delayer_num; m++){
 				y[n] += (b[m] * x[delayer_num + n - m]);				
 			}
-			printf("y[n]:%lf\n",y[n]);
+			printf("x[n]:%lf\n",x[delayer_num + n - m]);
 		}
 		
 		for (i = current_index; i < current_index + err; i++) {
