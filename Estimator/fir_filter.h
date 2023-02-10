@@ -84,6 +84,7 @@ void FIR_BPF(double fe1, double fe2, int J, double *b, double *w)
   for (m = 0; m < J + 1; m++)
   {
     b[m] *= w[m];
+    printf("b:%f\n",b[m]);
   }
 }
 
