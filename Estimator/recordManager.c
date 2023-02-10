@@ -190,8 +190,6 @@ void* record_start(record_info *info)
 		exit (1);
 	}
 
-	printf("Sampling rate: %d\n",rate);
-
 	int data_size = rate*240;
 
 	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
@@ -209,7 +207,7 @@ void* record_start(record_info *info)
 		for (n = 0; n < buffer_frames + delayer_num; n++){
 			if (n > delayer_num){
 				x[n] = buffer[n - delayer_num];
-				printf("buffer[n]:%lf\n",buffer[n-delayer_num]);
+				printf("n,delayer_num:%d, %d\n",n, delayer_num);
 			}else if (current_index - delayer_num + n < 0){
 				x[n] = 0.0;
 			}else{
