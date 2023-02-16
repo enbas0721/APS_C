@@ -10,7 +10,7 @@
 #define DEF_FS              48000
 #define DEF_BITPERSAMPLE    16
 #define WAVE_FORMAT_PCM     1
-#define SIGNAL_L			1.0
+#define SIGNAL_L			0.5
 #define INITIAL_F			1700
 #define FINAL_F				1750
 #define BUF_SIZ				2048
@@ -19,8 +19,7 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, float size){
 	int n;
 	for (n = 0; n < size; n++)
 	{
-		data[n] = (int)((5000*vol) * sin(2*M_PI * (f0 + ((f1-f0)*n)/(2*size))*n));
-		printf("data:%lf\n",(2 * sin(2*M_PI * (f0 + ((f1-f0)*n)/(2*size))*n)));
+		data[n] = (int)((5000*vol) * sin(2*M_PI * (f0 + ((f1-f0)/(2*size))*n)*n));
 	}		
 }
 
@@ -41,7 +40,7 @@ int main(int argc, char *argv[])
 	int f0 = INITIAL_F;
 	int f1 = FINAL_F;
 	int vol = atoi(argv[1]);
-	float signal_length = SIGNAL_L;
+	float signal_length = SIGNAL_L; 
 	int data_size = signal_length * DEF_FS;
     int redata_size, current_index, ret, n, m;
     snd_pcm_t *hndl = NULL;
