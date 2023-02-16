@@ -12,7 +12,7 @@ def readcsv(path):
         data = []
         for row in reader:
             if row[0] != "amp":
-                data.append(int(row[0]))
+                data.append(float(row[0]))
 
     return data
 
