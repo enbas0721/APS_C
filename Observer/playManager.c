@@ -15,11 +15,11 @@
 #define FINAL_F				1750
 #define BUF_SIZ				2048
 
-void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
+void make_chirp_wave(int16_t* data, int vol, int f0, int f1){
 	int n;
 	for (n = 0; n < size; n++)
 	{
-		data[n] = (int)((500000000000*vol) * sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n)));
+		data[n] = (int)((vol) * sin(2*M_PI * (n/DEF_FS) * (f0 + ((f1-f0)/(2*SIGNAL_L))*(n/DEF_FS))));
 		// printf("data:%lf\n",(10000000000*sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n))));
 	}		
 }
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     /* バッファの用意 */
     buffer = (int16_t*)malloc(sizeof(int16_t)*BUF_SIZ*snd_pcm_format_width(format));
 	data = (int16_t*)malloc(sizeof(int16_t)*data_size*snd_pcm_format_width(format));
-    make_chirp_wave(data, vol, f0, f1, data_size);
+    make_chirp_wave(data, vol, f0, f1);
 
 	for (int i = 0; i < 10; i++)
 	{

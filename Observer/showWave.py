@@ -28,6 +28,12 @@ path = sys.argv[1]
 start = float(sys.argv[2])
 end = float(sys.argv[3])
 
+data1 = []
+for i in range(24000):
+    data1.append(np.sin(2*np.pi*(i/24000)*(1700+((1760-1700)/(2*0.5))*(i/24000))))
+for i in range(24000):
+    data1.append(0)
+
 data = readcsv(path)
 
 x = []
@@ -42,5 +48,6 @@ set_graph(fig,ax)
 ax.set_xticks(np.arange(start,end,1000))
 ax.set_xlim(xmin=start,xmax=end)
 ax.plot(x, data)
+# ax.plot(x, data1)
 plt.show()
 # fig.savefig("../Record/" + path + "_wave.pdf")
