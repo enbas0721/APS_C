@@ -95,11 +95,10 @@ int main(int argc, char *argv[])
 
 	FILE *fp;
     fp = fopen("test.csv", "w");
-    fprintf(fp, "amp,");
-    for (n = 0; n < data_size-1; n++){
-        fprintf(fp, "%d,", data[n]);
+    fprintf(fp, "amp\n");
+    for (n = 0; n < data_size; n++){
+        fprintf(fp, "%d\n", data[n]);
     }
-    fprintf(fp, "%d\n", data[n+1]);
  
     /* データ出力が終わったため、たまっているPCMを出力する。 */
     snd_pcm_drain(hndl);
