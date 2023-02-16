@@ -49,6 +49,12 @@ int main(int argc, char *argv[])
     buffer = (int16_t*)malloc(sizeof(int16_t)*BUF_SIZ*snd_pcm_format_width(format));
 	data = (int16_t*)malloc(sizeof(int16_t)*data_size*snd_pcm_format_width(format));
     make_chirp_wave(data, f0, f1, data_size);
+
+	for (int i = 0; i < 10; i++)
+	{
+		printf("data:%d\n",data[i]);
+	}
+	
  
     /* 再生用PCMストリームを開く */
     ret = snd_pcm_open(&hndl, device, SND_PCM_STREAM_PLAYBACK, 0);
