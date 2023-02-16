@@ -20,7 +20,7 @@ void make_chirp_wave(int16_t* data, int f0, int f1, float size){
 	for (n = 0; n < size; n++)
 	{
 		data[n] = (int)(2 * sin(2*M_PI * (f0 + ((f1-f0)*n)/2*n)*n));
-		printf("data:%d\n",data[n]);
+		printf("data:%lf\n",(2 * sin(2*M_PI * (f0 + ((f1-f0)*n)/2*n)*n)));
 	}		
 }
 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     }
 
 	current_index, ret = 0;
-    for (n = 0; n < data_size; n += ret) {
+    for (n = 0; n < data_size; n += BUF_SIZ) {
         /* PCMの読み込み */
         for (m = 0; m < BUF_SIZ; m++)
 		{
