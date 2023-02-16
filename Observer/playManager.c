@@ -108,6 +108,14 @@ int main(int argc, char *argv[])
 	if (data != NULL) {
         free(data);
     }
-     
+    
+	FILE *fp;
+    fp = fopen("test.csv", "w");
+    fprintf(fp, "amp,");
+    for (n = 0; n < data_size-1; n++){
+        fprintf(fp, "%d,", data[n]);
+    }
+    fprintf(fp, "%d\n", data[n+1]);
+
     return 0;
 }
