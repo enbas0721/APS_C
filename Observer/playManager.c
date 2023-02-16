@@ -10,7 +10,7 @@
 #define DEF_FS              48000
 #define DEF_BITPERSAMPLE    16
 #define WAVE_FORMAT_PCM     1
-#define SIGNAL_L			0.5
+#define SIGNAL_L			1.0
 #define INITIAL_F			1700
 #define FINAL_F				1750
 #define BUF_SIZ				2048
