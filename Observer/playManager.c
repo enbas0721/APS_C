@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <math.h>
 #include <alsa/asoundlib.h>
  
 /* PCMデフォルト設定 */
-#define DEF_CHANNEL         2
+#define DEF_CHANNEL         1
 #define DEF_FS              48000
 #define DEF_BITPERSAMPLE    16
 #define WAVE_FORMAT_PCM     1
@@ -57,8 +58,8 @@ int main(int argc, char *argv[])
     }
      
     /* フォーマット、バッファサイズ等各種パラメータを設定する */
-    ret = snd_pcm_set_params( hndl, format, SND_PCM_ACCESS_RW_INTERLEAVED, wf.nChannels,
-                              wf.nSamplesPerSec, soft_resample, latency);
+    ret = snd_pcm_set_params( hndl, format, SND_PCM_ACCESS_RW_INTERLEAVED, DEF_CHANNEL,
+                              DEF_FS, soft_resample, latency);
     if(ret != 0) {
         printf( "Unable to set format¥n" );
         exit(1);
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
 	current_index, ret = 0;
     for (n = 0; n < data_size; n += ret) {
         /* PCMの読み込み */
-        for (m = 0; m < BUF_SIZ; i++)
+        for (m = 0; m < BUF_SIZ; m++)
 		{
 			buffer[m] = data[m+current_index];
 		}
@@ -93,14 +94,12 @@ int main(int argc, char *argv[])
         snd_pcm_close(hndl);
     }
      
-    /* ファイルを閉じる */
-    if (fp != NULL) {
-        fclose(fp);
-    }
-     
     /* メモリの解放 */
     if (buffer != NULL) {
         free(buffer);
+    }
+	if (data != NULL) {
+        free(data);
     }
      
     return 0;
