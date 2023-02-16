@@ -19,8 +19,8 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	int n;
 	for (n = 0; n < size; n++)
 	{
-		data[n] = (int)((5000*vol) * sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n)));
-		printf("data:%lf\n",(1000000*sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n))));
+		data[n] = (int)((500000000000*vol) * sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n)));
+		printf("data:%lf\n",(10000000000*sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n))));
 	}		
 }
 
