@@ -20,7 +20,7 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	double t;
 	for (n = 0; n < size; n++)
 	{
-		t = n/DEF_FS
+		t = n/DEF_FS;
 		data[n] = (int)((vol) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
 		printf("data:%lf\n",((vol) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t))));
 	}		
