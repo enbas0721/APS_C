@@ -15,11 +15,12 @@
 #define FINAL_F				1750
 #define BUF_SIZ				2048
 
-void make_chirp_wave(int16_t* data, int vol, int f0, int f1, float size){
+void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	int n;
 	for (n = 0; n < size; n++)
 	{
-		data[n] = (int)((5000*vol) * sin(2*M_PI * (f0 + ((f1-f0)/(2*size))*n)*n));
+		data[n] = (int)((5000*vol) * sin(2*M_PI * n * (f0 + ((f1-f0)/(2*size))*n)));
+		printf("f0:%d,f1:%d,size:%d\n",f0,f1,size);
 	}		
 }
 
