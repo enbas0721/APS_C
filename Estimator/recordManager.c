@@ -33,7 +33,6 @@ void* record_start(record_info *info)
 	// バッファ用の変数
 	int err;
 	int16_t *buffer;
-	int buffer_frames = 2048;
 	unsigned int rate = SMPL;
 
 	int gain_value = 8;
@@ -175,7 +174,7 @@ void* record_start(record_info *info)
 
 	int data_size = rate*240;
 
-	buffer = (int16_t*)malloc(sizeof(int16_t)*buffer_frames*snd_pcm_format_width(format));
+	buffer = (int16_t*)malloc(sizeof(int16_t)*BUF_SIZ*snd_pcm_format_width(format));
 	info->record_data = calloc(data_size, sizeof(int16_t));
 
 	fprintf(stdout, "buffer allocated\n");
@@ -199,20 +198,20 @@ void* record_start(record_info *info)
 
 	int current_index = 0;
 	int16_t *x;
-	x = calloc((buffer_frames + delayer_num), sizeof(int16_t));
+	x = calloc((BUF_SIZ + delayer_num), sizeof(int16_t));
 
 	while (info->flag) {
-		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, buffer_frames)) != buffer_frames) {
+		if ((err = snd_pcm_readi(capture_handle, (void*)buffer, BUF_SIZ)) != BUF_SIZ) {
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		filtering(info->record_data, buffer, b, x, current_index, buffer_frames, delayer_num);
+		filtering(info->record_data, buffer, b, x, current_index, BUF_SIZ, delayer_num);
 		for (i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = buffer[i-current_index];
 		}
 		current_index = current_index + err;
 		info->last_index = current_index - 1;
-		if (current_index + buffer_frames > data_size){
+		if (current_index + BUF_SIZ > data_size){
 			data_size = data_size + rate * 30;
 			info->record_data = realloc(info->record_data, data_size*sizeof(int16_t));
 		}

@@ -9,83 +9,19 @@
 #define DEF_FS              48000
 #define DEF_BITPERSAMPLE    16
 #define WAVE_FORMAT_PCM     1
-#define BUF_SAMPLES         1024
- 
-/* ChunkID 定義 */
-const char ID_RIFF[4] = "RIFF";
-const char ID_WAVE[4] = "WAVE";
-const char ID_FMT[4]  = "fmt ";
-const char ID_DATA[4] = "data";
- 
-/* PCM情報格納用構造体 */
-typedef struct {
-    uint16_t      wFormatTag;         // format type  
-    uint16_t      nChannels;          // number of channels (1:mono, 2:stereo)
-    uint32_t      nSamplesPerSec;     // sample rate
-    uint32_t      nAvgBytesPerSec;    // for buffer estimation
-    uint16_t      nBlockAlign;        // block size of data
-    uint16_t      wBitsPerSample;     // number of bits per sample of mono data
-    uint16_t      cbSize;             // extra information
-} WAVEFORMATEX;
- 
-/* CHUNK */
-typedef struct {
-    char        ID[4];  // Chunk ID
-    uint32_t    Size;   // Chunk size;
-} CHUNK;
- 
-/* WAVE ファイルのヘッダ部分を解析、必要な情報を構造体に入れる
- *  ・fp は DATA の先頭位置にポイントされる
- *  ・戻り値は、成功時：データChunk のサイズ、失敗時：-1
- */
-static int readWavHeader(FILE *fp, WAVEFORMATEX *wf)
-{
-    char  FormatTag[4];
-    CHUNK Chunk;
-    int ret = -1;
-    int reSize;
-     
-    /* Read RIFF Chunk*/
-    if((fread(&Chunk, sizeof(Chunk), 1, fp) != 1) ||
-       (strncmp(Chunk.ID, ID_RIFF, 4) != 0)) {
-        printf("file is not RIFF Format ¥n");
-        goto RET;
-    }
- 
-    /* Read Wave */
-    if((fread(FormatTag, 1, 4, fp) != 4) ||
-       (strncmp(FormatTag, ID_WAVE, 4) != 0)){
-        printf("file is not Wave file¥n");
-        goto RET;
-    }
-             
-    /* Read Sub Chunk (Expect FMT, DATA) */
-    while(fread(&Chunk, sizeof(Chunk), 1, fp) == 1) {
-        if(strncmp(Chunk.ID, ID_FMT, 4) == 0) {
-            /* 小さい方に合せる(cbSize をケアするため) */
-            reSize = (sizeof(WAVEFORMATEX) < Chunk.Size) ? sizeof(WAVEFORMATEX) : Chunk.Size;
-            fread(wf, reSize, 1, fp);
-            if(wf->wFormatTag != WAVE_FORMAT_PCM) {
-                printf("Input file is not PCM¥n");
-                goto RET;
-            }
-        }
-        else if(strncmp(Chunk.ID, ID_DATA, 4) == 0) {
-            /* DATA Chunk を見つけたらそのサイズを返す */
-            ret = Chunk.Size;
-            break;
-        }
-        else {
-            /* 知らない Chunk は読み飛ばす */
-            fseek(fp, Chunk.Size, SEEK_CUR);
-            continue;
-        }
-    };
-     
-RET:
-    return ret;
+#define SIGNAL_L			1.0
+#define INITIAL_F			1700
+#define FINAL_F				1750
+#define BUF_SIZ				2048
+
+void make_chirp_wave(int16_t* data, int f0, int f1, float size){
+	int n;
+	for (n = 0; n < size; n++)
+	{
+		data[n] = sin(2*M_PI * (f0 + ((f1-f0)*n)/2*n)*n);
+	}		
 }
- 
+
 int main(int argc, char *argv[])
 {
     /* 出力デバイス */
@@ -94,56 +30,30 @@ int main(int argc, char *argv[])
     unsigned int soft_resample = 1;
      /* ALSAのバッファ時間[msec] */
     const static unsigned int latency = 50000;
-     /* PCM 情報 */
-    WAVEFORMATEX wf = { WAVE_FORMAT_PCM,   // PCM
-                        DEF_CHANNEL,
-                        DEF_FS,
-                        DEF_FS * DEF_CHANNEL * (DEF_BITPERSAMPLE/8),
-                        (DEF_BITPERSAMPLE/8) * DEF_CHANNEL,
-                        DEF_BITPERSAMPLE,
-                        0};
+    
     /* 符号付き16bit */
     static snd_pcm_format_t format = SND_PCM_FORMAT_S16;
  
     int16_t *buffer = NULL;
-    int dSize, reSize, ret, n;
-    FILE *fp = NULL;
+	int16_t *data = NULL;
+	int f0 = INITIAL_F;
+	int f1 = FINAL_F;
+	// unit [s]
+	float signal_length = SIGNAL_L;
+	int data_size = signal_length * DEF_FS;
+    int redata_size, current_index, ret, n, m;
     snd_pcm_t *hndl = NULL;
-     
- 
-    if(argc != 2) {
-        printf("no input file¥n");
-    }
- 
-    /* WAVファイルを開く*/
-    fp = fopen(argv[1], "rb");
-    if (fp == NULL) {
-        printf("Open error:%s¥n", argv[1]);
-        goto End;
-    }
- 
-    /* WAVのヘッダーを解析する */
-    dSize = readWavHeader(fp, &wf);  
-    if (dSize <= 0) {
-        goto End;
-    }
-     
-    /* PCMフォーマットの確認と情報出力を行う */
-    printf("format : PCM, nChannels = %d, SamplePerSec = %d, BitsPerSample = %d¥n",
-            wf.nChannels, wf.nSamplesPerSec, wf.wBitsPerSample);
  
     /* バッファの用意 */
-    buffer = malloc(BUF_SAMPLES * wf.nBlockAlign);
-    if(buffer == NULL) {
-        printf("malloc error¥n");
-        goto End;
-    }
+    buffer = (int16_t*)malloc(sizeof(int16_t)*BUF_SIZ*snd_pcm_format_width(format));
+	data = (int16_t*)malloc(sizeof(int16_t)*data_size*snd_pcm_format_width(format));
+    make_chirp_wave(data, f0, f1, data_size);
  
     /* 再生用PCMストリームを開く */
     ret = snd_pcm_open(&hndl, device, SND_PCM_STREAM_PLAYBACK, 0);
     if(ret != 0) {
         printf( "Unable to open PCM¥n" );
-        goto End;
+        exit(1);
     }
      
     /* フォーマット、バッファサイズ等各種パラメータを設定する */
@@ -151,29 +61,32 @@ int main(int argc, char *argv[])
                               wf.nSamplesPerSec, soft_resample, latency);
     if(ret != 0) {
         printf( "Unable to set format¥n" );
-        goto End;
+        exit(1);
     }
- 
-    for (n = 0; n < dSize; n += BUF_SAMPLES * wf.nBlockAlign) {
+
+	current_index, ret = 0;
+    for (n = 0; n < data_size; n += ret) {
         /* PCMの読み込み */
-        fread(buffer, wf.nBlockAlign, BUF_SAMPLES, fp);
+        for (m = 0; m < BUF_SIZ; i++)
+		{
+			buffer[m] = data[m+current_index];
+		}
  
         /* PCMの書き込み */
-        reSize = (n < BUF_SAMPLES) ? n : BUF_SAMPLES;
-        ret = snd_pcm_writei(hndl, (const void*)buffer, reSize);
+        redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
+        ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
         /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
         if (ret < 0) {
             if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
                 printf( "Unable to recover Stream." );
-                goto End;
+                exit(1);
             }
         }
+		current_index += ret;
     }
  
     /* データ出力が終わったため、たまっているPCMを出力する。 */
     snd_pcm_drain(hndl);
- 
-End:
      
     /* ストリームを閉じる */
     if (hndl != NULL) {
