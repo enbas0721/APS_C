@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
     snd_pcm_t *hndl = NULL;
  
     /* バッファの用意 */
-    buffer = (int16_t*)malloc(sizeof(int16_t)*BUF_SIZ*snd_pcm_format_width(format));
-	data = (int16_t*)malloc(sizeof(int16_t)*data_size*snd_pcm_format_width(format));
+    buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
+	data = (int16_t*)malloc(data_size*snd_pcm_format_width(format));
     make_chirp_wave(data, vol, f0, f1, data_size);
 
 	for (int i = 0; i < 10; i++)
