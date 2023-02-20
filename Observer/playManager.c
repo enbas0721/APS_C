@@ -98,27 +98,29 @@ int main(int argc, char *argv[])
     }
 
 	current_index, ret = 0;
-    for (n = 0; n < data_size; n += BUF_SIZ) {
-        /* PCMの読み込み */
-        for (m = 0; m < BUF_SIZ; m++)
-		{
-			buffer[m] = data[m+current_index];
-		}
- 
-        /* PCMの書き込み */
-        redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
-        printf("redata_size:%d\n",redata_size);
-        ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
-        /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
-        if (ret < 0) {
-            if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
-                printf( "Unable to recover Stream." );
-                exit(1);
+    for (l = 0; l < 5; l++)
+    {
+        for (n = 0; n < data_size; n += BUF_SIZ) {
+            /* PCMの読み込み */
+            for (m = 0; m < BUF_SIZ; m++)
+            {
+                buffer[m] = data[m+current_index];
             }
-        }
-		current_index += ret;
-        if(current_index > data_size){
-            current_index = 0;
+    
+            /* PCMの書き込み */
+            redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
+            ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
+            /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
+            if (ret < 0) {
+                if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
+                    printf( "Unable to recover Stream." );
+                    exit(1);
+                }
+            }
+            current_index += ret;
+            if(current_index > data_size){
+                current_index = 0;
+            }
         }
     }
 
