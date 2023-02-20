@@ -2,7 +2,7 @@ NAME 	= 	send
 SRCS 	= 	observer.c sendManager.c
 CC		=	gcc
 OBJ		=	send.o sendManager.o
-LIBS	=	-lasound  -lm
+LIBS	=	-lasound  -lm -lpthread
 
 all:	$(NAME)
 
