@@ -18,7 +18,11 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
             t = (double)n/DEF_FS;
 		    data[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));		    
         }else{
-            data[n] = 0;
+            if (data[n-1] > 10){
+                data[n] = data[n-1] - 10
+            }else{
+                data[n] = 0;
+            }
         }
 	}		
 }
