@@ -1,7 +1,7 @@
 NAME 	= 	send
-SRCS 	= 	playManager.c
+SRCS 	= 	observer.c sendManager.c
 CC		=	gcc
-OBJ		=	send.o playManager.o
+OBJ		=	send.o sendManager.o
 LIBS	=	-lasound  -lm
 
 all:	$(NAME)
