@@ -1,11 +1,12 @@
 // チャープ音を発生させる。
 // コマンドライン引数に音量を設定。設定範囲：　1~30
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
+#include <sys/time.h>
+#include <signal.h>
 #include <alsa/asoundlib.h>
  
 /* PCMデフォルト設定 */
@@ -17,48 +18,69 @@
 #define INITIAL_F			1700
 #define FINAL_F				1800
 #define BUF_SIZ				2048
+#define SEND_PERIOD         1
 
 void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	int n;
 	double t;
 	for (n = 0; n < size; n++)
 	{
-		t = (double)n/DEF_FS;
-		data[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));		
+        if (n <= DEF_FS * SIGNAL_L)
+        {
+            t = (double)n/DEF_FS;
+		    data[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));		    
+        }else{
+            data[n] = 0;
+        }
 	}		
+}
+
+void make_sin_wave(int16_t* data, int vol, int f, int size){
+	int n;
+	double t;
+	for (n = 0; n < size, n++){
+        if (n <= DEF_FS * SIGNAL_L){
+            t = (double)n/DEF_FS;
+		    data[n] = (int)(vol*sin(2*M_PI*SIGNAL_L*DEF_FS*f*(1/DEF_FS)));
+        }else{
+            data[n] = 0;
+        }
+	}
 }
 
 int main(int argc, char *argv[])
 {
-    /* 出力デバイス */
+	// タイマー設定用構造体
+	struct sigaction action;
+	struct itimerval timer;
+
+    // 出力デバイス
     char *device = "default";
-     /* ソフトSRC有効無効設定 */
+    //  ソフトSRC有効無効設定
     unsigned int soft_resample = 1;
-     /* ALSAのバッファ時間[msec] */
+    // ALSAのバッファ時間[msec]
     const static unsigned int latency = 50000;
     
-    /* 符号付き16bit */
+    // 符号付き16bit
     static snd_pcm_format_t format = SND_PCM_FORMAT_S16;
  
     int16_t *buffer = NULL;
 	int16_t *data = NULL;
+
+	// 信号生成用パラメータ
 	int f0 = INITIAL_F;
 	int f1 = FINAL_F;
 	int vol = atoi(argv[1]);
 	float signal_length = SIGNAL_L; 
-	int data_size = signal_length * DEF_FS;
+	int data_size = DEF_FS;
     int redata_size, current_index, ret, n, m;
+
     snd_pcm_t *hndl = NULL;
  
     /* バッファの用意 */
     buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
 	data = (int16_t*)malloc(data_size*snd_pcm_format_width(format));
     make_chirp_wave(data, vol, f0, f1, data_size);
-
-	for (int i = 0; i < 10; i++)
-	{
-		printf("data:%d\n",data[i]);
-	}
  
     /* 再生用PCMストリームを開く */
     ret = snd_pcm_open(&hndl, device, SND_PCM_STREAM_PLAYBACK, 0);
@@ -85,6 +107,7 @@ int main(int argc, char *argv[])
  
         /* PCMの書き込み */
         redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
+        printf("redata_size:%d\n",redata_size);
         ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
         /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
         if (ret < 0) {
@@ -94,14 +117,17 @@ int main(int argc, char *argv[])
             }
         }
 		current_index += ret;
+        if(current_index > data_size){
+            current_index = 0;
+        }
     }
 
-	FILE *fp;
-    fp = fopen("test.csv", "w");
-    fprintf(fp, "amp\n");
-    for (n = 0; n < data_size; n++){
-        fprintf(fp, "%d\n", data[n]);
-    }
+	// FILE *fp;
+    // fp = fopen("test.csv", "w");
+    // fprintf(fp, "amp\n");
+    // for (n = 0; n < data_size; n++){
+    //     fprintf(fp, "%d\n", data[n]);
+    // }
  
     /* データ出力が終わったため、たまっているPCMを出力する。 */
     snd_pcm_drain(hndl);
