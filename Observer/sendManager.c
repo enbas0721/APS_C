@@ -105,7 +105,7 @@ void* send_start(send_info *info)
                 current_index = 0;
             }
         }
-        print("test\n");
+        printf("test\n");
     }
 
 	// FILE *fp;
