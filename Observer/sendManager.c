@@ -1,24 +1,12 @@
-// チャープ音を発生させる。
-// コマンドライン引数に音量を設定。設定範囲：　1~30
+// 音信号を生成し、周期的に送信する。
+// 音量を設定。設定範囲：　1~30
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
-#include <sys/time.h>
-#include <signal.h>
 #include <alsa/asoundlib.h>
- 
-/* PCMデフォルト設定 */
-#define DEF_CHANNEL         1
-#define DEF_FS              48000
-#define DEF_BITPERSAMPLE    16
-#define WAVE_FORMAT_PCM     1
-#define SIGNAL_L			0.2
-#define INITIAL_F			1700
-#define FINAL_F				1800
-#define BUF_SIZ				2048
-#define SEND_PERIOD         1
+#include "recordManager.h"
 
 void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	int n;
@@ -48,12 +36,8 @@ void make_sin_wave(int16_t* data, int vol, int f, int size){
 	}
 }
 
-int main(int argc, char *argv[])
+void* send_start(send_info *info)
 {
-	// タイマー設定用構造体
-	struct sigaction action;
-	struct itimerval timer;
-
     // 出力デバイス
     char *device = "default";
     //  ソフトSRC有効無効設定
