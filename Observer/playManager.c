@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 	int vol = atoi(argv[1]);
 	float signal_length = SIGNAL_L; 
 	int data_size = DEF_FS;
-    int redata_size, current_index, ret, n, m;
+    int redata_size, current_index, ret, l, n, m,;
 
     snd_pcm_t *hndl = NULL;
  
