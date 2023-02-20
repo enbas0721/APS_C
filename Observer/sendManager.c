@@ -105,17 +105,9 @@ void* send_start(send_info *info)
                 current_index = 0;
             }
         }
-        printf("test\n");
     }
 
-	// FILE *fp;
-    // fp = fopen("test.csv", "w");
-    // fprintf(fp, "amp\n");
-    // for (n = 0; n < data_size; n++){
-    //     fprintf(fp, "%d\n", data[n]);
-    // }
- 
-    /* データ出力が終わったため、たまっているPCMを出力する。 */
+     /* データ出力が終わったため、たまっているPCMを出力する。 */
     snd_pcm_drain(hndl);
      
     /* ストリームを閉じる */
