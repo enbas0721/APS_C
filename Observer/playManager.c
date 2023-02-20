@@ -38,7 +38,7 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 void make_sin_wave(int16_t* data, int vol, int f, int size){
 	int n;
 	double t;
-	for (n = 0; n < size, n++){
+	for (n = 0; n < size; n++){
         if (n <= DEF_FS * SIGNAL_L){
             t = (double)n/DEF_FS;
 		    data[n] = (int)(vol*sin(2*M_PI*SIGNAL_L*DEF_FS*f*(1/DEF_FS)));
