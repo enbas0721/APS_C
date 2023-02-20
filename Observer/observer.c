@@ -4,13 +4,14 @@
 
 int main(int argc, char const *argv[])
 {
+    char command;
     send_info info;
-    info.vol = atoi(argv[1])    
+    info.vol = atoi(argv[1]);
     info.flag = 1;
     pthread_t send_thread;
     int ret = 0;
     
-    ret = pthread_create(&record_thread, NULL, (void*)send_start, (void*)&info);
+    ret = pthread_create(&send_thread, NULL, (void*)send_start, (void*)&info);
     printf("Input c to close\n");
     scanf("%c", &command);
     if (command == 'c'){

@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <alsa/asoundlib.h>
-#include "recordManager.h"
+#include "sendManager.h"
 
 void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	int n;
