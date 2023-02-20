@@ -54,17 +54,16 @@ void* send_start(send_info *info)
 	// 信号生成用パラメータ
 	int f0 = INITIAL_F;
 	int f1 = FINAL_F;
-	int vol = atoi(argv[1]);
 	float signal_length = SIGNAL_L; 
 	int data_size = DEF_FS;
-    int redata_size, current_index, ret, l, n, m;
+    int redata_size, current_index, ret, n, m;
 
     snd_pcm_t *hndl = NULL;
  
     /* バッファの用意 */
     buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
 	data = (int16_t*)malloc(data_size*snd_pcm_format_width(format));
-    make_chirp_wave(data, vol, f0, f1, data_size);
+    make_chirp_wave(data, info->vol, f0, f1, data_size);
  
     /* 再生用PCMストリームを開く */
     ret = snd_pcm_open(&hndl, device, SND_PCM_STREAM_PLAYBACK, 0);
@@ -82,7 +81,7 @@ void* send_start(send_info *info)
     }
 
 	current_index, ret = 0;
-    for (l = 0; l < 5; l++)
+    while(info->flag)
     {
         for (n = 0; n < data_size; n += BUF_SIZ) {
             /* PCMの読み込み */
