@@ -94,7 +94,7 @@ void* send_start(send_info *info)
                 buffer[m] = data[m+n];
             }
             /* PCMの書き込み */
-            redata_size = (data_size > (n + BUF_SIZ)) ? n : BUF_SIZ;
+            redata_size = (data_size < (n + BUF_SIZ)) ? (data_size - n) : BUF_SIZ;
             if (redata_size != BUF_SIZ)
             {
                 printf("redata_size:%d\n",redata_size);
