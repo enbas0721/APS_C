@@ -87,7 +87,6 @@ void* send_start(send_info *info)
     {
         current_index = 0;
         clock_gettime(CLOCK_REALTIME, &start_time);
-        printf("test\n");
         for (n = 0; n < data_size; n += BUF_SIZ) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
