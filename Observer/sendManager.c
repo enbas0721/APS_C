@@ -94,11 +94,11 @@ void* send_start(send_info *info)
             {
                 buffer[m] = data[m+current_index];
             }
-    
             /* PCMの書き込み */
-            redata_size = ((current_index+BUF_SIZ) < data_size) ? (data_size - current_index) : BUF_SIZ;
-            if (redata_size != BUF_SIZ){
-                printf("%d\n",redata_size);
+            redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
+            if (redata_size != BUF_SIZ)
+            {
+                printf("redata_size:%d\n",redata_size);
             }
             ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
             /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
@@ -108,8 +108,12 @@ void* send_start(send_info *info)
                     exit(1);
                 }
             }
+            if (redata_size != BUF_SIZ)
+            {
+                printf("ret:%d\n",ret);
+            }
             current_index += ret;
-            n += 1;
+            n += ret;
         }
         // clock_gettime(CLOCK_REALTIME, &end_time);
         // printf("period:%f\n",((double)(end_time.tv_nsec-start_time.tv_nsec)/(1000*1000*1000)));
