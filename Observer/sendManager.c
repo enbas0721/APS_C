@@ -81,7 +81,7 @@ void* send_start(send_info *info)
     }
 
 	
-    ret = 0
+    ret = 0;
     while(info->flag)
     {
         current_index = 0;
