@@ -80,11 +80,11 @@ void* send_start(send_info *info)
         exit(1);
     }
 
-	current_index, ret = 0;
     while(info->flag)
     {
+        current_index, ret = 0;        
         for (n = 0; n < data_size; n += BUF_SIZ) {
-            /* PCMの読み込み */
+            /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
             {
                 buffer[m] = data[m+current_index];
@@ -101,9 +101,6 @@ void* send_start(send_info *info)
                 }
             }
             current_index += ret;
-            if(current_index > data_size){
-                current_index = 0;
-            }
         }
     }
 
