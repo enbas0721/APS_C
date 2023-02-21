@@ -87,7 +87,7 @@ void* send_start(send_info *info)
     {
         current_index = 0;
         n = 0;
-        clock_gettime(CLOCK_REALTIME, &start_time);
+        // clock_gettime(CLOCK_REALTIME, &start_time);
         while (n < data_size) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
@@ -97,6 +97,9 @@ void* send_start(send_info *info)
     
             /* PCMの書き込み */
             redata_size = ((current_index+BUF_SIZ) > data_size) ? (data_size - current_index) : BUF_SIZ;
+            if (redata_size != BUF_SIZ){
+                printf("%d\n",redata_size);
+            }
             ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
             /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
             if (ret < 0) {
@@ -108,8 +111,8 @@ void* send_start(send_info *info)
             current_index += ret;
             n += 1;
         }
-        clock_gettime(CLOCK_REALTIME, &end_time);
-        printf("period:%f\n",((double)(end_time.tv_nsec-start_time.tv_nsec)/(1000*1000*1000)));
+        // clock_gettime(CLOCK_REALTIME, &end_time);
+        // printf("period:%f\n",((double)(end_time.tv_nsec-start_time.tv_nsec)/(1000*1000*1000)));
     }
 
      /* データ出力が終わったため、たまっているPCMを出力する。 */
