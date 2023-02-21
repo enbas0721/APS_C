@@ -95,10 +95,6 @@ void* send_start(send_info *info)
             }
             /* PCMの書き込み */
             redata_size = (data_size < (n + BUF_SIZ)) ? (data_size - n) : BUF_SIZ;
-            if (redata_size != BUF_SIZ)
-            {
-                printf("redata_size:%d\n",redata_size);
-            }
             ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
             /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
             if (ret < 0) {
@@ -106,10 +102,6 @@ void* send_start(send_info *info)
                     printf( "Unable to recover Stream." );
                     exit(1);
                 }
-            }
-            if (redata_size != BUF_SIZ)
-            {
-                printf("ret:%d\n",ret);
             }
             n += ret;
         }
