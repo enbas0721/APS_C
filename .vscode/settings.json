@@ -4,7 +4,8 @@
         "stdint.h": "c",
         "pthread.h": "c",
         "trackmanager.h": "c",
-        "recordmanager.h": "c"
+        "recordmanager.h": "c",
+        "sendmanager.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
