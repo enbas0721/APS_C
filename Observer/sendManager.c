@@ -87,6 +87,7 @@ void* send_start(send_info *info)
     {
         current_index = 0;
         start_time = time(NULL);
+        printf("test\n");
         for (n = 0; n < data_size; n += BUF_SIZ) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
@@ -106,7 +107,7 @@ void* send_start(send_info *info)
             }
             current_index += ret;
         }
-        printf("period:%ld",(time(NULL)-start_time));
+        printf("period:%ld\n",(time(NULL)-start_time));
     }
 
      /* データ出力が終わったため、たまっているPCMを出力する。 */
