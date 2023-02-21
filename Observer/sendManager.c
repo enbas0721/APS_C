@@ -96,7 +96,7 @@ void* send_start(send_info *info)
             }
     
             /* PCMの書き込み */
-            redata_size = ((current_index+BUF_SIZ) > data_size) ? (data_size - current_index) : BUF_SIZ;
+            redata_size = ((current_index+BUF_SIZ) < data_size) ? (data_size - current_index) : BUF_SIZ;
             if (redata_size != BUF_SIZ){
                 printf("%d\n",redata_size);
             }
