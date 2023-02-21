@@ -87,7 +87,7 @@ void* send_start(send_info *info)
     while(info->flag)
     {
         n = 0;
-        while ((n+BUF_SIZ) < data_size) {
+        while (n < data_size) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
             {
