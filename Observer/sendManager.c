@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
+#include <time.h>
 #include <alsa/asoundlib.h>
 #include "sendManager.h"
 
@@ -80,11 +81,12 @@ void* send_start(send_info *info)
         exit(1);
     }
 
-	
+    time_t start_time;
     ret = 0;
     while(info->flag)
     {
         current_index = 0;
+        start_time = time(NULL);
         for (n = 0; n < data_size; n += BUF_SIZ) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
@@ -104,6 +106,7 @@ void* send_start(send_info *info)
             }
             current_index += ret;
         }
+        printf("period:%ld",(time(NULL)-start_time));
     }
 
      /* データ出力が終わったため、たまっているPCMを出力する。 */
