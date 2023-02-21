@@ -37,7 +37,7 @@ void* record_start(record_info *info)
 
 	int gain_value = 8;
 
-	// ローパスフィルタ用変数
+	// フィルタ用変数
 	double fe, fe1, fe2, delta, *b, *w;
 	int delayer_num;
 
