@@ -83,11 +83,11 @@ void* send_start(send_info *info)
 
     struct timespec start_time,end_time;
     ret = 0;
+    これじゃダメです。やっぱりタイマ使ってください
     while(info->flag)
     {
         n = 0;
-        clock_gettime(CLOCK_REALTIME, &start_time);
-        while (n < data_size) {
+        while (n < data_size-1) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
             {
@@ -105,8 +105,6 @@ void* send_start(send_info *info)
             }
             n += ret;
         }
-        clock_gettime(CLOCK_REALTIME, &end_time);
-        printf("period:%f\n",((double)(start_time.tv_nsec-end_time.tv_nsec)/(1000*1000*1000)));
     }
 
      /* データ出力が終わったため、たまっているPCMを出力する。 */
