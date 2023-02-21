@@ -83,7 +83,7 @@ void* send_start(send_info *info)
 
     struct timespec start_time,end_time;
     ret = 0;
-    これじゃダメです。やっぱりタイマ使ってください
+    // これじゃダメです。やっぱりタイマ使ってください
     while(info->flag)
     {
         n = 0;
