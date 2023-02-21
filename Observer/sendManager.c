@@ -108,7 +108,7 @@ void* send_start(send_info *info)
             current_index += ret;
         }
         clock_gettime(CLOCK_REALTIME, &end_time);
-        printf("period:%lf\n",(end_time.tv_nsec-start_time.tv_nsec));
+        printf("period:%f\n",((double)(end_time.tv_nsec-start_time.tv_nsec)/(1000*1000*1000)));
     }
 
      /* データ出力が終わったため、たまっているPCMを出力する。 */
