@@ -84,7 +84,6 @@ void* send_start(send_info *info)
     while(info->flag)
     {
         current_index, ret = 0;
-        printf("test\n");
         for (n = 0; n < data_size; n += BUF_SIZ) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
@@ -95,6 +94,7 @@ void* send_start(send_info *info)
             /* PCMの書き込み */
             redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
             ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
+            printf("ret:%d\n",ret);
             /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
             if (ret < 0) {
                 if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
