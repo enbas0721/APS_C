@@ -13,8 +13,7 @@ int main(int argc, char const *argv[])
     char command;
     record_info info;
     info.flag = 1;
-    strcpy(info.card,argv[1]);
-    strcpy(info.filename,argv[2]);
+    strcpy(info.filename,argv[1]);
     info.last_index = 0;
     pthread_t record_thread;
     pthread_t track_thread;

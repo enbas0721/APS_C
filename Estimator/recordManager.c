@@ -46,6 +46,9 @@ void* record_start(record_info *info)
 	snd_pcm_hw_params_t *hw_params;
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
+	char card[16];
+	strcpy(card, "hw:1");
+
 	// For sound mixer setting
 	static int smixer_level = 0;
 	static struct snd_mixer_selem_regopt smixer_options;
@@ -57,9 +60,9 @@ void* record_start(record_info *info)
 	snd_mixer_selem_id_set_index(sid, 0);
 	snd_mixer_selem_id_set_name(sid, "Mic");
 
-	if ((err = snd_pcm_open (&capture_handle, info->card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
+	if ((err = snd_pcm_open (&capture_handle, card, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 		fprintf (stdout, "cannot open audio device %s (%s)\n",
-		         info->card,
+		         card,
 		         snd_strerror (err));
 		exit (1);
 	}
@@ -134,11 +137,11 @@ void* record_start(record_info *info)
 	// Setting sound mixer
 	if (mixer_handle == NULL) {
 		if ((err = snd_mixer_open(&mixer_handle, 0)) < 0) {
-			fprintf(stderr, "Mixer %s open error\n", info->card);
+			fprintf(stderr, "Mixer %s open error\n", card);
 			exit (1);
 		}
-		if (smixer_level == 0 && (snd_mixer_attach(mixer_handle, info->card)) < 0) {
-			fprintf(stderr, "Mixer attach %s error\n", info->card);
+		if (smixer_level == 0 && (snd_mixer_attach(mixer_handle, card)) < 0) {
+			fprintf(stderr, "Mixer attach %s error\n", card);
 			snd_mixer_close(mixer_handle);
 			mixer_handle = NULL;
 			exit (1);
@@ -151,7 +154,7 @@ void* record_start(record_info *info)
 		}
 		err = snd_mixer_load(mixer_handle);
 		if (err < 0) {
-			fprintf(stderr, "Mixer %s load error", info->card);
+			fprintf(stderr, "Mixer %s load error", card);
 			snd_mixer_close(mixer_handle);
 			mixer_handle = NULL;
 			exit (1);
@@ -166,7 +169,7 @@ void* record_start(record_info *info)
 
 	err = snd_mixer_selem_set_capture_volume(elem, chn, gain_value);
 	if (err < 0) {
-		fprintf(stderr, "Setting %s capture volume error", info->card);
+		fprintf(stderr, "Setting %s capture volume error", card);
 		snd_mixer_close(mixer_handle);
 		mixer_handle = NULL;
 		exit (1);
@@ -174,8 +177,7 @@ void* record_start(record_info *info)
 
 	int data_size = rate*240;
 
-	int16_tいらないんじゃないか？
-	buffer = (int16_t*)malloc(sizeof(int16_t)*BUF_SIZ*snd_pcm_format_width(format));
+	buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
 	info->record_data = calloc(data_size, sizeof(int16_t));
 
 	fprintf(stdout, "buffer allocated\n");

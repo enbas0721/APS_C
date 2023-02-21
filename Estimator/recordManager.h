@@ -18,7 +18,6 @@
 
 typedef struct{
     int  flag;
-    char card[16];
     char filename[16];
     int last_index;
     int16_t *record_data;
