@@ -85,17 +85,16 @@ void* send_start(send_info *info)
     ret = 0;
     while(info->flag)
     {
-        current_index = 0;
         n = 0;
         // clock_gettime(CLOCK_REALTIME, &start_time);
         while (n < data_size) {
             /* データをバッファに読み込み */
             for (m = 0; m < BUF_SIZ; m++)
             {
-                buffer[m] = data[m+current_index];
+                buffer[m] = data[m+n];
             }
             /* PCMの書き込み */
-            redata_size = (n < BUF_SIZ) ? n : BUF_SIZ;
+            redata_size = (data_size < (n + BUF_SIZ)) ? n : BUF_SIZ;
             if (redata_size != BUF_SIZ)
             {
                 printf("redata_size:%d\n",redata_size);
@@ -112,7 +111,6 @@ void* send_start(send_info *info)
             {
                 printf("ret:%d\n",ret);
             }
-            current_index += ret;
             n += ret;
         }
         // clock_gettime(CLOCK_REALTIME, &end_time);
