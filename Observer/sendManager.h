@@ -14,7 +14,7 @@
 #define SIGNAL_L			0.1
 #define INITIAL_F			1700
 #define FINAL_F				1800
-#define BUF_SIZ				1000
+#define BUF_SIZ				1024
 #define SEND_PERIOD         1
 
 typedef struct{
