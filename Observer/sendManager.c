@@ -45,7 +45,7 @@ void make_sin_wave(int16_t* data, int vol, int f, int size){
 void timer_handler(int signum){
     int n,m,data_size,redata_size,ret;
     ret,n = 0;
-    data_size = DEF_FS*SIGNAL_L
+    data_size = DEF_FS*SIGNAL_L;
     while (n < data_size) {
         /* データをバッファに読み込み */
         for (m = 0; m < BUF_SIZ; m++)
@@ -106,7 +106,7 @@ void* send_start(send_info *info)
     }
 
     struct sigaction action, old_action;
-    struct itimerval timer, old_time;
+    struct itimerval timer, old_timer;
 
     memset(&action, 0, sizeof(action));
     memset(&old_action, 0, sizeof(struct sigaction));
@@ -121,15 +121,15 @@ void* send_start(send_info *info)
 
     timer.it_value.tv_sec = INIT_WAIT_SEC;
     timer.it_value.tv_usec = 0;
-    timer.it_interval.tv_sec = INTERVAL_SEC;
+    timer.it_interval.tv_sec = SEND_PERIOD;
     timer.it_interval.tv_usec = 0;
 
-    if (setitimer(ITTIMER_REAL, &timer, &old_time)==-1){
+    if (setitimer(ITIMER_REAL, &timer, &old_timer)==-1){
         printf("setitimer error");
         exit(1);
     }
 
-    while(info->flag)
+    (info->flag)
     {
         // n = 0;
         // while (n < data_size) {
@@ -156,9 +156,9 @@ void* send_start(send_info *info)
                 printf("gettimer error");
                 exit(1);
             }
+            printf("current_timer.it_value: tv_sec = %ld, tv_usec = %ld\n",
+            current_timer.it_value.tv_sec, current_timer.it_value.tv_usec);
         #endif
-        printf("current_timer.it_value: tv_sec = %ld, tv_usec = %ld\n",
-           current_timer.it_value.tv_sec, current_timer.it_value.tv_usec);
     }
 
     if (setitimer(ITIMER_REAL, &old_timer, NULL) == -1) {
