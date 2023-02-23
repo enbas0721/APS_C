@@ -60,6 +60,8 @@ void timer_handler(int signum){
             if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
                 printf( "Unable to recover Stream." );
                 exit(1);
+            }else{
+                printf("test");
             }
         }
         n += ret;
