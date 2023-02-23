@@ -14,7 +14,7 @@
 #define SIGNAL_L			0.1
 #define INITIAL_F			1600
 #define FINAL_F				1700
-#define BUF_SIZ				2048
+#define BUF_SIZ				4096
 #define INIT_WAIT_SEC       1
 #define SEND_PERIOD         1
 #define CHECK_CLOCK         0
