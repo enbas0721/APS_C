@@ -82,8 +82,8 @@ void* send_start(send_info *info)
 	int f0 = INITIAL_F;
 	int f1 = FINAL_F;
 	float signal_length = SIGNAL_L; 
-	int data_size = DEF_FS;
-    int redata_size, current_index, ret, n, m;
+	int data_size = DEF_FS*SIGNAL_L;
+    int current_index, ret, n, m;
  
     /* バッファの用意 */
     buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
@@ -160,7 +160,6 @@ void* send_start(send_info *info)
             current_timer.it_value.tv_sec, current_timer.it_value.tv_usec);
         #endif
     }
-    printf("test");
     if (setitimer(ITIMER_REAL, &old_timer, NULL) == -1) {
         printf("setitimer error");
         exit(1);
