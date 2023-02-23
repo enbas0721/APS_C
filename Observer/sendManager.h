@@ -15,7 +15,9 @@
 #define INITIAL_F			1600
 #define FINAL_F				1700
 #define BUF_SIZ				1024
+#define INIT_WAIT_SEC       2
 #define SEND_PERIOD         1
+#define CHECK_CLOCK         0
 
 typedef struct{
     int flag;
