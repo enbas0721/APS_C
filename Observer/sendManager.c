@@ -19,13 +19,8 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	double t;
 	for (n = 0; n < size; n++)
 	{
-        if (n <= DEF_FS * SIGNAL_L)
-        {
-            t = (double)n/DEF_FS;
-		    data[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));		    
-        }else{
-            data[n] = 0;
-        }
+        t = (double)n/DEF_FS;
+        data[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
 	}		
 }
 
@@ -33,12 +28,8 @@ void make_sin_wave(int16_t* data, int vol, int f, int size){
 	int n;
 	double t;
 	for (n = 0; n < size; n++){
-        if (n <= DEF_FS * SIGNAL_L){
-            t = (double)n/DEF_FS;
-		    data[n] = (int)(vol*sin(2*M_PI*SIGNAL_L*DEF_FS*f*(1/DEF_FS)));
-        }else{
-            data[n] = 0;
-        }
+        t = (double)n/DEF_FS;
+        data[n] = (int)(vol*sin(2*M_PI*SIGNAL_L*DEF_FS*f*(1/DEF_FS)));
 	}
 }
 
