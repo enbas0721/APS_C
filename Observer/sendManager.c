@@ -14,6 +14,8 @@ snd_pcm_t *hndl = NULL;
 int16_t *buffer = NULL;
 int16_t *data = NULL;
 
+int data_size = DEF_FS*SIGNAL_L;
+
 void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	int n;
 	double t;
@@ -34,9 +36,8 @@ void make_sin_wave(int16_t* data, int vol, int f, int size){
 }
 
 void timer_handler(int signum){
-    int n,m,data_size,redata_size,ret;
+    int n, m, redata_size, ret;
     ret,n = 0;
-    data_size = DEF_FS*SIGNAL_L;
     while (n < data_size) {
         /* データをバッファに読み込み */
         for (m = 0; m < BUF_SIZ; m++)
@@ -73,7 +74,6 @@ void* send_start(send_info *info)
 	int f0 = INITIAL_F;
 	int f1 = FINAL_F;
 	float signal_length = SIGNAL_L; 
-	int data_size = DEF_FS*SIGNAL_L;
     int current_index, ret, n, m;
  
     /* バッファの用意 */
