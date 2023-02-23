@@ -129,7 +129,7 @@ void* send_start(send_info *info)
         exit(1);
     }
 
-    (info->flag)
+    while(info->flag)
     {
         // n = 0;
         // while (n < data_size) {
