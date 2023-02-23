@@ -60,8 +60,6 @@ void timer_handler(int signum){
             if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
                 printf( "Unable to recover Stream." );
                 exit(1);
-            }else{
-                printf("test");
             }
         }
         n += ret;
@@ -162,7 +160,7 @@ void* send_start(send_info *info)
             current_timer.it_value.tv_sec, current_timer.it_value.tv_usec);
         #endif
     }
-
+    printf("test");
     if (setitimer(ITIMER_REAL, &old_timer, NULL) == -1) {
         printf("setitimer error");
         exit(1);
