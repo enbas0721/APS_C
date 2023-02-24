@@ -79,7 +79,8 @@ void* send_start(send_info *info)
     /* バッファの用意 */
     buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
 	data = (int16_t*)malloc(data_size*snd_pcm_format_width(format));
-    make_chirp_wave(data, info->vol, f0, f1, data_size);
+    // make_chirp_wave(data, info->vol, f0, f1, data_size);
+    make_sin_wave(data, info->vol, f0, data_size);
  
     /* 再生用PCMストリームを開く */
     ret = snd_pcm_open(&hndl, device, SND_PCM_STREAM_PLAYBACK, 0);
