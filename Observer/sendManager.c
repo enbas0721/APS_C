@@ -31,8 +31,8 @@ void make_sin_wave(int16_t* data, int vol, int f, int size){
 	double t;
 	for (n = 0; n < size; n++){
         t = (double)n/DEF_FS;
-        data[n] = (int)(vol*sin(2*(M_PI/DEF_FS)*f*t));
-        printf("data:%lf\n", (vol*sin(2*(M_PI/DEF_FS)*f*t)));
+        data[n] = (int)(vol*sin(2*(M_PI/DEF_FS)*f*n));
+        printf("data:%lf", (vol*sin(2*(M_PI/DEF_FS)*f*n)));
 	}
 }
 
