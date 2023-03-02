@@ -58,8 +58,9 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
     }
     for (int k = 0; k < 10; i++)
     {
-       printf("%d\n",fai[k]);   
+       printf("%d ",fai[k]);   
     }
+    printf("\n",fai[k]);   
 }
 
 int get_max_index(int* S, size_t size){
