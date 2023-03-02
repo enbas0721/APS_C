@@ -119,7 +119,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
                         // checking_index = (int)(checking_index + (EPS * SMPL));
-                        checking_index = (int)(checking_index + ((3*CRSS_WNDW_SIZ+SIGNAL_L)/2));
+                        checking_index = SMPL;
                         phase = 3;
                     }else{
                         checking_index += 1;
@@ -160,7 +160,7 @@ void* track_start(record_info *info)
                     distances[log_index] = distance;
                     received_time[log_index] = current_time;
                     log_index += 1;
-                    checking_index += CRSS_WNDW_SIZ;
+                    checking_index += SMPL;
                     break;
                 default:
                     printf("Error: Non-existent phase\n");
