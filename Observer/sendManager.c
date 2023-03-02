@@ -23,7 +23,7 @@ void make_chirp_wave(int16_t* data, int vol, int f0, int f1, int size){
 	{
         t = (double)n/DEF_FS;
         data[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
-	}		
+	}
 }
 
 void make_sin_wave(int16_t* data, int vol, int f, int size){

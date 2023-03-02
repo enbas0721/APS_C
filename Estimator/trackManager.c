@@ -25,6 +25,51 @@ double sound_speed(double temperature){
     return (331.5 + (0.61 * temperature));
 }
 
+void make_chirp_wave(int16_t* g){
+    int n;
+	double t;
+    int vol = 20;
+    int f0 = INIT_FREQ;
+    int f1 = FINAL_FREQ;
+	for (n = 0; n < CRSS_WNDW_SIZ; n++)
+	{
+        t = (double)n/SMPL;
+        g[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+	}
+}
+
+void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
+    int i, j, tau;
+    int first_index = checking_index - CRSS_WNDW_SIZ;
+    for (i = 0; i < CRSS_WNDW_SIZ; i++) fai[i] = 0;
+    
+    for (i = 0; i < CRSS_WNDW_SIZ; i++)
+    {
+        tau = i;
+        for (j = 0; j < CRSS_WNDW_SIZ; j++)
+        {   
+            if((j + tau) < CRSS_WNDW_SIZ){
+                fai[i] += data[j + first_index] * ideal_sig[j+tau]
+            } else{
+                fai[i] += data[j + first_index] * ideal_sig[CRSS_WNDW_SIZ - j + tau]
+            }
+        }
+    }
+}
+
+int get_max_index(int* S, size_t size){
+    int max_value, max_index, i;
+    max_value = 0;
+    for (i = 0; i < size; i++)
+    {
+        if(S[i] > max_value){
+            max_value = S[i];
+            max_index = i;
+        }
+    }
+    return max_index;
+}
+
 void* track_start(record_info *info)
 {
     int phase = 2;
@@ -48,6 +93,14 @@ void* track_start(record_info *info)
     double distances[10000];
     double received_time[10000];
 
+    int16_t* ideal_signal;
+    ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
+    make_chirp_wave(ideal_signal);
+    int* cross_correlation_result;
+    cross_correlation_result = (int*)malloc(CRSS_WNDW_SIZ*sizeof(int));
+
+    int max_index;
+
     while((info->flag) || (checking_index < info->last_index))
     {
         if (info->last_index > checking_index){
@@ -64,7 +117,8 @@ void* track_start(record_info *info)
                         v = sound_speed(temperature);
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
-                        checking_index = (int)(checking_index + (EPS * SMPL));
+                        // checking_index = (int)(checking_index + (EPS * SMPL));
+                        checking_index = (int)(checking_index + ((3*CRSS_WNDW_SIZ+SIGNAL_L)/2))
                         phase = 3;
                     }else{
                         checking_index += 1;
@@ -72,27 +126,40 @@ void* track_start(record_info *info)
                     break;
                 case 3:
                     // 位置推定処理
-                    if (info->record_data[checking_index] > threshold){
+                    // if (info->record_data[checking_index] > threshold){
                         
-                        received_num = (int)((current_time - start_time)/TAU);
-                        propagation_time = current_time - start_time - TAU * received_num;
+                    //     received_num = (int)((current_time - start_time)/TAU);
+                    //     propagation_time = current_time - start_time - TAU * received_num;
 
-                        temperature = temp_measure(temperature);
+                    //     temperature = temp_measure(temperature);
 
-                        v = sound_speed(temperature);
-                        printf("音速: %lf {m}\n", v);
-                        distance = propagation_time * v;
-                        printf("受信時刻: %lf {m}\n", current_time);
-                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
+                    //     v = sound_speed(temperature);
+                    //     printf("音速: %lf {m}\n", v);
+                    //     distance = propagation_time * v;
+                    //     printf("受信時刻: %lf {m}\n", current_time);
+                    //     printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
                         
-                        distances[log_index] = distance;
-                        received_time[log_index] = current_time;
-                        log_index += 1;
+                    //     distances[log_index] = distance;
+                    //     received_time[log_index] = current_time;
+                    //     log_index += 1;
 
-                        checking_index = (int)(checking_index + (EPS * SMPL));
-                    }else{
-                        checking_index += 1;
-                    }
+                    //     checking_index = (int)(checking_index + (EPS * SMPL));
+                    // }else{
+                    //     checking_index += 1;
+                    // }
+                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
+                    max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
+                    propagation_time = (double)max_index/(double)SMPL;
+                    temperature = temp_measure(temperature);
+                    v = sound_speed(temperature);
+                    distance = propagation_time * v;
+                    printf("受信時刻: %lf {m}\n", current_time);
+                    printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
+                    
+                    distances[log_index] = distance;
+                    received_time[log_index] = current_time;
+                    log_index += 1;
+                    checking_index += CRSS_WNDW_SIZ;
                     break;
                 default:
                     printf("Error: Non-existent phase\n");
