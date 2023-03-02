@@ -32,7 +32,7 @@ void make_chirp_wave(int16_t* g){
     int vol = 20;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
-	for (n = 0; n < CRSS_WNDW_SIZ; n++)
+	for (n = 0; n < SIGNAL_L; n++)
 	{
         t = (double)n/SMPL;
         g[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
@@ -46,14 +46,13 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
     
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
-        printf("%d\n",i);
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
             if((j + tau) < CRSS_WNDW_SIZ){
-                fai[i] += data[j + first_index] * ideal_sig[j+tau];
+                fai[i] += data[j + first_index + tau] * ideal_sig[j];
             } else{
-                fai[i] += data[j + first_index] * ideal_sig[CRSS_WNDW_SIZ - j + tau];
+                fai[i] += data[(j-CRSS_WNDW_SIZ) + first_index] * ideal_sig[j];
             }
         }
     }

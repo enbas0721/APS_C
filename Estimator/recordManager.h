@@ -15,7 +15,7 @@
 #define BIT             16
 #define EPS             0.8
 #define TAU             1
-#define CRSS_WNDW_SIZ   48000
+#define CRSS_WNDW_SIZ   4800
 #define INIT_FREQ       1600
 #define FINAL_FREQ      1700
 #define SIGNAL_L        0.1
