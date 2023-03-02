@@ -37,6 +37,11 @@ void make_chirp_wave(int16_t* g){
         t = (double)n/SMPL;
         g[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
 	}
+    for (int k = 0; k < 10; i++)
+    {
+       printf("%d ",g[k]);   
+    }
+    printf("\n");
 }
 
 void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
@@ -56,11 +61,6 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
             }
         }
     }
-    for (int k = 0; k < 10; i++)
-    {
-       printf("%d ",fai[k]);   
-    }
-    printf("\n");   
 }
 
 int get_max_index(int* S, size_t size){
