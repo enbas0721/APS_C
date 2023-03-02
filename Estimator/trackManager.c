@@ -149,11 +149,6 @@ void* track_start(record_info *info)
                     //     checking_index += 1;
                     // }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
-                    for (int test = 0; test < CRSS_WNDW_SIZ; test++)
-                    {
-                        printf("%d ",cross_correlation_result[test]);
-                    }
-                    printf("\n");
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
                     temperature = temp_measure(temperature);
