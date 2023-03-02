@@ -46,6 +46,7 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
     
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
+        printf("%d\n",i);
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
