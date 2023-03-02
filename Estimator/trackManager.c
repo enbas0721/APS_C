@@ -32,7 +32,8 @@ void make_chirp_wave(int16_t* g){
     int vol = 20;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
-	for (n = 0; n < SIGNAL_L; n++)
+    int size = SIGNAL_L*SMPL;
+	for (n = 0; n < size; n++)
 	{
         t = (double)n/SMPL;
         g[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
