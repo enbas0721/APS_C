@@ -6,7 +6,7 @@
 #include "thermo.h"
 
 void write_result(char * filename, double * time, double * distances, int size);
-void make_chirp_wave(double* g)
+void make_chirp_wave(double* g);
 void* track_start(record_info *info);
 
 #endif
