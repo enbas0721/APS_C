@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "recordManager.h"
 #include "trackManager.h"
 #include "thermo.h"
@@ -118,7 +119,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
                         // checking_index = (int)(checking_index + (EPS * SMPL));
-                        checking_index = (int)(checking_index + ((3*CRSS_WNDW_SIZ+SIGNAL_L)/2))
+                        checking_index = (int)(checking_index + ((3*CRSS_WNDW_SIZ+SIGNAL_L)/2));
                         phase = 3;
                     }else{
                         checking_index += 1;
