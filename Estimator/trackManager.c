@@ -76,7 +76,7 @@ void* track_start(record_info *info)
 {
     int phase = 2;
 
-    double initial_pos = 1.0;
+    double initial_pos = 0.15;
     
     int received_num = 0;
     int checking_index = 0;
