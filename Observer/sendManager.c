@@ -122,26 +122,31 @@ void* send_start(send_info *info)
     // }
 
     int redata_size = 0;
-
+    int chirp_len, silent_len;
     while(info->flag)
     {
         n = 0;
+        printf("chirp:%d, silent:%d\n", chirp_len, silent_len);
+        chirp_len = 0;
+        silent_len = 0;
         while (n < DEF_FS) {
             /* データをバッファに読み込み */
             if (n < data_size)
             {
-                for (m = 0; m < BUF_SIZ; m++)
+                redata_size = (data_size < (n + BUF_SIZ)) ? (data_size - n) : BUF_SIZ;
+                for (m = 0; m < redata_size; m++)
                 {
                     buffer[m] = data[m+n];
                 }
+                chirp_len += redata_size;
             }else{
-                for (m = 0; m < BUF_SIZ; m++)
+                redata_size = (DEF_FS < (n + BUF_SIZ)) ? (DEF_FS - n) : BUF_SIZ;
+                for (m = 0; m < redata_size; m++)
                 {
                     buffer[m] = 0;
                 }
+                silent_len += redata_size;
             }
-            /* PCMの書き込み */
-            redata_size = (DEF_FS < (n + BUF_SIZ)) ? (DEF_FS - n) : BUF_SIZ;
             ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
             /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
             if (ret < 0) {
