@@ -121,6 +121,8 @@ void* send_start(send_info *info)
     //     exit(1);
     // }
 
+    int redata_size = 0;
+
     while(info->flag)
     {
         n = 0;
