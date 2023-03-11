@@ -8,7 +8,7 @@
 
 /* PCMデフォルト設定 */
 #define DEF_CHANNEL         1
-#define DEF_FS              48000
+#define DEF_FS              88100
 #define DEF_BITPERSAMPLE    16
 #define WAVE_FORMAT_PCM     1
 #define SIGNAL_L			0.1
