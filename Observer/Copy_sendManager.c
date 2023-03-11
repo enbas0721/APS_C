@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <sys/time.h>
+#include <signal.h>
 #include <alsa/asoundlib.h>
 #include "sendManager.h"
 
@@ -32,6 +33,29 @@ void make_sin_wave(int16_t* data, int vol, int f, int size){
         t = (double)n/DEF_FS;
         data[n] = (int)(vol*1000*sin(2*(M_PI/DEF_FS)*f*n));
 	}
+}
+
+void timer_handler(int signum){
+    int n, m, redata_size, ret;
+    ret,n = 0;
+    while (n < data_size) {
+        /* データをバッファに読み込み */
+        for (m = 0; m < BUF_SIZ; m++)
+        {
+            buffer[m] = data[m+n];
+        }
+        /* PCMの書き込み */
+        redata_size = (data_size < (n + BUF_SIZ)) ? (data_size - n) : BUF_SIZ;
+        ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
+        /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
+        if (ret < 0) {
+            if( snd_pcm_recover(hndl, ret, 0 ) < 0 ) {
+                printf( "Unable to recover Stream." );
+                exit(1);
+            }
+        }
+        n += ret;
+    }    
 }
 
 void* send_start(send_info *info)
@@ -73,6 +97,30 @@ void* send_start(send_info *info)
         exit(1);
     }
 
+    // struct sigaction action, old_action;
+    // struct itimerval timer, old_timer;
+
+    // memset(&action, 0, sizeof(action));
+    // memset(&old_action, 0, sizeof(struct sigaction));
+
+    // action.sa_handler = timer_handler;
+    // action.sa_flags = SA_RESTART;
+
+    // if(sigaction(SIGALRM, &action, &old_action) == -1){
+    //     printf("sigaction error");
+    //     exit(1);
+    // }
+
+    // timer.it_value.tv_sec = INIT_WAIT_SEC;
+    // timer.it_value.tv_usec = 0;
+    // timer.it_interval.tv_sec = SEND_PERIOD;
+    // timer.it_interval.tv_usec = 0;
+
+    // if (setitimer(ITIMER_REAL, &timer, &old_timer)==-1){
+    //     printf("setitimer error");
+    //     exit(1);
+    // }
+
     int redata_size = 0;
     int chirp_len, silent_len;
     while(info->flag)
@@ -109,7 +157,25 @@ void* send_start(send_info *info)
             }
             n += ret;
         }
+        // #if CHECK_CLOCK
+        //     struct itimerval current_timer;
+        //     if(getitimer(ITIMER_REAL, &current_timer) == -1){
+        //         printf("gettimer error");
+        //         exit(1);
+        //     }
+        //     printf("current_timer.it_value: tv_sec = %ld, tv_usec = %ld\n",
+        //     current_timer.it_value.tv_sec, current_timer.it_value.tv_usec);
+        // #endif
     }
+    // if (setitimer(ITIMER_REAL, &old_timer, NULL) == -1) {
+    //     printf("setitimer error");
+    //     exit(1);
+    // }
+ 
+    // if (sigaction(SIGALRM, &old_action, NULL) == -1) {
+    //     printf("sigaction error");
+    //     exit(1);
+    // }
 
      /* データ出力が終わったため、たまっているPCMを出力する。 */
     snd_pcm_drain(hndl);
