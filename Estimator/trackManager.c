@@ -128,41 +128,41 @@ void* track_start(record_info *info)
                     break;
                 case 3:
                     // 位置推定処理
-                    // if (info->record_data[checking_index] > threshold){
+                    if (info->record_data[checking_index] > threshold){
                         
-                    //     received_num = (int)((current_time - start_time)/TAU);
-                    //     propagation_time = current_time - start_time - TAU * received_num;
+                        received_num = (int)((current_time - start_time)/TAU);
+                        propagation_time = current_time - start_time - TAU * received_num;
 
-                    //     temperature = temp_measure(temperature);
+                        temperature = temp_measure(temperature);
 
-                    //     v = sound_speed(temperature);
-                    //     printf("音速: %lf {m}\n", v);
-                    //     distance = propagation_time * v;
-                    //     printf("受信時刻: %lf {m}\n", current_time);
-                    //     printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
+                        v = sound_speed(temperature);
+                        printf("音速: %lf {m}\n", v);
+                        distance = propagation_time * v;
+                        printf("受信時刻: %lf {m}\n", current_time);
+                        printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
                         
-                    //     distances[log_index] = distance;
-                    //     received_time[log_index] = current_time;
-                    //     log_index += 1;
+                        distances[log_index] = distance;
+                        received_time[log_index] = current_time;
+                        log_index += 1;
 
-                    //     checking_index = (int)(checking_index + (EPS * SMPL));
-                    // }else{
-                    //     checking_index += 1;
-                    // }
-                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
-                    max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
-                    propagation_time = (double)max_index/(double)SMPL;
-                    printf("伝播サンプル：%d\n 伝播時間%lf\n",max_index, propagation_time);
-                    temperature = temp_measure(temperature);
-                    v = sound_speed(temperature);
-                    distance = propagation_time * v;
-                    printf("受信時刻: %lf {m}\n", current_time);
-                    printf("推定距離: %lf {m}\n", distance);
+                        checking_index = (int)(checking_index + (EPS * SMPL));
+                    }else{
+                        checking_index += 1;
+                    }
+                    // cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
+                    // max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
+                    // propagation_time = (double)max_index/(double)SMPL;
+                    // printf("伝播サンプル：%d\n 伝播時間%lf\n",max_index, propagation_time);
+                    // temperature = temp_measure(temperature);
+                    // v = sound_speed(temperature);
+                    // distance = propagation_time * v;
+                    // printf("受信時刻: %lf {m}\n", current_time);
+                    // printf("推定距離: %lf {m}\n", distance);
                     
-                    distances[log_index] = distance;
-                    received_time[log_index] = current_time;
-                    log_index += 1;
-                    checking_index += SMPL;
+                    // distances[log_index] = distance;
+                    // received_time[log_index] = current_time;
+                    // log_index += 1;
+                    // checking_index += SMPL;
                     break;
                 default:
                     printf("Error: Non-existent phase\n");
