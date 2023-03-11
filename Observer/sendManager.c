@@ -126,14 +126,22 @@ void* send_start(send_info *info)
     while(info->flag)
     {
         n = 0;
-        while (n < data_size) {
+        while (n < DEF_FS) {
             /* データをバッファに読み込み */
-            for (m = 0; m < BUF_SIZ; m++)
+            if (n < data_size)
             {
-                buffer[m] = data[m+n];
+                for (m = 0; m < BUF_SIZ; m++)
+                {
+                    buffer[m] = data[m+n];
+                }
+            }else{
+                for (m = 0; m < BUF_SIZ; m++)
+                {
+                    buffer[m] = 0;
+                }
             }
             /* PCMの書き込み */
-            redata_size = (data_size < (n + BUF_SIZ)) ? (data_size - n) : BUF_SIZ;
+            redata_size = (DEF_FS < (n + BUF_SIZ)) ? (DEF_FS - n) : BUF_SIZ;
             ret = snd_pcm_writei(hndl, (const void*)buffer, redata_size);
             /* バッファアンダーラン等が発生してストリームが停止した時は回復を試みる */
             if (ret < 0) {
