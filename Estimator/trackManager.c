@@ -101,8 +101,8 @@ void* track_start(record_info *info)
     int16_t* ideal_signal;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
     make_chirp_wave(ideal_signal);
-    int* cross_correlation_result;
-    cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(int));
+    long int* cross_correlation_result;
+    cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(long int));
 
     int max_index;
 
