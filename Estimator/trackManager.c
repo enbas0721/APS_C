@@ -167,7 +167,7 @@ void* track_start(record_info *info)
                     received_time[log_index] = current_time;
                     log_index += 1;
                     checking_index += SMPL;
-                    info->flag = false;
+                    info->flag = 0;
                     break;
                 default:
                     printf("Error: Non-existent phase\n");
