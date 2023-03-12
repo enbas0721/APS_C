@@ -47,7 +47,6 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
     {
         fai[i] = 0;
     }
-    printf("%d\n",fai[0]);
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         tau = i;
@@ -60,7 +59,6 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
             }
         }
     }
-    printf("%d\n",fai[0]);
 }
 
 int get_max_index(long int* S, size_t size){
@@ -73,6 +71,7 @@ int get_max_index(long int* S, size_t size){
             max_index = i;
         }
     }
+    printf("max_value:%ld\n",max_value);
     return max_index;
 }
 
