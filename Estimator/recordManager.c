@@ -237,6 +237,7 @@ void* record_start(record_info *info)
 	free(x); /* メモリの解放 */
 	fprintf(stdout, "buffer freed\n");
 
+	snd_mixer_close(mixer_handle);
 	mixer_handle = NULL;
 	fprintf(stdout, "mixer_handle freed");
 
