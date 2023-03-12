@@ -29,7 +29,7 @@ double sound_speed(double temperature){
 void make_chirp_wave(int16_t* g){
     int n;
 	double t;
-    int vol = 20;
+    int vol = 1;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
     int size = SIGNAL_L*SMPL;
@@ -55,9 +55,9 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         {   
             if((first_index + j + tau) < checking_index){
                 printf("%ld\n",ideal_sig[j]);
-                fai[i] += (data[first_index + j + tau] * ideal_sig[j])/1000000;
+                fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
             } else{
-                fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j])/1000000;
+                fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j]);
             }
         }
     }
