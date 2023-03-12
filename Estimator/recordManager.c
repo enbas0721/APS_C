@@ -238,6 +238,7 @@ void* record_start(record_info *info)
 	fprintf(stdout, "buffer freed\n");
 
 	mixer_handle = NULL;
+	fprintf(stdout, "mixer_handle freed");
 
 	return 0;
 }
