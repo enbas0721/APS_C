@@ -58,7 +58,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
             } else{
                 fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j]);
             }
-            if((fai[i] >= LONG_MAX) || (fai[i] <= LONG_MIN)){
+            if((fai[i] >= INT_MAX) || (fai[i] <= INT_MIN)){
                 printf("------------------bad access---------------\n");
             }
         }
@@ -75,7 +75,6 @@ int get_max_index(long int* S, size_t size){
             max_index = i;
         }
     }
-    printf("max_value:%ld\n",max_value);
     return max_index;
 }
 
