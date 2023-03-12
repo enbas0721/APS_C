@@ -61,7 +61,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
             if ((sizeof(fai[i]) > sizeof(long int))){
                 printf("overflow\n");
             }else{
-                printf("%ld\n",sizeof(long int));
+                printf("%ld\n",sizeof(fai[i]));
             }
         }
     }
