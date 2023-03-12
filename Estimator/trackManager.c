@@ -53,7 +53,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
-            if((first_index + j + tau) < checking_index){
+            if((first_index + j + tau) < checking_index - 1){
                 printf("first:%d j:%d tau:%d\n",first_index,j,tau);
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
             } else{
