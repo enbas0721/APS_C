@@ -59,7 +59,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
             //     fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j])/1000;
             // }
             fai[i] += (data[0] * ideal_sig[0]);
-            if ((fai[i] > 9223372036854775807) || (fai[i] < -9223372036854775808)){
+            if ((sizeof(fai[i]) > sizeof(long int))){
                 printf("overflow\n");
             }
         }
