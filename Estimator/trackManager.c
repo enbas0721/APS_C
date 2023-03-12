@@ -48,7 +48,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
     {
         fai[i] = 0;
     }
-    for (i = 0; i < CRSS_WNDW_SIZ; i++)
+    for (i = 0; i < 1; i++)
     {
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
@@ -57,9 +57,6 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
             } else{
                 fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j]);
-            }
-            if((fai[i] >= INT_MAX) || (fai[i] <= INT_MIN)){
-                printf("------------------bad access---------------\n");
             }
         }
     }
@@ -158,7 +155,7 @@ void* track_start(record_info *info)
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
-                    printf("伝播サンプル：%d\n 伝播時間%lf\n",max_index, propagation_time);
+                    printf("伝播サンプル：%d\n伝播時間%lf\n",max_index, propagation_time);
                     temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
