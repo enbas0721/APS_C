@@ -235,10 +235,9 @@ void* record_start(record_info *info)
 	free(b); /* メモリの解放 */
   	free(w); /* メモリの解放 */
 	free(x); /* メモリの解放 */
+	fprintf(stdout, "buffer freed\n");
 
 	mixer_handle = NULL;
-
-	fprintf(stdout, "buffer freed\n");
 
 	return 0;
 }
