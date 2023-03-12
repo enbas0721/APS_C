@@ -26,12 +26,12 @@ int main(int argc, char const *argv[])
     if (command == 'c'){
         info.flag = 0;
     }
-    ret = pthread_join(record_thread,NULL);
+    ret = pthread_join(track_thread,NULL);
     if (ret != 0){
 	    printf("error\n");
         exit(1);
     }
-    ret = pthread_join(track_thread,NULL);
+    ret = pthread_join(record_thread,NULL);
     if (ret != 0){
 	    printf("error\n");
         exit(1);
