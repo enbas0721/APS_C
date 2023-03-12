@@ -222,6 +222,9 @@ void* record_start(record_info *info)
 		// snd_mixer_selem_set_capture_volume(elem, chn, gain_value);
 	}
 	
+	snd_pcm_close(capture_handle);
+	fprintf(stdout, "audio interface closed\n");
+
 	char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".wav");
@@ -236,8 +239,6 @@ void* record_start(record_info *info)
 	mixer_handle = NULL;
 
 	fprintf(stdout, "buffer freed\n");
-	snd_pcm_close(capture_handle);
-	fprintf(stdout, "audio interface closed\n");
 
 	return 0;
 }
