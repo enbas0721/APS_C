@@ -170,10 +170,11 @@ void* track_start(record_info *info)
         }
     }
 
+    printf("Ended tracking\n");
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
-    write_result(filename, received_time, distances, log_index);
+    write_result(filename, received_time, distances, log_index-1);
 
     free(ideal_signal);
     free(cross_correlation_result);
