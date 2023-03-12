@@ -40,7 +40,7 @@ void make_chirp_wave(int16_t* g){
 	}
 }
 
-void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
+void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
     int i, j, tau;
     int first_index = checking_index - CRSS_WNDW_SIZ;
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
@@ -62,7 +62,7 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
     }
 }
 
-int get_max_index(int* S, size_t size){
+int get_max_index(long int* S, size_t size){
     int max_value, max_index, i;
     max_value = 0;
     for (i = 0; i < size; i++)
