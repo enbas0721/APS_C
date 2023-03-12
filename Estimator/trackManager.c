@@ -60,9 +60,10 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
             }
             
             if((first_index + j + tau) < checking_index){
+                printf("first:%d j:%d tau:%d\n",first_index,j,tau);
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
-                printf("%dx%d=%ld\n",data[first_index + j + tau],ideal_sig[j] ,data[first_index + j + tau]*ideal_sig[j]);
             } else{
+                printf("first:%d j:%d tau:%d\n",first_index,j,tau);
                 fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j]);
             }
         }
