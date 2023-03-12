@@ -35,7 +35,7 @@ void* record_start(record_info *info)
 	int16_t *buffer;
 	unsigned int rate = SMPL;
 
-	int gain_value = 8;
+	int gain_value = 12;
 
 	// フィルタ用変数
 	double fe, fe1, fe2, delta, *b, *w;
