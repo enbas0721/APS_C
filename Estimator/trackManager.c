@@ -43,7 +43,10 @@ void make_chirp_wave(int16_t* g){
 void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
     int i, j, tau;
     int first_index = checking_index - CRSS_WNDW_SIZ;
-    for (i = 0; i < CRSS_WNDW_SIZ; i++) fai[i] = 0;
+    for (i = 0; i < CRSS_WNDW_SIZ; i++)
+    {
+        fai[i] = 0;
+    }
     
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
@@ -51,8 +54,7 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
             if((first_index + j + tau) < checking_index){
-                // fai[i] += data[first_index + j + tau] * ideal_sig[j];
-                fai[0] += data[first_index + j + tau] * ideal_sig[j];
+                fai[i] += data[first_index + j + tau] * ideal_sig[j];
             } else{
                 fai[i] += data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j];
             }
@@ -100,7 +102,7 @@ void* track_start(record_info *info)
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
     make_chirp_wave(ideal_signal);
     int* cross_correlation_result;
-    cross_correlation_result = (int*)malloc(CRSS_WNDW_SIZ*sizeof(int));
+    cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(int));
 
     int max_index;
 
