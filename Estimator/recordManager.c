@@ -47,7 +47,7 @@ void* record_start(record_info *info)
 	snd_pcm_format_t format = SND_PCM_FORMAT_S16_LE;
 
 	char card[16];
-	strcpy(card, "hw:1");
+	strcpy(card, "default");
 
 	// For sound mixer setting
 	static int smixer_level = 0;
