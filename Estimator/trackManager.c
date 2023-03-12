@@ -54,10 +54,10 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
             if((first_index + j + tau) < checking_index - 1){
-                printf("ue->i:%d first:%d j:%d tau:%d\n",i,first_index,j,tau);
+                // printf("ue->i:%d first:%d j:%d tau:%d\n",i,first_index,j,tau);
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
             } else{
-                printf("shita->i:%d first:%d j:%d tau:%d\n",i,first_index,j,tau);
+                // printf("shita->i:%d first:%d j:%d tau:%d\n",i,first_index,j,tau);
                 fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j]);
             }
         }
@@ -174,7 +174,7 @@ void* track_start(record_info *info)
             }
         }
     }
-
+    
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
