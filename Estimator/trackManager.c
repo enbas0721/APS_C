@@ -4,6 +4,7 @@
 #include "recordManager.h"
 #include "trackManager.h"
 #include "thermo.h"
+#include <limits.h>
 
 void write_result(char * filename, double * time, double * distances, int size){
     FILE *fp;
