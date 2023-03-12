@@ -55,10 +55,10 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         {   
             if((first_index + j + tau) < checking_index){
                 // fai[i] += (data[first_index + j + tau] * ideal_sig[j])/100000;
-                fai[i] += (data[0] * ideal_sig[j])/100000;
+                fai[i] += 1;
             } else{
                 // fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j])/100000;
-                fai[i] += (data[0] * ideal_sig[j])/100000;
+                fai[i] += 1;
             }
         }
     }
