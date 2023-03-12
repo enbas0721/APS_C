@@ -51,9 +51,9 @@ void cross_correlation(int* fai, int16_t* data, int16_t* ideal_sig, int checking
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
             if((j + tau) < CRSS_WNDW_SIZ){
-                fai[i] += data[j + first_index + tau] * ideal_sig[j];
+                fai[i] += data[first_index + j + tau] * ideal_sig[j];
             } else{
-                fai[i] += data[(j-CRSS_WNDW_SIZ) + first_index] * ideal_sig[j];
+                fai[i] += data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j];
             }
         }
     }
@@ -170,7 +170,6 @@ void* track_start(record_info *info)
         }
     }
 
-    printf("Ended tracking\n");
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
