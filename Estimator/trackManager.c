@@ -47,20 +47,20 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
     {
         fai[i] = 0;
     }
-    
+    printf("%d\n",fai[0]);
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
             if((first_index + j + tau) < checking_index){
-                printf("%ld\n",ideal_sig[j]);
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
             } else{
                 fai[i] += (data[first_index + ((j+tau) - CRSS_WNDW_SIZ)] * ideal_sig[j]);
             }
         }
     }
+    printf("%d\n",fai[0]);
 }
 
 int get_max_index(long int* S, size_t size){
