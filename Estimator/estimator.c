@@ -31,7 +31,6 @@ int main(int argc, char const *argv[])
 	    printf("error\n");
         exit(1);
     }
-    printf("record_thread ended\n");
     ret = pthread_join(track_thread,NULL);
     if (ret != 0){
 	    printf("error\n");

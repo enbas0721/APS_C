@@ -48,7 +48,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
     {
         fai[i] = 0;
     }
-    for (i = 0; i < 1; i++)
+    for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
@@ -168,7 +168,6 @@ void* track_start(record_info *info)
                     received_time[log_index] = current_time;
                     log_index += 1;
                     checking_index += SMPL;
-                    info->flag = 0;
                     break;
                 default:
                     printf("Error: Non-existent phase\n");
