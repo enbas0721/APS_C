@@ -53,6 +53,11 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
+            if (abs(fai[i] + (data[first_index + j + tau] * ideal_sig[j])) > LONG_MAX)
+            {
+                printf("overflow\n");
+            }
+            
             if((first_index + j + tau) < checking_index){
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
             } else{
