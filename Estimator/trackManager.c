@@ -53,12 +53,6 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
-            if (abs(fai[i] + (data[first_index + j + tau] * ideal_sig[j])) > LONG_MAX)
-            {
-                printf("overflow\n");
-                break;
-            }
-            
             if((first_index + j + tau) < checking_index){
                 printf("first:%d j:%d tau:%d\n",first_index,j,tau);
                 fai[i] += (data[first_index + j + tau] * ideal_sig[j]);
@@ -131,7 +125,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
                         // checking_index = (int)(checking_index + (EPS * SMPL));
-                        checking_index = SMPL;
+                        checking_index += SMPL;
                         phase = 3;
                     }else{
                         checking_index += 1;
