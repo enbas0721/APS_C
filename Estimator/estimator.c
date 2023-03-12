@@ -36,6 +36,7 @@ int main(int argc, char const *argv[])
 	    printf("error\n");
         exit(1);
     }
+    free(info.record_data);
     printf("All done.\n");
     return 0;
 }

@@ -231,7 +231,6 @@ void* record_start(record_info *info)
 	write_record_data(info->record_data, rate, current_index, filename);
 
 	free(buffer);
-	free(info->record_data);
 	free(b); /* メモリの解放 */
   	free(w); /* メモリの解放 */
 	free(x); /* メモリの解放 */
