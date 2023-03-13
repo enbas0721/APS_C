@@ -80,7 +80,7 @@ void* track_start(record_info *info)
 {
     int phase = 2;
 
-    double initial_pos = 0.5;
+    double initial_pos = 0.10;
     
     int received_num = 0;
     int checking_index = 0;
@@ -174,7 +174,6 @@ void* track_start(record_info *info)
         }
     }
     
-    printf("break while\n");
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
