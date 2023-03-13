@@ -155,12 +155,12 @@ void* track_start(record_info *info)
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
-                    printf("伝播サンプル：%d\n伝播時間%lf\n",max_index, propagation_time);
                     temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
-                    printf("受信時刻: %lf {m}\n", current_time);
+                    printf("伝播時間 %lf {s}\n",propagation_time);
                     printf("推定距離: %lf {m}\n", distance);
+                    printf("--------------------");
                     
                     distances[log_index] = distance;
                     received_time[log_index] = current_time;
