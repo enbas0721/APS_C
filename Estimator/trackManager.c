@@ -160,7 +160,7 @@ void* track_start(record_info *info)
                     distance = propagation_time * v;
                     printf("伝播時間 %lf {s}\n",propagation_time);
                     printf("推定距離: %lf {m}\n", distance);
-                    printf("--------------------");
+                    printf("--------------------\n");
                     
                     distances[log_index] = distance;
                     received_time[log_index] = current_time;
