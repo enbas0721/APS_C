@@ -155,7 +155,7 @@ void* track_start(record_info *info)
                     // }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
-                    propagation_time = (double)max_index/(double)SMPL - 0.098;
+                    propagation_time = 0.1 - (double)max_index/(double)SMPL;
                     temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
