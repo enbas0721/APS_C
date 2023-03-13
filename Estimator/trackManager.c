@@ -124,7 +124,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
                         // checking_index = (int)(checking_index + (EPS * SMPL));
-                        checking_index += (SMPL*2 - 100);
+                        checking_index += (SMPL*2);
                         phase = 3;
                     }else{
                         checking_index += 1;
