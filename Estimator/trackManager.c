@@ -43,7 +43,7 @@ void make_chirp_wave(int16_t* g){
 
 void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
     int i, j, tau;
-    int first_index = checking_index - CRSS_WNDW_SIZ;
+    int first_index = checking_index - CRSS_WNDW_SIZ*2;
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         fai[i] = 0;
@@ -124,7 +124,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
                         // checking_index = (int)(checking_index + (EPS * SMPL));
-                        checking_index += SMPL;
+                        checking_index += (SMPL*2);
                         phase = 3;
                     }else{
                         checking_index += 1;
