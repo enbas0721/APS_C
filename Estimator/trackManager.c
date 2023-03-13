@@ -107,7 +107,7 @@ void* track_start(record_info *info)
 
     int max_index;
 
-    while((info->flag) || (checking_index > info->last_index))
+    while((info->flag) || (checking_index < info->last_index))
     {
         if (info->last_index > checking_index){
             current_time = (double)checking_index / (double)SMPL;
