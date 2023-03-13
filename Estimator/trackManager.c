@@ -22,7 +22,7 @@ void write_result(char * filename, double * time, double * distances, int size){
     }
     fprintf(fp, "%lf\n", distances[n+1]);
 }
-
+  
 double sound_speed(double temperature){
     return (331.5 + (0.61 * temperature));
 }
@@ -80,7 +80,7 @@ void* track_start(record_info *info)
 {
     int phase = 2;
 
-    double initial_pos = 0.15;
+    double initial_pos = 0.5;
     
     int received_num = 0;
     int checking_index = 0;
@@ -174,6 +174,7 @@ void* track_start(record_info *info)
         }
     }
     
+    printf("break while\n");
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
