@@ -223,7 +223,6 @@ void* record_start(record_info *info)
 	}
 	
 	snd_pcm_close(capture_handle);
-	fprintf(stdout, "audio interface closed\n");
 
 	char filename[64];
     strcpy(filename,info->filename);
@@ -234,11 +233,9 @@ void* record_start(record_info *info)
 	free(b); /* メモリの解放 */
   	free(w); /* メモリの解放 */
 	free(x); /* メモリの解放 */
-	fprintf(stdout, "buffer freed\n");
 
 	snd_mixer_close(mixer_handle);
 	mixer_handle = NULL;
-	fprintf(stdout, "mixer_handle freed");
 
 	return 0;
 }
