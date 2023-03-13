@@ -124,7 +124,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
                         // checking_index = (int)(checking_index + (EPS * SMPL));
-                        checking_index += (SMPL*2);
+                        checking_index += (SMPL*2 - 4800);
                         phase = 3;
                     }else{
                         checking_index += 1;
@@ -155,7 +155,7 @@ void* track_start(record_info *info)
                     // }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
-                    propagation_time = 0.1 - (double)max_index/(double)SMPL;
+                    propagation_time = (double)max_index/(double)SMPL;
                     temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
