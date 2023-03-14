@@ -81,6 +81,7 @@ void* track_start(record_info *info)
     int checking_index = 0;
     double current_time = 0.0;
     double start_time = 0.0;
+    int start_sample = 0;
     
     int threshold = 800;
 
@@ -116,9 +117,10 @@ void* track_start(record_info *info)
                     if (info->record_data[checking_index] > threshold){
                         temperature = temp_measure(temperature);
                         v = sound_speed(temperature);
+                        start_sample = checking_index - (SMPL*(initial_pos/v));
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
-                        checking_index += (SMPL*2);
+                        checking_index += (SMPL*1.2 - start_sample);
                         phase = 3;
                     }else{
                         checking_index += 1;
@@ -137,7 +139,7 @@ void* track_start(record_info *info)
                     printf("--------------------\n");
                     
                     distances[log_index] = distance;
-                    received_time[log_index] = (checking_index - (SMPL*2))/SMPL;
+                    received_time[log_index] = (checking_index - (SMPL*0.2))/SMPL;
                     log_index += 1;
                     checking_index += SMPL;
                     break;
