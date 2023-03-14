@@ -119,7 +119,8 @@ void* track_start(record_info *info)
                         v = sound_speed(temperature);
                         start_sample = checking_index - (SMPL*(initial_pos/v));
                         start_time = current_time - (initial_pos/v);
-                        printf("初期送信時刻 : %lf\n", start_time);
+                        printf("初期送信サンプル : %d\n", start_sample);
+                        printf("1.2秒先のindex: %d\n", (SMPL*1.2 - start_sample));
                         checking_index += (SMPL*1.2 - start_sample);
                         phase = 3;
                     }else{
