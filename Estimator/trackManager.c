@@ -141,7 +141,7 @@ void* track_start(record_info *info)
                     printf("--------------------\n");
                     
                     distances[log_index] = distance;
-                    received_time[log_index] = current_time + (double)max_index/SMPL;
+                    received_time[log_index] = current_time - 1.2 + (double)max_index/SMPL;
                     log_index += 1;
                     checking_index += SMPL;
                     break;
