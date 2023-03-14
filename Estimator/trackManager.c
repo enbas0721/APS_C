@@ -117,10 +117,11 @@ void* track_start(record_info *info)
                     if (info->record_data[checking_index] > threshold){
                         temperature = temp_measure(temperature);
                         v = sound_speed(temperature);
-                        start_sample = checking_index - (SMPL*(initial_pos/v));
+                        start_sample = checking_index - (SMPL*(double)(initial_pos/v));
                         start_time = current_time - (initial_pos/v);
+                        printf("初期受信サンプル : %d\n", checking_index);
                         printf("初期送信サンプル : %d\n", start_sample);
-                        printf("1.2秒先のindex: %d\n", (SMPL*1.2 - (checking_index - start_sample)));
+                        printf("1.2秒先のindex: %d\n", (checking_index - start_sample));
                         checking_index += (SMPL*1.2 - (checking_index - start_sample));
                         phase = 3;
                     }else{
