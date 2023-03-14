@@ -118,6 +118,7 @@ void* track_start(record_info *info)
                         v = sound_speed(temperature);
                         start_time = current_time - (initial_pos/v);
                         printf("初期送信時刻 : %lf\n", start_time);
+                        // checking_index = (int)(checking_index + (EPS * SMPL));
                         checking_index += (SMPL*2);
                         phase = 3;
                     }else{
@@ -126,6 +127,27 @@ void* track_start(record_info *info)
                     break;
                 case 3:
                     // 位置推定処理
+                    // if (info->record_data[checking_index] > threshold){
+                        
+                    //     received_num = (int)((current_time - start_time)/TAU);
+                    //     propagation_time = current_time - start_time - TAU * received_num;
+
+                    //     temperature = temp_measure(temperature);
+
+                    //     v = sound_speed(temperature);
+                    //     printf("音速: %lf {m}\n", v);
+                    //     distance = propagation_time * v;
+                    //     printf("受信時刻: %lf {m}\n", current_time);
+                    //     printf("推定距離: %lf {m}\n振幅: %d\n", distance, info->record_data[checking_index]);
+                        
+                    //     distances[log_index] = distance;
+                    //     received_time[log_index] = current_time;
+                    //     log_index += 1;
+
+                    //     checking_index = (int)(checking_index + (EPS * SMPL));
+                    // }else{
+                    //     checking_index += 1;
+                    // }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = 0.1 - (double)max_index/(double)SMPL;
@@ -137,7 +159,7 @@ void* track_start(record_info *info)
                     printf("--------------------\n");
                     
                     distances[log_index] = distance;
-                    received_time[log_index] = checking_index - (SMPL*2);
+                    received_time[log_index] = current_time;
                     log_index += 1;
                     checking_index += SMPL;
                     break;
