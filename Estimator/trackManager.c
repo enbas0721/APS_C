@@ -30,7 +30,7 @@ double sound_speed(double temperature){
 void make_chirp_wave(int16_t* g){
     int n;
 	double t;
-    int vol = 10;
+    int vol = 1;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
     int size = SIGNAL_L*SMPL;
