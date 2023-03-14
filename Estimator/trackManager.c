@@ -132,7 +132,6 @@ void* track_start(record_info *info)
                     // 位置推定処理
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
-                    printf("max_index:%d\n",max_index);
                     propagation_time = (double)max_index/(double)SMPL;
                     temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
@@ -142,7 +141,7 @@ void* track_start(record_info *info)
                     printf("--------------------\n");
                     
                     distances[log_index] = distance;
-                    received_time[log_index] = max_index/SMPL;
+                    received_time[log_index] = (double)max_index/SMPL;
                     log_index += 1;
                     checking_index += SMPL;
                     break;
