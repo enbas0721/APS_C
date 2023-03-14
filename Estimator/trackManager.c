@@ -83,7 +83,7 @@ void* track_start(record_info *info)
     double start_time = 0.0;
     int start_sample = 0;
     
-    int threshold = 800;
+    int threshold = 200;
 
     double temperature = 20.0;
     double v = sound_speed(temperature);
