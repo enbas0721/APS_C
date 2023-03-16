@@ -79,7 +79,7 @@ int get_max_index(long int* S, size_t size){
 
 void* track_start(record_info *info)
 {
-    int phase = 2;
+    int phase = 1;
 
     double initial_pos = INIT_POS;
     
