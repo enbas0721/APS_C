@@ -121,7 +121,6 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         printf("初期受信サンプル : %d\n", checking_index);
                         printf("初期送信サンプル : %d\n", start_sample);
-                  ls
                         printf("1.2秒先のindex: %d\n", (checking_index - start_sample));
                         checking_index += (SMPL*1.2 - (checking_index - start_sample) - 100);
                         phase = 3;
