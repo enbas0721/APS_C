@@ -143,7 +143,7 @@ void* track_start(record_info *info)
                     distance = propagation_time * v;
                     double d = distance - initial_pos;
                     if (d < 0){
-                        int cal_smpl = (d/v)*SMPL
+                        int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
                     }
                     else if (d > 0.01)
