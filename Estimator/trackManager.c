@@ -6,7 +6,7 @@
 #include "thermo.h"
 #include <limits.h>
 
-void write_result(char * filename, double * time, double * distances, int size){
+void write_result(char * filename, double * time, double * distances, double * ideal, int size){
     FILE *fp;
     fp = fopen(filename, "w");
     int n;
@@ -21,6 +21,12 @@ void write_result(char * filename, double * time, double * distances, int size){
         fprintf(fp, "%lf,", distances[n]);
     }
     fprintf(fp, "%lf\n", distances[n+1]);
+
+    fprintf(fp, "Ideal Time,");
+    for (n = 0; n < size-1; n++){
+        fprintf(fp, "%lf,", ideal[n]);
+    }
+    fprintf(fp, "%lf\n", ideal[n+1]);
 }
   
 double sound_speed(double temperature){
@@ -94,6 +100,7 @@ void* track_start(record_info *info)
     int log_index = 0;
     double distances[10000];
     double received_time[10000];
+    double ideal_received_time[10000];
 
     int16_t* ideal_signal;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
@@ -142,11 +149,12 @@ void* track_start(record_info *info)
                     
                     distances[log_index] = distance;
                     received_time[log_index] = current_time - 1.2 + (double)max_index/SMPL;
-                    log_index += 1;
+                    ideal_received_time[log_index] = current_time - 1.2;
+                    log_index += 1; 
                     checking_index += SMPL;
                     break;
                 default:
-                    printf("Error: Non-existent phase\n");
+                    printf("Error: Non double * ideal, -existent phase\n");
             }
         }
     }
@@ -154,8 +162,14 @@ void* track_start(record_info *info)
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
-    write_result(filename, received_time, distances, log_index-1);
+    write_result(filename, received_time, distances, ideal_received_time, log_index-1);
 
     free(ideal_signal);
-    free(cross_correlation_result);
+    free(cross_correlation_resuIdeal lt);
 }
+
+}
+    
+    char filename[64];
+    strcpy(filename,info->filename);
+

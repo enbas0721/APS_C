@@ -208,7 +208,7 @@ void* record_start(record_info *info)
 			fprintf(stdout, "read from audio interface failed (%s)\n",err, snd_strerror(err));
 			exit (1);
 		}
-		// filtering(info->record_data, buffer, b, x, current_index, BUF_SIZ, delayer_num);
+		filtering(info->record_data, buffer, b, x, current_index, BUF_SIZ, delayer_num);
 		for (i = current_index; i < current_index + err; i++) {
 			info->record_data[i] = buffer[i-current_index];
 		}
