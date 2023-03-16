@@ -80,6 +80,7 @@ int get_max_index(long int* S, size_t size){
 void* track_start(record_info *info)
 {
     int phase = 1;
+    bool status = true;
 
     double initial_pos = INIT_POS;
     
@@ -118,7 +119,11 @@ void* track_start(record_info *info)
             switch(phase){
                 case 1:
                     // 信号受信判定
-                    printf("Waiting signal...\n");
+                    if (status)
+                    {
+                        printf("Waiting signal...\n");
+                        status = false;
+                    }
                     if (info->record_data[checking_index] > threshold){
                         temperature = temp_measure(temperature);
                         v = sound_speed(temperature);
@@ -126,14 +131,18 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         checking_index += (SMPL*1.2 - (checking_index - start_sample) - 1000);
                         phase = 2;
+                        status = true;
                     }else{
                         checking_index += 1;
                     }
                     break;
                 case 2:
-                    printf("Calibrating...\n");
+                    if (status)
+                    {
+                        printf("Calibrating...\n");
+                        status = false;
+                    }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
-                    printf("first calib\n");
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
                     temperature = temp_measure(temperature);
@@ -150,12 +159,21 @@ void* track_start(record_info *info)
                         checking_index += (SMPL + cal_smpl);
                     }else{
                         checking_index += SMPL;
+                        status = true;
                         phase = 3;
                     }
+                    distances[log_index] = distance;
+                    received_time[log_index] = current_time - 1.2 + (double)max_index/SMPL;
+                    ideal_received_time[log_index] = current_time - 1.2;
+                    log_index += 1; 
                     break;
                 case 3:
                     // 位置推定処理
-                    printf("Estimation started...\n");
+                    if (status)
+                    {
+                        printf("Estimation started...\n");   
+                        status = false;
+                    }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
