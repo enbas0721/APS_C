@@ -149,7 +149,7 @@ void* track_start(record_info *info)
                     else if (d > 0.01)
                     {
                         int cal_smpl = (d/v)*SMPL;
-                        checking_index += SMPL + cal_time;
+                        checking_index += SMPL + cal_smpl;
                     }else{
                         checking_index += SMPL;
                         phase = 3;
