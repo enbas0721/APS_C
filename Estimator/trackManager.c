@@ -165,11 +165,8 @@ void* track_start(record_info *info)
     write_result(filename, received_time, distances, ideal_received_time, log_index-1);
 
     free(ideal_signal);
-    free(cross_correlation_resuIdeal lt);
-}
-
-}
-    
+    free(cross_correlation_result);
     char filename[64];
     strcpy(filename,info->filename);
+}
 
