@@ -78,7 +78,6 @@ void* send_start(send_info *info)
     while(info->flag)
     {
         n = 0;
-        printf("chirp:%d, silent:%d\n", chirp_len, silent_len);
         chirp_len = 0;
         silent_len = 0;
         while (n < DEF_FS) {
