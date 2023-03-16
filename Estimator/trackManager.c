@@ -166,7 +166,5 @@ void* track_start(record_info *info)
 
     free(ideal_signal);
     free(cross_correlation_result);
-    char filename[64];
-    strcpy(filename,info->filename);
 }
 
