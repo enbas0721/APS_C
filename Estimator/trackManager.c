@@ -59,7 +59,7 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
-            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/10000);
+            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/1000000);
         }
     }
 }
@@ -73,7 +73,7 @@ int get_max_index(long int* S, size_t size){
             max_value = S[i];
             max_index = i;
         }
-        if((i%500) == 0){
+        if((i < 50){
             printf("delay:%lf value:%ld\n" ,(double)i/(double)SMPL ,S[i]);
         }
     }
