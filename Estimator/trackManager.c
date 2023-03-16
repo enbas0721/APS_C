@@ -73,9 +73,6 @@ int get_max_index(long int* S, size_t size){
             max_value = S[i];
             max_index = i;
         }
-        if(i < 50){
-            printf("delay:%lf value:%ld\n" ,(double)i/(double)SMPL ,S[i]);
-        }
     }
     return max_index;
 }
@@ -134,8 +131,9 @@ void* track_start(record_info *info)
                     }
                     break;
                 case 2:
-                    printf("Calibrationg...\n");
+                    printf("Calibrating...\n");
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
+                    printf("first calib\n");
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
                     temperature = temp_measure(temperature);
@@ -149,7 +147,7 @@ void* track_start(record_info *info)
                     else if (d > 0.01)
                     {
                         int cal_smpl = (d/v)*SMPL;
-                        checking_index += SMPL + cal_smpl;
+                        checking_index += (SMPL + cal_smpl);
                     }else{
                         checking_index += SMPL;
                         phase = 3;
