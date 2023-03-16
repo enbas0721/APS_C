@@ -80,7 +80,7 @@ int get_max_index(long int* S, size_t size){
 void* track_start(record_info *info)
 {
     int phase = 1;
-    bool status = true;
+    int status = 1;
 
     double initial_pos = INIT_POS;
     
@@ -122,7 +122,7 @@ void* track_start(record_info *info)
                     if (status)
                     {
                         printf("Waiting signal...\n");
-                        status = false;
+                        status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
                         temperature = temp_measure(temperature);
@@ -131,7 +131,7 @@ void* track_start(record_info *info)
                         start_time = current_time - (initial_pos/v);
                         checking_index += (SMPL*1.2 - (checking_index - start_sample) - 1000);
                         phase = 2;
-                        status = true;
+                        status = 1;
                     }else{
                         checking_index += 1;
                     }
@@ -140,7 +140,7 @@ void* track_start(record_info *info)
                     if (status)
                     {
                         printf("Calibrating...\n");
-                        status = false;
+                        status = 0;
                     }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
@@ -159,7 +159,7 @@ void* track_start(record_info *info)
                         checking_index += (SMPL + cal_smpl);
                     }else{
                         checking_index += SMPL;
-                        status = true;
+                        status = 1;
                         phase = 3;
                     }
                     distances[log_index] = distance;
@@ -172,7 +172,7 @@ void* track_start(record_info *info)
                     if (status)
                     {
                         printf("Estimation started...\n");   
-                        status = false;
+                        status = 0;
                     }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
