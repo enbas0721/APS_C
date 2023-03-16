@@ -74,7 +74,7 @@ int get_max_index(long int* S, size_t size){
             max_index = i;
         }
         if((i%500) == 0){
-            printf("delay:%lf value:%ld\n" (double)i/(double)SMPL ,S[i]);
+            printf("delay:%lf value:%ld\n" ,(double)i/(double)SMPL ,S[i]);
         }
     }
     return max_index;
