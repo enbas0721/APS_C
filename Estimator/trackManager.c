@@ -83,6 +83,7 @@ void* track_start(record_info *info)
     int status = 1;
     int calibration_count = 0;
     double calibration_value = 0.1;
+    double ep = 1;
 
     double initial_pos = INIT_POS;
     
@@ -154,15 +155,17 @@ void* track_start(record_info *info)
                     printf("キャリブレーション誤差: %lf {s}\n",d);
                     printf("--------------------\n");
                     if (d < (-1)*calibration_value){
-                        int cal_smpl = (d/v)*SMPL+100;
+                        int cal_smpl = (d/v)*ep*SMPL;
                         checking_index += (SMPL + cal_smpl);
                         calibration_count = 0;
+                        ep /= 2;
                     }
                     else if (d > calibration_value)
                     {
-                        int cal_smpl = (d/v)*SMPL-100;
+                        int cal_smpl = (d/v)*ep*SMPL;
                         checking_index += (SMPL + cal_smpl);
                         calibration_count = 0;
+                        ep /= 2;
                     }else{
                         checking_index += SMPL;
                         calibration_count += 1;
