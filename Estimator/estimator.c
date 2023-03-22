@@ -28,6 +28,7 @@ int main(int argc, char const *argv[])
         if (command == 'c'){
             info.flag = 0;
             break;
+        }
     }
     ret = pthread_join(track_thread,NULL);
     if (ret != 0){
