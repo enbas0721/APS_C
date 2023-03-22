@@ -131,7 +131,7 @@ void* track_start(record_info *info)
                         v = sound_speed(temperature);
                         start_sample = checking_index - (SMPL*(double)(initial_pos/v));
                         start_time = current_time - (initial_pos/v);
-                        checking_index += (SMPL*1.2 - (checking_index - start_sample) - 1000);
+                        checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
                         phase = 2;
                         status = 1;
                     }else{
