@@ -82,7 +82,7 @@ void* track_start(record_info *info)
     int phase = 1;
     int status = 1;
     int calibration_count = 0;
-    double calibration_value = 0.05;
+    double calibration_value = 0.1;
 
     double initial_pos = INIT_POS;
     
@@ -168,7 +168,7 @@ void* track_start(record_info *info)
                         calibration_count += 1;
                         printf("キャリブレーションカウント: %d {s}\n",calibration_count);
                     }
-                    if (calibration_count > 5){
+                    if (calibration_count >= 5){
                         status = 1;
                         phase = 3;
                     }

@@ -22,9 +22,12 @@ int main(int argc, char const *argv[])
     ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
     ret = pthread_create(&track_thread, NULL, (void*)track_start, (void*)&info);
     printf("Input close to close\n");
-    scanf("%c", &command);
-    if (command == 'c'){
-        info.flag = 0;
+    while (1)
+    {
+        scanf("%c", &command);
+        if (command == 'c'){
+            info.flag = 0;
+            break;
     }
     ret = pthread_join(track_thread,NULL);
     if (ret != 0){
