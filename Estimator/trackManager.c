@@ -83,7 +83,7 @@ void* track_start(record_info *info)
     int status = 1;
     int calibration_count = 0;
     double calibration_value = 0.1;
-    double ep = 1;
+    double ep = 100;
 
     double initial_pos = INIT_POS;
     
