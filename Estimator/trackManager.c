@@ -82,6 +82,7 @@ void* track_start(record_info *info)
     int phase = 1;
     int status = 1;
     int calibration_count = 0;
+    double calibration_value = 0.05;
 
     double initial_pos = INIT_POS;
     
@@ -150,12 +151,14 @@ void* track_start(record_info *info)
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
                     double d = distance - initial_pos;
-                    if (d < 0.01){
+                    printf("キャリブレーション誤差: %lf {s}\n",d);
+                    printf("--------------------\n");
+                    if (d < calibration_value){
                         int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
                         calibration_count = 0;
                     }
-                    else if (d > 0.01)
+                    else if (d > calibration_value)
                     {
                         int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
@@ -163,6 +166,7 @@ void* track_start(record_info *info)
                     }else{
                         checking_index += SMPL;
                         calibration_count += 1;
+                        printf("キャリブレーションカウント: %d {s}\n",calibration_count);
                     }
                     if (calibration_count > 5){
                         status = 1;
