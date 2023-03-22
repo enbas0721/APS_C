@@ -81,6 +81,7 @@ void* track_start(record_info *info)
 {
     int phase = 1;
     int status = 1;
+    int calibration_count = 0;
 
     double initial_pos = INIT_POS;
     
@@ -149,16 +150,21 @@ void* track_start(record_info *info)
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
                     double d = distance - initial_pos;
-                    if (d < 0){
+                    if (d < 0.01){
                         int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
+                        calibration_count = 0;
                     }
                     else if (d > 0.01)
                     {
                         int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
+                        calibration_count = 0;
                     }else{
                         checking_index += SMPL;
+                        calibration_count += 1;
+                    }
+                    if (calibration_count > 5){
                         status = 1;
                         phase = 3;
                     }
