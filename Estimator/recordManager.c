@@ -183,7 +183,7 @@ void* record_start(record_info *info)
 	fprintf(stdout, "buffer allocated\n");
 
 	// fe = 3500.0 / rate;
-	fe1 = 10 / (double)rate;
+	fe1 = 200 / (double)rate;
 	fe2 = 4000 / (double)rate;
 	delta = 500.0 / (double)rate;
 	
