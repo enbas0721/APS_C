@@ -154,6 +154,7 @@ void* track_start(record_info *info)
                     printf("キャリブレーション誤差: %lf {m}\n",d);
                     printf("--------------------\n");
                     if (d < (-1)*calibration_value){
+                        // 変更
                         int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
                         calibration_count = 0;
