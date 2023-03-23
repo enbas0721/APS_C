@@ -153,7 +153,7 @@ void* track_start(record_info *info)
                     double d = distance - initial_pos;
                     printf("キャリブレーション誤差: %lf {m}\n",d);
                     printf("--------------------\n");
-                    if (d < 0){
+                    if (d < (-1)*calibration_value){
                         int cal_smpl = (d/v)*SMPL;
                         checking_index += (SMPL + cal_smpl);
                         calibration_count = 0;
