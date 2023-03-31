@@ -41,8 +41,8 @@ class Sender:
         if self.amp == 2:
             time.sleep(1)
         else:
-        signal.signal(signal.SIGALRM, self.sendSignal)
-        signal.setitimer(signal.ITIMER_REAL, self.send_cycle, self.send_cycle)
+            signal.signal(signal.SIGALRM, self.sendSignal)
+            signal.setitimer(signal.ITIMER_REAL, self.send_cycle, self.send_cycle)
 
 if __name__ == '__main__':
     amp = float(sys.argv[1])
