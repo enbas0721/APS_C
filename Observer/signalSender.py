@@ -43,6 +43,7 @@ class Sender:
 
 if __name__ == '__main__':
     amp = float(sys.argv[1])
+    print("tedt")
     sender = Sender(amp=amp)
     sender.startSending()
     time.sleep(100)
