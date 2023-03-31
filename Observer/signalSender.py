@@ -15,7 +15,7 @@ class Sender:
         self.send_cycle = send_cycle
 
     def makeWave(self):
-        samples = []
+        samples = np.narray()
         for i in range(int(self.rate * self.duration)):
             n = i/self.rate
             samples.append(self.amp * 10000 * np.sin(2*np.pi * n * n * (1700+((1800-1700)/2*0.1))))
