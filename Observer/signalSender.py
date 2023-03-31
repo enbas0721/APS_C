@@ -15,9 +15,9 @@ class Sender:
         self.send_cycle = send_cycle
 
     def makeWave(self):
-        # samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
         samples = self.amp * np.sin(np.pi * 2* np.arange((int(self.duration * self.rate)) / self.freq) * (1700+(1800-1700)/(2*0.1)))
-
+        for i in samples:
+            print(i)
         return samples
 
     def startStream(self):
