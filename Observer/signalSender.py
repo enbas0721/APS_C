@@ -18,8 +18,8 @@ class Sender:
         samples = np.array([])
         for i in range(int(self.rate * self.duration)):
             n = i/self.rate
-            samples =  np.append(samples, self.amp * np.sin(2*np.pi * n * n * (1700+((1800-1700)/2*0.1))))
-        # samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
+            samples =  np.append(samples, self.amp * np.sin(2*np.pi * n * (1700+((1800-1700)/(2*0.1))*n)))
+            # g[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         print(samples[0:100])
 
         return samples
