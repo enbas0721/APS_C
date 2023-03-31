@@ -39,9 +39,8 @@ class Sender:
 
     def startSending(self):
         if self.amp == 2:
-            time.sleep(3)
+            time.sleep(1)
         else:
-            time.sleep(2)
         signal.signal(signal.SIGALRM, self.sendSignal)
         signal.setitimer(signal.ITIMER_REAL, self.send_cycle, self.send_cycle)
 
