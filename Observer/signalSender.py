@@ -15,9 +15,12 @@ class Sender:
         self.send_cycle = send_cycle
 
     def makeWave(self):
-        samples = self.amp * np.sin(np.pi * 2* np.arange((int(self.duration * self.rate)) / self.freq) * (1700+(1800-1700)/(2*0.1)))
-        for i in samples:
-            print(i)
+        samples = []
+        for i in range(self.rate * self.duration):
+            n = i/self.rate
+            samples.append(self.amp * 10000 * np.sin(2*np.pi * n * n * (1700+((1800-1700)/2*0.1))))
+        # samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
+
         return samples
 
     def startStream(self):
@@ -43,7 +46,6 @@ class Sender:
 
 if __name__ == '__main__':
     amp = float(sys.argv[1])
-    print("tedt")
     sender = Sender(amp=amp)
     sender.startSending()
     time.sleep(100)
