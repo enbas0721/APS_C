@@ -19,7 +19,7 @@ class Sender:
         for i in range(int(self.rate * self.duration)):
             n = i/self.rate
             np.append(samples, self.amp * 10000 * np.sin(2*np.pi * n * n * (1700+((1800-1700)/2*0.1))))
-            print(self.amp * 10000 * np.sin(2*np.pi * n * n * (1700+((1800-1700)/2*0.1))))
+            print(self.amp * 1000 * np.sin(2*np.pi * n * n * (1700+((1800-1700)/2*0.1))))
         # samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
 
         return samples
@@ -39,9 +39,9 @@ class Sender:
 
     def startSending(self):
         if self.amp == 2:
-            time.sleep(10)
+            time.sleep(3)
         else:
-            time.sleep(5)
+            time.sleep(2)
         signal.signal(signal.SIGALRM, self.sendSignal)
         signal.setitimer(signal.ITIMER_REAL, self.send_cycle, self.send_cycle)
 
