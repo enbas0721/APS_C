@@ -5,7 +5,7 @@ import time
 import sys
 
 class Sender:
-    def __init__(self, amp=0.3, freq=1760, duration=0.2, rate=44100, send_cycle=1):
+    def __init__(self, amp=0.3, freq=1760, duration=0.1, rate=44100, send_cycle=1):
         self.amp = amp
         self.freq = freq
         self.duration = duration
@@ -15,7 +15,8 @@ class Sender:
         self.send_cycle = send_cycle
 
     def makeWave(self):
-        samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
+        # samples = self.amp * np.sin(np.arange(int(self.duration * self.rate)) * self.freq * np.pi * 2 / self.rate)
+        samples = self.amp * np.sin(np.pi * 2* np.arange((int(self.duration * self.rate)) / self.freq) * (1700+(1800-1700)/(2*0.1)))
 
         return samples
 
