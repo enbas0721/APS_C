@@ -39,17 +39,18 @@ void make_chirp_wave(int th, int16_t* g){
 	double t;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
+    int vol = 4;
     int size = SIGNAL_L*SMPL;
     int16_t value = 0;
     while(value < th){
         t = (double)m/SMPL;
-        value = (int)(1000 * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+        value = (int)(vol*1000 * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         m += 1;
     }
 	for (n = m; n < size + m; n++)
 	{
         if (n < size){
-            g[n-m] = (int)((1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+            g[n-m] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         }else{
             g[n-m] = 0;
         }
