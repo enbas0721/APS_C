@@ -35,24 +35,21 @@ double sound_speed(double temperature){
 
 void make_chirp_wave(int th, int16_t* g){
     int n;
-    int m = 0;
 	double t;
+    int vol = 3;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
-    int vol = 4;
     int size = SIGNAL_L*SMPL;
-    int16_t value = 0;
-    while(value < th){
-        t = (double)m/SMPL;
-        value = (int)(vol*1000 * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
-        m += 1;
-    }
-	for (n = m; n < size + m; n++)
+    int flag = 0;
+    int16_t value;
+	for (n = 0; n < size; n++)
 	{
-        if (n < size){
-            g[n-m] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
-        }else{
-            g[n-m] = 0;
+        t = (double)n/SMPL;
+        value = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+        if (value >= th){
+            flag = 1;
+        if (flag){
+            g[n] = value;
         }
 	}
 }
