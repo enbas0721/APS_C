@@ -135,7 +135,7 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
-                        if (count_value > 2){
+                        if (calibration_count > 2){
                             temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
                             start_sample = checking_index - (SMPL*(double)(initial_pos/v));
@@ -145,9 +145,8 @@ void* track_start(record_info *info)
                             phase = 3;
                             status = 1;
                         }else{
-                            count_value += 1;
+                            calibration_count += 1;
                             checking_index += SMPL*0.8;
-                            //テスト
                         }
                     }else{
                         checking_index += SMPL;
