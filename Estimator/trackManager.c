@@ -135,16 +135,21 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
-                        temperature = temp_measure(temperature);
-                        v = sound_speed(temperature);
-                        start_sample = checking_index - (SMPL*(double)(initial_pos/v));
-                        start_time = current_time - (initial_pos/v);
-                        // checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
-                        checking_index += SMPL*1.2 - (checking_index - start_sample);
-                        phase = 3;
-                        status = 1;
+                        if (count_value > 2){
+                            temperature = temp_measure(temperature);
+                            v = sound_speed(temperature);
+                            start_sample = checking_index - (SMPL*(double)(initial_pos/v));
+                            start_time = current_time - (initial_pos/v);
+                            // checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
+                            checking_index += SMPL*1.2 - (checking_index - start_sample);
+                            phase = 3;
+                            status = 1;
+                        }else{
+                            count_value += 1;
+                            checking_index += SMPL*0.8;
+                        }
                     }else{
-                        checking_index += 1;
+                        checking_index += SMPL;
                     }
                     break;
                 case 2:
