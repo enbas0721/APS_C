@@ -149,7 +149,7 @@ void* track_start(record_info *info)
                             checking_index += SMPL*0.8;
                         }
                     }else{
-                        checking_index += SMPL;
+                        checking_index += 1;
                     }
                     break;
                 case 2:
