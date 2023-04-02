@@ -49,7 +49,7 @@ void make_chirp_wave(int th, int16_t* g){
 	for (n = m; n < size + m; n++)
 	{
         if (n < size){
-            g[n-m] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+            g[n-m] = (int)((1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         }else{
             g[n-m] = 0;
         }
