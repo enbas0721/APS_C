@@ -33,21 +33,29 @@ double sound_speed(double temperature){
     return (331.5 + (0.61 * temperature));
 }
 
-void make_chirp_wave(int16_t* g){
+void make_chirp_wave(int th,　int16_t* g){
     int n;
 	double t;
     int vol = 3;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
     int size = SIGNAL_L*SMPL;
+    bool flag = false;
+    int16_t value;
 	for (n = 0; n < size; n++)
 	{
         t = (double)n/SMPL;
-        g[n] = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+        value = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)))
+        if (value >= th){
+            flag = true;
+        }
+        if (flag){
+            g[n] = value;
+        }
 	}
 }
 
-void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
+void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
     int i, j, tau;
     int first_index = checking_index - CRSS_WNDW_SIZ*2;
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
@@ -64,9 +72,9 @@ void cross_correlation(long int* fai, int16_t* data, int16_t* ideal_sig, int che
     }
 }
 
-int get_max_index(long int* S, size_t size){
+int get_max_index(double* S, size_t size){
     int max_index, i;
-    long int max_value = 0;
+    double max_value = 0.0;
     for (i = 0; i < size; i++)
     {
         if(S[i] > max_value){
@@ -108,9 +116,9 @@ void* track_start(record_info *info)
 
     int16_t* ideal_signal;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
-    make_chirp_wave(ideal_signal);
-    long int* cross_correlation_result;
-    cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(long int));
+    make_chirp_wave(threshold,ideal_signal);
+    double* cross_correlation_result;
+    cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(double));
 
     int max_index;
 
@@ -131,8 +139,9 @@ void* track_start(record_info *info)
                         v = sound_speed(temperature);
                         start_sample = checking_index - (SMPL*(double)(initial_pos/v));
                         start_time = current_time - (initial_pos/v);
-                        checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
-                        phase = 2;
+                        // checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
+                        checking_index += SMPL*1.2 - (checking_index - start_sample)
+                        phase = 3;
                         status = 1;
                     }else{
                         checking_index += 1;
