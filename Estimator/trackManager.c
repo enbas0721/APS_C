@@ -33,21 +33,21 @@ double sound_speed(double temperature){
     return (331.5 + (0.61 * temperature));
 }
 
-void make_chirp_wave(int th,　int16_t* g){
+void make_chirp_wave(int th, int16_t* g){
     int n;
 	double t;
     int vol = 3;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
     int size = SIGNAL_L*SMPL;
-    bool flag = false;
+    int flag = 0;
     int16_t value;
 	for (n = 0; n < size; n++)
 	{
         t = (double)n/SMPL;
-        value = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)))
+        value = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         if (value >= th){
-            flag = true;
+            flag = 1;
         }
         if (flag){
             g[n] = value;
@@ -140,7 +140,7 @@ void* track_start(record_info *info)
                         start_sample = checking_index - (SMPL*(double)(initial_pos/v));
                         start_time = current_time - (initial_pos/v);
                         // checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
-                        checking_index += SMPL*1.2 - (checking_index - start_sample)
+                        checking_index += SMPL*1.2 - (checking_index - start_sample);
                         phase = 3;
                         status = 1;
                     }else{
