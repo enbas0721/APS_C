@@ -142,7 +142,7 @@ void* track_start(record_info *info)
                             start_time = current_time - (initial_pos/v);
                             // checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
                             checking_index += SMPL*1.2 - (checking_index - start_sample);
-                            phase = 2;
+                            phase = 3;
                             status = 1;
                         }else{
                             calibration_count += 1;
