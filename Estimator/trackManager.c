@@ -147,6 +147,7 @@ void* track_start(record_info *info)
                         }else{
                             count_value += 1;
                             checking_index += SMPL*0.8;
+                            //テスト
                         }
                     }else{
                         checking_index += SMPL;
