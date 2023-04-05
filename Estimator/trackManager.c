@@ -194,7 +194,6 @@ void* track_start(record_info *info)
                     break;
                 case 3:
                     // 位置推定処理
-                    // なんでや
                     if (status)
                     {
                         printf("Estimation started...\n");   
