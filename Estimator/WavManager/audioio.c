@@ -57,10 +57,10 @@ double *audio_read(WAV_PRM *prm, char *filename)
 	printf("%d\n",prm->L);
 
 	// 音声データ代入
-	data = calloc(prm->L,sizeof(double));
+	data = calloc(prm->L,sizeof(int16_t));
 	for (n=0; n < prm->L; n++) {
 		fread(&data_data, 2, 1, fp);
-		data[n] = (double)data_data / 32768.0;
+		data[n] = data_data;
 	}
 
 	fclose(fp);
