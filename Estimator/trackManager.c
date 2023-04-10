@@ -62,7 +62,7 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         fai[i] = 0;
-        sum += data[i]
+        sum += data[i];
     }
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
