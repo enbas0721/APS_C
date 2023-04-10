@@ -20,10 +20,17 @@ void* read_start(record_info *info)
     data_in = audio_read(&prm_in, filename);
     while(current_index < prm_in.L)
     {
-        for (n = 0; n < BUF_SIZ; n++)
-        {
-            info->record_data[current_index] = data_in[current_index];
-            current_index += 1;
+        if ((current_index + BUF_SIZ) < prm_in.L){
+            for (n = 0; n < BUF_SIZ; n++)
+            {
+                info->record_data[current_index] = data_in[current_index];
+                current_index += 1;
+            }
+        }else{
+            for (n = 0; n < (prm_in.L - current_index); n++){
+                info->record_data[current_index] = data_in[current_index];
+                current_index += 1;
+            }           
         }
         info->last_index += BUF_SIZ;
     }
