@@ -142,6 +142,7 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
+                        printf("振幅:%ld　時刻:%lf\n",info->record_data[checking_index], current_time);
                         cal_received_time[calibration_count] = current_time;
                         if (calibration_count > 2){
                             temperature = temp_measure(temperature);
