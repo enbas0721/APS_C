@@ -24,17 +24,17 @@ void* read_start(record_info *info)
         if ((current_index + BUF_SIZ) < prm_in.L){
             for (n = 0; n < BUF_SIZ; n++)
             {
-                printf("%d\n",current_index);
                 info->record_data[current_index] = data_in[current_index];
                 current_index += 1;
             }
+            info->last_index += BUF_SIZ;
         }else{
             for (n = 0; n < (prm_in.L - current_index); n++){
                 info->record_data[current_index] = data_in[current_index];
                 current_index += 1;
             }           
+            info->last_index += (prm_in.L - current_index);
         }
-        info->last_index += BUF_SIZ;
     }
     return 0;
 }
