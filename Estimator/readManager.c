@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "WavManager/audioio.h"
 #include "recordManager.h"
+#include "readManager.h"
 
 void* read_start(record_info *info)
 {
