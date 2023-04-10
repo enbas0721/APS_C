@@ -42,7 +42,6 @@ double sound_speed(double temperature){
 void make_chirp_wave(int th, int16_t* g){
     int n;
 	double t;
-    int vol = 3;
     int f0 = INIT_FREQ;
     int f1 = FINAL_FREQ;
     int size = SIGNAL_L*SMPL;
@@ -51,7 +50,7 @@ void make_chirp_wave(int th, int16_t* g){
 	for (n = 0; n < size; n++)
 	{
         t = (double)n/SMPL;
-        value = (int)((vol*1000) * sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
+        value = (int)(sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         if (value >= th){
             flag = 1;
         }
@@ -133,7 +132,6 @@ void* track_start(record_info *info)
     {
         if (info->last_index > checking_index){
             current_time = (double)checking_index / (double)SMPL;
-            printf("サンプル:%ld　時刻:%lf\n",checking_index, (double)checking_index / (double)SMPL);    
             switch(phase){
                 case 1:
                     // 信号受信判定
