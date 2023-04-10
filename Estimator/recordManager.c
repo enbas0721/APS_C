@@ -175,7 +175,7 @@ void* record_start(record_info *info)
 		exit (1);
 	}
 
-	int data_size = rate*240;
+	int data_size = rate*300;
 
 	buffer = (int16_t*)malloc(BUF_SIZ*snd_pcm_format_width(format));
 	info->record_data = calloc(data_size, sizeof(int16_t));
