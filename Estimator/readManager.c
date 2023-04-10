@@ -5,6 +5,17 @@
 #include "recordManager.h"
 #include "readManager.h"
 
+int write_record_data(int16_t * record_data, unsigned int rate, int size, char * filename){
+	// Wavファイル作成
+	WAV_PRM prm;
+	// Wavファイル用パラメータコピー
+	prm.fs = rate;
+	prm.bits = BIT;
+	prm.L = size;
+	
+	audio_write(record_data, &prm, filename);
+}
+
 void* read_start(record_info *info)
 {
     // 変数宣言
@@ -13,6 +24,7 @@ void* read_start(record_info *info)
     int n;
     int current_index = 0;
     char filename[64];
+    char wav_filename[64];
 
     printf("Input file name: ");
     scanf("%s",filename);
@@ -36,5 +48,10 @@ void* read_start(record_info *info)
             info->last_index += (prm_in.L - current_index);
         }
     }
+    
+    strcpy(wav_filename, info->filename);
+    strcat(filename, ".wav");
+    write_record_data(info->record_data, prm_in.fs, current_index, filename);
+
     return 0;
 }
