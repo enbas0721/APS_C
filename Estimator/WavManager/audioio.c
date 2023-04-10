@@ -53,6 +53,9 @@ int16_t *audio_read(WAV_PRM *prm, char *filename)
 	prm->bits = fmt_bits_per_sample;
 	prm->L = data_size / 2;
 
+	printf("%ld\n",data_size);
+	printf("%d\n",prm->L);
+
 	// 音声データ代入
 	data = calloc(prm->L,sizeof(int16_t));
 	for (n=0; n < prm->L; n++) {
