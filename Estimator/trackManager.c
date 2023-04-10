@@ -113,6 +113,7 @@ void* track_start(record_info *info)
     double distances[10000];
     double received_time[10000];
     double ideal_received_time[10000];
+    double received_time[3];
 
     int16_t* ideal_signal;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
@@ -135,6 +136,7 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
+                        received_time[checking_index] = current_time;
                         if (calibration_count > 2){
                             temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
