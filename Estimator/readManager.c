@@ -39,7 +39,7 @@ void* read_start(record_info *info)
     }
     
     strcpy(wav_filename, info->filename);
-    strcat(filename, ".wav");
+    strcat(wav_filename, ".wav");
     write_record_data(info->record_data, prm_in.fs, current_index, filename);
 
     return 0;

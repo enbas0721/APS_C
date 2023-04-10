@@ -26,15 +26,18 @@ class SoundMaker:
 
     def makeWave(self):
         signal = np.array([])
-        samples = np.array([0]*(self.total_time*self.rate))
+        samples = np.array([0]*(self.total_time*self.rate+self.rate))
         for i in range(int(self.rate * self.duration)):
             n = i/self.rate
             signal =  np.append(signal, self.amp * 10000 * np.sin(2*np.pi * n * (1700+((1800-1700)/(2*0.1))*n)))
         
-        for i in range(self.total_time):
+        for i in range(self.total_time+1):        
             for j in range(self.send_cycle*self.rate):
-                if len(signal) > j:
-                    samples[(i*self.rate) + j] = signal[j]
+                if i >= 1:
+                    if len(signal) > j:
+                        samples[(i*self.rate) + j] = signal[j]
+                    else:
+                        samples[(i*self.rate) + j] = 0
                 else:
                     samples[(i*self.rate) + j] = 0
 
