@@ -27,6 +27,4 @@ void* read_start(record_info *info)
         }
         info->last_index += BUF_SIZ;
     }
-    info->flag = 0;
-     
 }
