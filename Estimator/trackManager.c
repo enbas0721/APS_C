@@ -57,20 +57,22 @@ void make_chirp_wave(int th, int16_t* g){
 
 void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
     int i, j, tau;
-    double sqrt_x2,sqrt_y2;
+    double var_x,var_y;
     int first_index = checking_index - CRSS_WNDW_SIZ*2;
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         fai[i] = 0;
-        sqrt_x2 += sqrt(data[i]*data[i]);
-        sqrt_y2 += sqrt(ideal_sig[i]*ideal_sig[i]);
+        var_x += data[i]*data[i];
+        var_y += ideal_sig[i]*ideal_sig[i];
     }
+    var_x = sqrt(var_x);
+    var_y = sqrt(var_y);
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
-            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(sqrt_x2*sqrt_y2));
+            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y));
         }
     }
 }
