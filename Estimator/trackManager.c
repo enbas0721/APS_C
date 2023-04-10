@@ -87,7 +87,7 @@ int get_max_index(double* S, size_t size){
             max_index = i;
         }
     }
-    printf("max_index: %ld max_value: %lf\n",max_index, max_value*1000000000);
+    printf("max_index: %ld max_value: %e\n",max_index, max_value);
     return max_index;
 }
 
