@@ -62,8 +62,8 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         fai[i] = 0;
-        sqrt_x2 += math.sqrt(data[i]*data[i]);
-        sqrt_y2 += math.sqrt(ideal_sig[i]*ideal_sig[i]);
+        sqrt_x2 += sqrt(data[i]*data[i]);
+        sqrt_y2 += sqrt(ideal_sig[i]*ideal_sig[i]);
     }
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
