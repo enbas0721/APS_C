@@ -75,6 +75,12 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
             fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y));
         }
     }
+    for (int n = 0; n < 10; n++)
+    {
+        printf("%lf ",fai[i]);
+    }
+    printf("\n");
+    
 }
 
 int get_max_index(double* S, size_t size){
