@@ -5,17 +5,6 @@
 #include "recordManager.h"
 #include "readManager.h"
 
-int write_record_data(int16_t * record_data, unsigned int rate, int size, char * filename){
-	// Wavファイル作成
-	WAV_PRM prm;
-	// Wavファイル用パラメータコピー
-	prm.fs = rate;
-	prm.bits = BIT;
-	prm.L = size;
-	
-	audio_write(record_data, &prm, filename);
-}
-
 void* read_start(record_info *info)
 {
     // 変数宣言
