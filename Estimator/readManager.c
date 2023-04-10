@@ -22,8 +22,9 @@ void* read_start(record_info *info)
     {
         for (n = 0; n < BUF_SIZ; n++)
         {
-            info->record_data[current_index] = data_in[n];
+            info->record_data[current_index] = data_in[current_index];
             current_index += 1;
+            time.sleep(0.1);
         }
         info->last_index += BUF_SIZ;
     }
