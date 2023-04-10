@@ -23,7 +23,7 @@ void* read_start(record_info *info)
         if ((current_index + BUF_SIZ) < prm_in.L){
             for (n = 0; n < BUF_SIZ; n++)
             {
-                printf("%d\n",current_index)
+                printf("%d\n",current_index);
                 info->record_data[current_index] = data_in[current_index];
                 current_index += 1;
             }
