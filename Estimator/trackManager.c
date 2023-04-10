@@ -6,7 +6,7 @@
 #include "thermo.h"
 #include <limits.h>
 
-void write_result(char * filename, double * time, double * distances, double * ideal, int size){
+void write_result(char * filename, double * time, double * distances, double * ideal, double * c_time, int size){
     FILE *fp;
     fp = fopen(filename, "w");
     int n;
@@ -27,6 +27,12 @@ void write_result(char * filename, double * time, double * distances, double * i
         fprintf(fp, "%lf,", ideal[n]);
     }
     fprintf(fp, "%lf\n", ideal[n+1]);
+
+    fprintf(fp, "Calibration Time,");
+    for (n = 0; n < 2; n++){
+        fprintf(fp, "%lf,", c_time[n]);
+    }
+    fprintf(fp, "%lf\n", c_time[n+1]);
 }
   
 double sound_speed(double temperature){
@@ -113,7 +119,7 @@ void* track_start(record_info *info)
     double distances[10000];
     double received_time[10000];
     double ideal_received_time[10000];
-    double received_time[3];
+    double cal_received_time[3];
 
     int16_t* ideal_signal;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
@@ -136,7 +142,7 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
-                        received_time[checking_index] = current_time;
+                        cul_received_time[checking_index] = current_time;
                         if (calibration_count > 2){
                             temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
@@ -226,7 +232,7 @@ void* track_start(record_info *info)
     char filename[64];
     strcpy(filename,info->filename);
     strcat(filename, ".csv");
-    write_result(filename, received_time, distances, ideal_received_time, log_index-1);
+    write_result(filename, received_time, distances, ideal_received_time, cal_received_time, log_index-1);
 
     free(ideal_signal);
     free(cross_correlation_result);
