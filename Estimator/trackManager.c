@@ -133,6 +133,7 @@ void* track_start(record_info *info)
     {
         if (info->last_index > checking_index){
             current_time = (double)checking_index / (double)SMPL;
+            printf("サンプル:%ld　時刻:%lf\n",checking_index, (double)checking_index / (double)SMPL);    
             switch(phase){
                 case 1:
                     // 信号受信判定
@@ -142,7 +143,6 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
-                        printf("振幅:%ld　サンプルindex:%ld　時刻:%lf\n",info->record_data[checking_index], checking_index, current_time);    
                         cal_received_time[calibration_count] = current_time;
                         if (calibration_count > 2){
                             temperature = temp_measure(temperature);
