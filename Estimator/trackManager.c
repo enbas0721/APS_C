@@ -51,12 +51,7 @@ void make_chirp_wave(int th, int16_t* g){
 	{
         t = (double)n/SMPL;
         value = (int)(sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
-        if (value >= th){
-            flag = 1;
-        }
-        if (flag){
-            g[n] = value;
-        }
+        g[n] = value;
 	}
 }
 
