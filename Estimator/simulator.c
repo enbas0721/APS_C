@@ -15,11 +15,11 @@ int main(int argc, char const *argv[])
     info.flag = 1;
     strcpy(info.filename,argv[1]);
     info.last_index = 0;
-    pthread_t record_thread;
+    pthread_t read_thread;
     pthread_t track_thread;
     int ret = 0;
     
-    ret = pthread_create(&record_thread, NULL, (void*)record_start, (void*)&info);
+    ret = pthread_create(&read_thread, NULL, (void*)read_start, (void*)&info);
     ret = pthread_create(&track_thread, NULL, (void*)track_start, (void*)&info);
     printf("Input close to close\n");
     while (1)
@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
 	    printf("error\n");
         exit(1);
     }
-    ret = pthread_join(record_thread,NULL);
+    ret = pthread_join(read_thread,NULL);
     if (ret != 0){
 	    printf("error\n");
         exit(1);
