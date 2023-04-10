@@ -15,7 +15,7 @@ double *audio_read(WAV_PRM *prm, char *filename)
 {
 	FILE *fp;
 	int n;
-	double *data;
+	int16_t *data;
 	char header_ID[4];
 	long header_size;
 	char header_type[4];
