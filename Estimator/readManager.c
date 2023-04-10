@@ -18,6 +18,7 @@ void* read_start(record_info *info)
     scanf("%s",filename);
 
     data_in = audio_read(&prm_in, filename);
+    info->record_data = calloc(data_size, sizeof(int16_t));
     while(current_index < prm_in.L)
     {
         if ((current_index + BUF_SIZ) < prm_in.L){
