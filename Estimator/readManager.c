@@ -12,13 +12,13 @@ void* read_start(record_info *info)
     int16_t *data_in,*buffer;
     int n;
     int current_index = 0;
-    char filename[64];
+    char fname[64];
     char wav_filename[64];
 
     printf("Input file name: ");
-    scanf("%s",filename);
+    scanf("%s",fname);
 
-    data_in = audio_read(&prm_in, filename);
+    data_in = audio_read(&prm_in, fname);
     info->record_data = calloc(prm_in.L, sizeof(int16_t));
     while(current_index < prm_in.L)
     {
