@@ -3,7 +3,7 @@ import wave
 import sys
 
 class SoundMaker:
-    def __init__(self, amp=0.3, f0=1700, f1=1800, duration=0.1, rate=44100, total_time = 60, send_cycle=1, fname='test_sound'):
+    def __init__(self, amp=0.3, f0=1700, f1=1800, duration=0.1, rate=44100, total_time = 30, send_cycle=1, fname='test_sound'):
         self.amp = amp
         self.f0 = f0
         self.f1 = f1
@@ -50,7 +50,8 @@ class SoundMaker:
 
 if __name__ == '__main__':
     amp = float(sys.argv[1])
-    maker = SoundMaker(amp=amp)
+    total_time = int(sys.argv[2])    
+    maker = SoundMaker(amp=amp,total_time=total_time)
     sound_source = maker.makeWave()
     maker.writeWave(sound_source)
 
