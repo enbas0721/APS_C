@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include "audioio.h"
 
-double *audio_read(WAV_PRM *prm, char *filename)
+int16_t *audio_read(WAV_PRM *prm, char *filename)
 {
 	FILE *fp;
 	int n;
@@ -29,7 +29,7 @@ double *audio_read(WAV_PRM *prm, char *filename)
 	short fmt_bits_per_sample;
 	char data_ID[4];
 	long data_size;
-	short data_data;
+	int16_t data_data;
 
 	// wavファイルオープン
 	fp = fopen(filename, "rb");
