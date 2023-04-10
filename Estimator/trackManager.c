@@ -142,7 +142,7 @@ void* track_start(record_info *info)
                         status = 0;
                     }
                     if (info->record_data[checking_index] > threshold){
-                        cul_received_time[checking_index] = current_time;
+                        cal_received_time[checking_index] = current_time;
                         if (calibration_count > 2){
                             temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
