@@ -74,9 +74,6 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
         {   
             fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y));
         }
-        if(i == 141){
-            printf("fai[141]: %e\n",fai[i]);
-        }
     }
 }
 
