@@ -16,7 +16,6 @@
 #define EPS             100
 #define TAU             1
 #define INIT_POS        1
-#define CRSS_WNDW_SIZ   4800
 #define INIT_FREQ       1700
 #define FINAL_FREQ      1800
 #define SIGNAL_L        0.1
