@@ -142,7 +142,7 @@ void* track_start(record_info *info)
                     }
                     if (info->record_data[checking_index] > threshold){
                         cal_received_time[calibration_count] = current_time;
-                        if (calibration_count > 2){
+                        if (calibration_count > 1){
                             temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
                             start_sample = checking_index - (SMPL*(double)(initial_pos/v));
