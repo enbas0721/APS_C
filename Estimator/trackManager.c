@@ -77,7 +77,6 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
                 printf("%d: %e\n",i, fai[i]);
             }
         }
-        printf("------------------------");
     }
 }
 
