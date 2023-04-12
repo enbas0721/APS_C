@@ -37,7 +37,7 @@ void* read_start(record_info *info)
             info->last_index += (prm_in.L - current_index);
         }
     }
-    printf("%ld\n" current_index);
+    printf("%ld\n" ,current_index);
     
     strcpy(wav_filename, info->filename);
     strcat(wav_filename, ".wav");
