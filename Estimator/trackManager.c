@@ -11,22 +11,22 @@ void write_result(char * filename, double * time, double * distances, double * i
     fp = fopen(filename, "w");
     int n;
     fprintf(fp, "Time,");
-    for (n = 0; n < size+1; n++){
+    for (n = 0; n < size; n++){
         fprintf(fp, "%lf,", time[n]);
     }
-    fprintf(fp, "\n");
+    fprintf(fp, "%lf\n", time[size]);
 
     fprintf(fp, "Distance,");
-    for (int n = 0; n < size+1; n++){
+    for (int n = 0; n < size; n++){
         fprintf(fp, "%lf,", distances[n]);
     }
-    fprintf(fp, "\n");
+    fprintf(fp, "%lf\n", distances[size]);
 
     fprintf(fp, "Ideal Time,");
-    for (n = 0; n < size+1; n++){
+    for (n = 0; n < size; n++){
         fprintf(fp, "%lf,", ideal[n]);
     }
-    fprintf(fp, "\n");
+    fprintf(fp, "%lf\n", ideal[size]);
 
     fprintf(fp, "Calibration Time,");
     fprintf(fp, "%lf\n", c_time[0]);
