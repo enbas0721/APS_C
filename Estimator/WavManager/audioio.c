@@ -62,8 +62,8 @@ int16_t *audio_read(WAV_PRM *prm, char *filename)
 		fread(&data_data, 2, 1, fp);
 		data[n] = data_data;
 	}
-
 	fclose(fp);
+	
 	return data;
 }
 

@@ -21,29 +21,29 @@ void* read_start(record_info *info)
     data_in = audio_read(&prm_in, fname);
     info->record_data = calloc(prm_in.L, sizeof(int16_t));
     printf("length:%d\n" ,prm_in.L);
-    // while(current_index < prm_in.L)
-    // {
-    //     if ((current_index + BUF_SIZ) < prm_in.L){
-    //         for (n = 0; n < BUF_SIZ; n++)
-    //         {
-    //             info->record_data[current_index] = data_in[current_index];
-    //             current_index += 1;
-    //         }
-    //         info->last_index += BUF_SIZ;
-    //     }else{
-    //         for (n = 0; n < (prm_in.L - current_index); n++){
-    //             info->record_data[current_index] = data_in[current_index];
-    //             current_index += 1;
-    //         }           
-    //         info->last_index += (prm_in.L - current_index);
-    //     }
-    // }
-
-    for (n = 0; n < prm_in.L; n++)
+    while(current_index < prm_in.L)
     {
-        info->record_data[n] = data_in[n];
+        if ((current_index + BUF_SIZ) < prm_in.L){
+            for (n = 0; n < BUF_SIZ; n++)
+            {
+                info->record_data[current_index] = data_in[current_index];
+                current_index += 1;
+            }
+            info->last_index += BUF_SIZ;
+        }else{
+            for (n = 0; n < (prm_in.L - current_index); n++){
+                info->record_data[current_index] = data_in[current_index];
+                current_index += 1;
+            }           
+            info->last_index += (prm_in.L - current_index);
+        }
     }
-    info->last_index += prm_in.L;
+
+    // for (n = 0; n < prm_in.L; n++)
+    // {
+    //     info->record_data[n] = data_in[n];
+    // }
+    // info->last_index += prm_in.L;
     
     strcpy(wav_filename, info->filename);
     strcat(wav_filename, ".wav");
