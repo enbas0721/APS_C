@@ -222,6 +222,7 @@ void* track_start(record_info *info)
                     ideal_received_time[log_index] = current_time - 1.2;
                     log_index += 1; 
                     checking_index += SMPL;
+                    printf("Log_index:%d\n",log_index);
                     break;
                 default:
                     printf("Error: Non double * ideal, -existent phase\n");
