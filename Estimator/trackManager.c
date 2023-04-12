@@ -210,7 +210,6 @@ void* track_start(record_info *info)
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
                     printf("受信回数: %d {回}\n",log_index);
-                    printf("伝播時間: %lf {s}\n",propagation_time);
                     printf("推定距離: %lf {m}\n", distance);
                     printf("--------------------\n");
                     
