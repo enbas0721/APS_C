@@ -121,7 +121,6 @@ void* track_start(record_info *info)
     double cal_received_time[3];
 
     int16_t* ideal_signal;
-    int CRSS_WNDW_SIZ = SIGNAL_L * SMPL;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
     make_chirp_wave(threshold,ideal_signal);
     double* cross_correlation_result;

@@ -19,6 +19,7 @@
 #define INIT_FREQ       1700
 #define FINAL_FREQ      1800
 #define SIGNAL_L        0.1
+#define CRSS_WNDW_SIZ   (SIGNAL_L*SMPL)
 
 typedef struct{
     int  flag;
