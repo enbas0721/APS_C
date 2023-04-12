@@ -212,12 +212,11 @@ void* track_start(record_info *info)
                     printf("受信回数: %d {回}\n",log_index);
                     printf("伝播時間: %lf {s}\n",propagation_time);
                     printf("推定距離: %lf {m}\n", distance);
+                    printf("--------------------\n");
                     
                     distances[log_index] = distance;
                     received_time[log_index] = current_time - 1.2 + propagation_time;
                     ideal_received_time[log_index] = current_time - 1.2;
-                    printf("受信時刻: %lf {s}\n" ,(current_time-1.2+propagation_time));
-                    printf("--------------------\n");
                     log_index += 1; 
                     checking_index += SMPL;
                     break;
