@@ -39,7 +39,7 @@ void* read_start(record_info *info)
     //     }
     // }
 
-    for (n = 0; i < prm_in.L; n++)
+    for (n = 0; n < prm_in.L; n++)
     {
         info->record_data[n] = data_in[n];
     }
