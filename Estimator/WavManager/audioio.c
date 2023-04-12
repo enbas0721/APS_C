@@ -131,20 +131,15 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	data_ID[1] = 'a';
 	data_ID[2] = 't';
 	data_ID[3] = 'a';
-	data_size = prm->L * 2;
+	data_size = prm->L * fmt_channel;
 	fwrite(data_ID, 1, 4, fp);
 	fwrite(&data_size, 4, 1, fp);
 
 	// 音声データ書き込み
 	fp = fopen(filename, "wb");
-	int ret = 0;
 	for (n = 0; n < prm->L; n++) {
 		data_data = (short)data[n];
 		ret = fwrite(&data_data, 2, 1, fp);
-		if (ret != 1)
-		{
-			printf("ret:%d\n",ret);
-		}
 	}
 	fclose(fp);
 }
