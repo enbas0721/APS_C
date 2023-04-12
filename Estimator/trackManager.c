@@ -132,6 +132,7 @@ void* track_start(record_info *info)
     {
         if (info->last_index > checking_index){
             current_time = (double)checking_index / (double)SMPL;
+            printf("current_time:%lf\n",current_time);
             switch(phase){
                 case 1:
                     // 信号受信判定
@@ -222,7 +223,6 @@ void* track_start(record_info *info)
                     ideal_received_time[log_index] = current_time - 1.2;
                     log_index += 1; 
                     checking_index += SMPL;
-                    printf("Log_index:%d\n",log_index);
                     break;
                 default:
                     printf("Error: Non double * ideal, -existent phase\n");
