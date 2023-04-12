@@ -11,27 +11,24 @@ void write_result(char * filename, double * time, double * distances, double * i
     fp = fopen(filename, "w");
     int n;
     fprintf(fp, "Time,");
-    for (n = 0; n < size-1; n++){
+    for (n = 0; n < size; n++){
         fprintf(fp, "%lf,", time[n]);
     }
     fprintf(fp, "%lf\n", time[n+1]);
 
     fprintf(fp, "Distance,");
-    for (int n = 0; n < size-1; n++){
+    for (int n = 0; n < size; n++){
         fprintf(fp, "%lf,", distances[n]);
     }
     fprintf(fp, "%lf\n", distances[n+1]);
 
     fprintf(fp, "Ideal Time,");
-    for (n = 0; n < size-1; n++){
+    for (n = 0; n < size; n++){
         fprintf(fp, "%lf,", ideal[n]);
     }
     fprintf(fp, "%lf\n", ideal[n+1]);
 
     fprintf(fp, "Calibration Time,");
-    for (n = 0; n < 2; n++){
-        fprintf(fp, "%lf,", c_time[n]);
-    }
     fprintf(fp, "%lf\n", c_time[n+1]);
 }
   
@@ -142,7 +139,7 @@ void* track_start(record_info *info)
                     }
                     if (info->record_data[checking_index] > threshold){
                         cal_received_time[calibration_count] = current_time;
-                        if (calibration_count > 1){
+                        if (calibration_count > 0){
                             temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
                             start_sample = checking_index - (SMPL*(double)(initial_pos/v));
