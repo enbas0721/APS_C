@@ -141,5 +141,6 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 		data_data = (short)data[n];
 		fwrite(&data_data, 2, 1, fp);
 	}
+	printf("prm_L:%d\n",prm->L);
 	fclose(fp);
 }
