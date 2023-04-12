@@ -132,7 +132,7 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	fwrite(&data_size, 4, 1, fp);
 
 	// 音声データ書き込み
-	fp = fopen(filename, "wb");
+	// fp = fopen(filename, "wb");
 	for (n = 0; n < prm->L; n++) {
 		data_data = (short)data[n];
 		fwrite(&data_data, 2, 1, fp);
