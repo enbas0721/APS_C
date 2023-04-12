@@ -58,12 +58,10 @@ int16_t *audio_read(WAV_PRM *prm, char *filename)
 
 	// 音声データ代入
 	data = calloc(prm->L,sizeof(int16_t));
-	int ret = 0;
 	for (n=0; n < prm->L; n++) {
-		ret += fread(&data_data, 2, 1, fp);
+		fread(&data_data, 2, 1, fp);
 		data[n] = data_data;
 	}
-	printf("ret:%d\n",ret);
 
 	fclose(fp);
 	return data;
@@ -116,7 +114,7 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	fmt_channel = 1;
 	fmt_samples_per_sec = prm->fs;
 	fmt_bytes_per_sec = prm->fs * prm->bits / 8;
-	fmt_block_size = prm->bits / 8;
+	fmt_block_size = (fmt_channel * prm->bits) / 8;
 	fmt_bits_per_sample = prm->bits;
 
 	fwrite(fmt_ID, 1, 4, fp);
@@ -141,6 +139,7 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	fp = fopen(filename, "wb");
 	for (n = 0; n < prm->L; n++) {
 		data_data = (short)data[n];
+		fwrite(&data_data, 2, 1, fp);
 	}
 	fclose(fp);
 }
