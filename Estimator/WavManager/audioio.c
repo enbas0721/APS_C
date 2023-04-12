@@ -114,7 +114,7 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	fmt_channel = 1;
 	fmt_samples_per_sec = prm->fs;
 	fmt_bytes_per_sec = prm->fs * prm->bits / 8;
-	fmt_block_size = (fmt_channel * prm->bits) / 8;
+	fmt_block_size = prm->bits / 8;
 	fmt_bits_per_sample = prm->bits;
 
 	fwrite(fmt_ID, 1, 4, fp);
@@ -137,9 +137,11 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 
 	// 音声データ書き込み
 	fp = fopen(filename, "wb");
+	int ret = 0;
 	for (n = 0; n < prm->L; n++) {
 		data_data = (short)data[n];
-		fwrite(&data_data, 2, 1, fp);
+		ret += fwrite(&data_data, 2, 1, fp);
 	}
+	printf("sum_ret:%d\n",ret);
 	fclose(fp);
 }
