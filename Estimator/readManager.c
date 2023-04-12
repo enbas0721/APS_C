@@ -20,6 +20,7 @@ void* read_start(record_info *info)
 
     data_in = audio_read(&prm_in, fname);
     info->record_data = calloc(prm_in.L, sizeof(int16_t));
+    printf("sizeofdata:%d\n" ,(sizeof(info->record_data)/sizeof(int16_t)));
     while(current_index < prm_in.L)
     {
         if ((current_index + BUF_SIZ) < prm_in.L){
