@@ -141,7 +141,10 @@ void audio_write(int16_t *data, WAV_PRM *prm, char *filename)
 	for (n = 0; n < prm->L; n++) {
 		data_data = (short)data[n];
 		ret = fwrite(&data_data, 2, 1, fp);
-		printf("ret:%d\n",ret);
+		if (ret != 1)
+		{
+			printf("ret:%d\n",ret);
+		}
 	}
 	fclose(fp);
 }
