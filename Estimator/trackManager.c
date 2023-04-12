@@ -14,7 +14,7 @@ void write_result(char * filename, double * time, double * distances, double * i
     for (n = 0; n < size; n++){
         fprintf(fp, "%lf,", time[n]);
     }
-    fprintf(fp, "%lf\n", time[n+1]);
+    fprintf(fp, "%lf\n", time[7]);
 
     fprintf(fp, "Distance,");
     for (int n = 0; n < size; n++){
