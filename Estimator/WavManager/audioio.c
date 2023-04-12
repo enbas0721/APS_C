@@ -58,10 +58,12 @@ int16_t *audio_read(WAV_PRM *prm, char *filename)
 
 	// 音声データ代入
 	data = calloc(prm->L,sizeof(int16_t));
+	int ret = 0;
 	for (n=0; n < prm->L; n++) {
-		fread(&data_data, 2, 1, fp);
+		ret += fread(&data_data, 2, 1, fp);
 		data[n] = data_data;
 	}
+	printf("ret:%d\n",ret);
 
 	fclose(fp);
 	return data;
