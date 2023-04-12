@@ -132,7 +132,6 @@ void* track_start(record_info *info)
     {
         if (info->last_index > checking_index){
             current_time = (double)checking_index / (double)SMPL;
-            printf("current_time:%lf\n",current_time);
             switch(phase){
                 case 1:
                     // 信号受信判定
@@ -216,6 +215,7 @@ void* track_start(record_info *info)
                     printf("受信回数: %d {回}\n",log_index);
                     printf("伝播時間: %lf {s}\n",propagation_time);
                     printf("推定距離: %lf {m}\n", distance);
+                    printf("受信時刻: %lf {s}\n" ,(current_time-1.2+propagation_time));
                     printf("--------------------\n");
                     
                     distances[log_index] = distance;
