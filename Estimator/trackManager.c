@@ -217,7 +217,7 @@ void* track_start(record_info *info)
                     printf("推定距離: %lf {m}\n", distance);
                     printf("受信時刻: %lf {s}\n" ,(current_time-1.2+propagation_time));
                     printf("--------------------\n");
-                    
+                    // 何も   
                     distances[log_index] = distance;
                     received_time[log_index] = current_time - 1.2 + propagation_time;
                     ideal_received_time[log_index] = current_time - 1.2;
