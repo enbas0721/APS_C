@@ -140,7 +140,7 @@ void* track_start(record_info *info)
                     if (info->record_data[checking_index] > threshold){
                         cal_received_time[calibration_count] = current_time;
                         if (calibration_count > 0){
-                            temperature = temp_measure(temperature);
+                            // temperature = temp_measure(temperature);
                             v = sound_speed(temperature);
                             start_sample = checking_index - (SMPL*(double)(initial_pos/v));
                             start_time = current_time - (initial_pos/v);
@@ -165,7 +165,7 @@ void* track_start(record_info *info)
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
-                    temperature = temp_measure(temperature);
+                    // temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
                     double d = distance - initial_pos;
@@ -206,7 +206,7 @@ void* track_start(record_info *info)
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
                     propagation_time = (double)max_index/(double)SMPL;
-                    temperature = temp_measure(temperature);
+                    // temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
                     distance = propagation_time * v;
                     printf("受信回数: %d {回}\n",log_index);
