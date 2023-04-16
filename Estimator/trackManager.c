@@ -55,7 +55,7 @@ void make_chirp_wave(int16_t* g){
 void get_input_wave(int16_t* g, char * filename){
     FILE *fp;
     fp = fopen(filename, "rt");
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         fscanf(fp, "%d\n", &g[i]);   
     }
