@@ -216,7 +216,7 @@ void* track_start(record_info *info)
                     if (status)
                     {
                         printf("Estimation started...\n");
-                        for (int i = 652777; i < 657577; i++)
+                        for (int i = 652777; i < 652877; i++)
                         {
                             printf("data:%ld\n",info->record_data[i]);
                         }
