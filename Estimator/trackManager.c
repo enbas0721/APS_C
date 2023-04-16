@@ -93,7 +93,7 @@ int get_max_index(double* S, size_t size){
             max_index = i;
         }
     }
-    for (i = 100; i < 200; i++){
+    for (i = 0; i < 150; i++){
         printf("i:%d,value:%e\n",i,S[i]);
     }
     return max_index;
