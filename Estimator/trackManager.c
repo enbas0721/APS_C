@@ -131,10 +131,6 @@ void* track_start(record_info *info)
     char input_wave_path[64];
     strcpy(input_wave_path, "source/input_wave.csv");
     get_input_wave(ideal_signal,input_wave_path);
-    for (int i = 0; i < 100; i++)
-    {
-        printf("ideal:%d\n",ideal_signal[i]);
-    }
     
     double* cross_correlation_result;
     cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(double));
