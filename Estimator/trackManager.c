@@ -233,8 +233,8 @@ void* track_start(record_info *info)
                     printf("--------------------\n");
                     
                     distances[log_index] = distance;
-                    received_time[log_index] = current_time - 1.2 + propagation_time;
-                    ideal_received_time[log_index] = current_time - 1.2;
+                    received_time[log_index] = current_time - 0.2 + propagation_time;
+                    ideal_received_time[log_index] = current_time - 0.2;
                     log_index += 1; 
                     checking_index += SMPL;
                     break;
