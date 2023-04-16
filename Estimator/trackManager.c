@@ -79,9 +79,9 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
         {   
             // fai[tau] += ((data[first_index + j + tau] * ideal_sig[j])/(CRSS_WNDW_SIZ * var_x * var_y));
             fai[tau] += ((data[first_index + j + tau] * ideal_sig[j]));
-            // if(tau == 140){
-            //     printf("fai[140]:%e\n",fai[tau]);
-            // }
+            if(tau == 140){
+                printf("fai[140]:%e\n",fai[tau]);
+            }
         }
     }
 }
