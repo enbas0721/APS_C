@@ -176,11 +176,6 @@ void* track_start(record_info *info)
                     {
                         printf("Calibrating...\n");
                         status = 0;
-                        for (int i = 652777; i < 657577; i++)
-                        {
-                            printf("data:%ld\n",info->record_data[i]);
-                        }
-                        
                     }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
@@ -220,7 +215,11 @@ void* track_start(record_info *info)
                     // 位置推定処理
                     if (status)
                     {
-                        printf("Estimation started...\n");   
+                        printf("Estimation started...\n");
+                        for (int i = 652777; i < 657577; i++)
+                        {
+                            printf("data:%ld\n",info->record_data[i]);
+                        }
                         status = 0;
                     }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
