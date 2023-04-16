@@ -73,7 +73,7 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
     }
     printf("var_x:%e var_y:%e\n",var_x,var_y);
     var_x = sqrt(var_x);
-    var_y = sqrt(var_y)
+    var_y = sqrt(var_y);
     for (tau = 0; tau < CRSS_WNDW_SIZ; tau++)
     {
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
