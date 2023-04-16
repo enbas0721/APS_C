@@ -63,7 +63,7 @@ void get_input_wave(int16_t* g, char * filename){
 
 void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
     int i, j, tau;
-    double var_x,var_y;
+    double var_x = 0, var_y = 0;
     int first_index = checking_index - CRSS_WNDW_SIZ*2;
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
@@ -73,12 +73,11 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
     }
     var_x = sqrt(var_x);
     var_y = sqrt(var_y);
-    for (i = 0; i < CRSS_WNDW_SIZ; i++)
+    for (tau = 0; tau < CRSS_WNDW_SIZ; tau++)
     {
-        tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
-            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y));
+            fai[tau] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y));
         }
     }
 }
