@@ -216,10 +216,6 @@ void* track_start(record_info *info)
                     if (status)
                     {
                         printf("Estimation started...\n");
-                        for (int i = 65278; i < 65378; i++)
-                        {
-                            printf("i:%d data:%ld\n",i,info->record_data[i]);
-                        }
                         status = 0;
                     }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
