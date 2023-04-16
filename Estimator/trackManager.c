@@ -73,14 +73,15 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
     }
     var_x = sqrt(var_x);
     var_y = sqrt(var_y);
+    printf("var_x:%e var_y:%e\n",var_x,var_y);
     for (tau = 0; tau < CRSS_WNDW_SIZ; tau++)
     {
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
             fai[tau] += ((data[first_index + j + tau] * ideal_sig[j])/(CRSS_WNDW_SIZ * var_x * var_y));
-            if(tau == 140){
-                printf("fai[140]:%e\n",fai[tau]);
-            }
+            // if(tau == 140){
+            //     printf("fai[140]:%e\n",fai[tau]);
+            // }
         }
     }
 }
