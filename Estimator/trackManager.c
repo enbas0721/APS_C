@@ -71,14 +71,16 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
         var_x += data[i]*data[i];
         var_y += ideal_sig[i]*ideal_sig[i];
     }
-    var_x = sqrt(var_x);
-    var_y = sqrt(var_y);
+    // var_x = sqrt(var_x);
+    // var_y = sqrt(var_y);
+    var_x = 1;
+    var_y = 1;
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         tau = i;
         for (j = 0; j < CRSS_WNDW_SIZ; j++)
         {   
-            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y));
+            fai[i] += ((data[first_index + j + tau] * ideal_sig[j])/(var_x*var_y*10000));
         }
     }
 }
