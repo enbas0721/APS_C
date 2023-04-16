@@ -178,7 +178,7 @@ void* track_start(record_info *info)
                         status = 0;
                         for (int i = 652777; i < 657577; i++)
                         {
-                            printf("data:%ld\n",data[i]);
+                            printf("data:%ld\n",info->record_data[i]);
                         }
                         
                     }
