@@ -159,10 +159,9 @@ void* track_start(record_info *info)
                         cal_received_time[calibration_count] = current_time;
                         // temperature = temp_measure(temperature);
                         v = sound_speed(temperature);
-                        start_sample = checking_index - (SMPL*(double)(initial_pos/v));
+                        start_sample = checking_index - (int)(SMPL*((double)initial_pos/(double)v));
                         start_time = current_time - (initial_pos/v);
-                        // checking_index += (SMPL*1.2 - (checking_index - start_sample) - 10000);
-                        checking_index += SMPL*1.2 - (checking_index - start_sample);
+                        checking_index = start_sample + (SMPL*1.2);
                         phase = 3;
                         status = 1;
                     }else{
