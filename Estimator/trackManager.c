@@ -36,7 +36,7 @@ double sound_speed(double temperature){
     return (331.5 + (0.61 * temperature));
 }
 
-void make_chirp_wave(int th, int16_t* g){
+void make_chirp_wave(int16_t* g){
     int n;
 	double t;
     int f0 = INIT_FREQ;
@@ -50,6 +50,15 @@ void make_chirp_wave(int th, int16_t* g){
         value = (int)(sin(2*M_PI * t * (f0 + ((f1-f0)/(2*SIGNAL_L))*t)));
         g[n] = value;
 	}
+}
+
+void get_input_wave(int16_t* g, char * filename){
+    FILE *fp;
+    fp = fopen(filename, "rt");
+    for (int i = 0; i < size; i++)
+    {
+        fscanf(fp, "%d\n", &g[i]);   
+    }
 }
 
 void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int checking_index){
@@ -119,7 +128,10 @@ void* track_start(record_info *info)
 
     int16_t* ideal_signal;
     ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
-    make_chirp_wave(threshold,ideal_signal);
+    // make_chirp_wave(ideal_signal);
+    char input_wave_path[64];
+    strcpy(input_wave_path, "source/input_wave.csv");
+    get_input_wave(ideal_signal,input_wave_path);
     double* cross_correlation_result;
     cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(double));
 
