@@ -42,7 +42,7 @@ void* read_start(record_info *info)
     for (n = 0; n < prm_in.L; n++)
     {
         info->record_data[n] = data_in[n];
-        if (n == 652778)
+        if (n == 65278)
         {
             printf("data:%d\n",data_in[n]);
         }
