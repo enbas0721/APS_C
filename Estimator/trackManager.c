@@ -71,8 +71,8 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
         var_x += data[i]*data[i];
         var_y += ideal_sig[i]*ideal_sig[i];
     }
-    var_x = sqrt(var_x)/1000;
-    var_y = sqrt(var_y)/1000;
+    var_x = sqrt(var_x);
+    var_y = sqrt(var_y);
     for (i = 0; i < CRSS_WNDW_SIZ; i++)
     {
         tau = i;
