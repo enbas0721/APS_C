@@ -38,10 +38,14 @@ void* read_start(record_info *info)
     //         info->last_index += (prm_in.L - current_index);
     //     }
     // }
-
+    
     for (n = 0; n < prm_in.L; n++)
     {
         info->record_data[n] = data_in[n];
+        if (n == 652778)
+        {
+            printf("data:%d\n",data_in[n]);
+        }
     }
     info->last_index = prm_in.L;
     
