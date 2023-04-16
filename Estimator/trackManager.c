@@ -71,7 +71,6 @@ void cross_correlation(double* fai, int16_t* data, int16_t* ideal_sig, int check
         var_x += data[i]*data[i];
         var_y += ideal_sig[i]*ideal_sig[i];
     }
-    printf("var_x:%e var_y:%e\n",var_x,var_y);
     var_x = sqrt(var_x);
     var_y = sqrt(var_y);
     for (tau = 0; tau < CRSS_WNDW_SIZ; tau++)
@@ -177,6 +176,11 @@ void* track_start(record_info *info)
                     {
                         printf("Calibrating...\n");
                         status = 0;
+                        for (int i = 652777; i < 657577; i++)
+                        {
+                            printf("data:%ld\n",data[i])
+                        }
+                        
                     }
                     cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
                     max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
