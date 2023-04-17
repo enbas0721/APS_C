@@ -169,53 +169,13 @@ void* track_start(record_info *info)
                         start_sample = checking_index - (int)(SMPL*((double)initial_pos/(double)v));
                         start_time = current_time - (initial_pos/v);
                         checking_index = start_sample + (SMPL*1.2);
-                        phase = 3;
+                        phase = 2;
                         status = 1;
                     }else{
                         checking_index += 1;
                     }
                     break;
                 case 2:
-                    if (status)
-                    {
-                        printf("Calibrating...\n");
-                        status = 0;
-                    }
-                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
-                    max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
-                    propagation_time = (double)max_index/(double)SMPL;
-                    // temperature = temp_measure(temperature);
-                    v = sound_speed(temperature);
-                    distance = propagation_time * v;
-                    double d = distance - initial_pos;
-                    printf("キャリブレーション誤差: %lf {m}\n",d);
-                    printf("--------------------\n");
-                    if (d < (-1)*calibration_value){
-                        // 変更
-                        int cal_smpl = (d/v)*SMPL;
-                        checking_index += (SMPL + cal_smpl);
-                        calibration_count = 0;
-                    }
-                    else if (d > calibration_value)
-                    {
-                        int cal_smpl = (d/v)*SMPL;
-                        checking_index += (SMPL + cal_smpl);
-                        calibration_count = 0;
-                    }else{
-                        checking_index += SMPL;
-                        calibration_count += 1;
-                        printf("キャリブレーションカウント: %d\n",calibration_count);
-                    }
-                    if (calibration_count >= 5){
-                        status = 1;
-                        phase = 3;
-                    }
-                    distances[log_index] = distance;
-                    received_time[log_index] = current_time - 1.2 + (double)max_index/SMPL;
-                    ideal_received_time[log_index] = current_time - 1.2;
-                    log_index += 1; 
-                    break;
-                case 3:
                     // 位置推定処理
                     if (status)
                     {
