@@ -131,7 +131,9 @@ void* track_start(record_info *info)
     double ideal_received_time[10000];
     double cal_received_time[3];
 
-    int16_t* ideal_signal1,ideal_signal2,ideal_signal3;
+    int16_t* ideal_signal1;
+    int16_t* ideal_signal2;
+    int16_t* ideal_signal3;
     char input_wave_path1[64];
     char input_wave_path2[64];
     char input_wave_path3[64];
