@@ -148,7 +148,7 @@ void* track_start(record_info *info)
     double* cross_correlation_result;
     cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(double));
 
-    int max_index;
+    int max_index = 0;
 
     while((info->flag) || (checking_index < info->last_index))
     {
@@ -216,7 +216,9 @@ void* track_start(record_info *info)
     strcat(filename, ".csv");
     write_result(filename, received_time, distances, ideal_received_time, cal_received_time, log_index-1);
 
-    free(ideal_signal);
+    free(ideal_signal1);
+    free(ideal_signal2);
+    free(ideal_signal3);
     free(cross_correlation_result);
 }
 
