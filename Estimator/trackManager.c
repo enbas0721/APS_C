@@ -131,12 +131,19 @@ void* track_start(record_info *info)
     double ideal_received_time[10000];
     double cal_received_time[3];
 
-    int16_t* ideal_signal;
-    ideal_signal = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
-    // make_chirp_wave(ideal_signal);
-    char input_wave_path[64];
-    strcpy(input_wave_path, "source/input_wave.csv");
-    get_input_wave(ideal_signal,input_wave_path);
+    int16_t* ideal_signal1,ideal_signal2,ideal_signal3;
+    char input_wave_path1[64];
+    char input_wave_path2[64];
+    char input_wave_path3[64];
+    strcpy(input_wave_path1, "source/input_wave1.csv");
+    strcpy(input_wave_path2, "source/input_wave2.csv");
+    strcpy(input_wave_path3, "source/input_wave3.csv");
+    ideal_signal1 = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
+    ideal_signal2 = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
+    ideal_signal3 = (int16_t*)malloc(CRSS_WNDW_SIZ*sizeof(int16_t));
+    get_input_wave(ideal_signal1,input_wave_path1);
+    get_input_wave(ideal_signal2,input_wave_path2);
+    get_input_wave(ideal_signal3,input_wave_path3);
     
     double* cross_correlation_result;
     cross_correlation_result = calloc((CRSS_WNDW_SIZ), sizeof(double));
@@ -215,8 +222,14 @@ void* track_start(record_info *info)
                         printf("Estimation started...\n");
                         status = 0;
                     }
-                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal, checking_index);
-                    max_index = get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
+                    max_index = 0;
+                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal1, checking_index);
+                    max_index += get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
+                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal2, checking_index);
+                    max_index += get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
+                    cross_correlation(cross_correlation_result, info->record_data, ideal_signal3, checking_index);
+                    max_index += get_max_index(cross_correlation_result, CRSS_WNDW_SIZ);
+                    max_index /= 3;
                     propagation_time = (double)max_index/(double)SMPL;
                     // temperature = temp_measure(temperature);
                     v = sound_speed(temperature);
